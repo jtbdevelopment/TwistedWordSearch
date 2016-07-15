@@ -23,11 +23,13 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="game" />
+        <module name="ui" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="game" target="1.5" />
       <module name="TwistedWordSearch" target="1.5" />
+      <module name="ui" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

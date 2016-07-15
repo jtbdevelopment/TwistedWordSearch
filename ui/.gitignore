@@ -1,0 +1,13 @@
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/bower_components
+node_modules
+node_modules/karma
+dist
+.tmp
+.sass-cache
+bower_components
+node
+coverage
