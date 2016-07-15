@@ -22,14 +22,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="example-war" />
         <module name="game" />
         <module name="ui" />
+        <module name="war" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="example-war" target="1.5" />
       <module name="game" target="1.5" />
       <module name="TwistedWordSearch" target="1.5" />
       <module name="ui" target="1.5" />
+      <module name="war" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
