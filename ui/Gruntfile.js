@@ -16,7 +16,8 @@ module.exports = function (grunt) {
     require('jit-grunt')(grunt, {
         useminPrepare: 'grunt-usemin',
         ngtemplates: 'grunt-angular-templates',
-        cdnify: 'grunt-google-cdn'
+        cdnify: 'grunt-google-cdn',
+        configureProxies: 'grunt-connect-proxy'
     });
 
     // Configurable paths for the application
@@ -75,11 +76,40 @@ module.exports = function (grunt) {
                 hostname: 'localhost',
                 livereload: 35729
             },
+            proxies: [
+                {
+                    context: '/api', // the context of the data service
+                    host: 'localhost', // wherever the data service is running
+                    port: 9998 // the port that the data service is running on
+                },
+                {
+                    context: '/auth', // the context of the data service
+                    host: 'localhost', // wherever the data service is running
+                    port: 9998 // the port that the data service is running on
+                },
+                {
+                    context: '/signin/authenticate', // the context of the data service
+                    host: 'localhost', // wherever the data service is running
+                    port: 9998 // the port that the data service is running on
+                },
+                {
+                    context: '/signout', // the context of the data service
+                    host: 'localhost', // wherever the data service is running
+                    port: 9998 // the port that the data service is running on
+                },
+                {
+                    context: '/livefeed', // the context of the data service
+                    host: 'localhost', // wherever the data service is running
+                    port: 9998, // the port that the data service is running on
+                    ws: true
+                }
+            ],
             livereload: {
                 options: {
                     open: true,
                     middleware: function (connect) {
                         return [
+                            require('grunt-connect-proxy/lib/utils').proxyRequest,
                             connect.static('.tmp'),
                             connect().use(
                                 '/bower_components',
@@ -470,6 +500,7 @@ module.exports = function (grunt) {
             'wiredep',
             'concurrent:server',
             'postcss:server',
+            'configureProxies:server',
             'connect:livereload',
             'watch'
         ]);

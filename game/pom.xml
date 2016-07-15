@@ -37,15 +37,15 @@
             <artifactId>core-spring-web-mongo</artifactId>
             <version>${core.common.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-websocket</artifactId>
+            <version>${core.games.version}</version>
+        </dependency>
         <!--
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-events</artifactId>
-            <version>${core.games.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jtbdevelopment.core-games</groupId>
-            <artifactId>games-websocket</artifactId>
             <version>${core.games.version}</version>
         </dependency>
         <dependency>
@@ -59,6 +59,7 @@
             <version>${core.games.version}</version>
         </dependency>
 
+        -->
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-web</artifactId>
@@ -66,7 +67,6 @@
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>
-        -->
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-mongo</artifactId>
