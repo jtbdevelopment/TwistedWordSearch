@@ -15,11 +15,15 @@ angular
         'ngResource',
         'ngRoute',
         'ngSanitize',
-        'ngTouch'
+        'ngTouch',
+        'ui.bootstrap',
+        'ui.select',
+        'coreGamesUi',
+        'coreGamesBootstrapUi'
     ])
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/', {
+            .when('/main', {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl',
                 controllerAs: 'main'
@@ -29,7 +33,15 @@ angular
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
             })
+            .when('/signin', {
+                templateUrl: 'views/signin.html',
+                controller: 'CoreSignInCtrl'
+            })
+            .when('/signedin', {
+                templateUrl: 'views/signedin.html',
+                controller: 'CoreSignedInCtrl'
+            })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/signin'
             });
     });

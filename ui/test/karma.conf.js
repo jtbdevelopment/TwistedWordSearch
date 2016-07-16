@@ -29,11 +29,10 @@ module.exports = function (config) {
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/angular-touch/angular-touch.js',
-            'bower_components/atmosphere/atmosphere.js',
-            'bower_components/core-games-ui/dist/core-games-ui.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'bower_components/atmosphere/atmosphere.js',
             'bower_components/jtb-core-games-ui/dist/core-games-ui.js',
-            'bower_components/core-games-bootstrap-ui/dist/core-games-bootstrap-ui.js',
+            'bower_components/jtb-core-games-bootstrap-ui/dist/core-games-bootstrap-ui.js',
             'bower_components/angular-ui-select/dist/select.js',
             'bower_components/angular-mocks/angular-mocks.js',
             // endbower
