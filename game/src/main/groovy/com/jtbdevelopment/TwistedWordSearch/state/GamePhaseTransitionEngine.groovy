@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class TWSGamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<TWSGame> {
+class GamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<TWSGame> {
 }

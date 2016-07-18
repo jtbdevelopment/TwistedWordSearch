@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.dao
 
+import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
-import com.jtbdevelopment.TwistedWordSearch.state.TWSGameFeature
 import com.jtbdevelopment.games.mongo.dao.AbstractMongoMultiPlayerGameRepository
 import com.jtbdevelopment.games.state.GamePhase
 import groovy.transform.CompileStatic
@@ -15,7 +15,7 @@ import java.time.ZonedDateTime
  * Time: 7:13 PM
  */
 @CompileStatic
-interface GameRepository extends AbstractMongoMultiPlayerGameRepository<TWSGameFeature, TWSGame> {
+interface GameRepository extends AbstractMongoMultiPlayerGameRepository<GameFeature, TWSGame> {
     //  TODO - move to core - see comment there
     //  TODO - also move PlayerGamesFinderHandler then
     List<TWSGame> findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(

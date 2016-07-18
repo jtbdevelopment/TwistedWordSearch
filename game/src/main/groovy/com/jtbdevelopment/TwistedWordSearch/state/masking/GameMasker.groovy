@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.state.masking
 
+import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
-import com.jtbdevelopment.TwistedWordSearch.state.TWSGameFeature
 import com.jtbdevelopment.games.state.masking.AbstractMultiPlayerGameMasker
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class TWSGameMasker extends AbstractMultiPlayerGameMasker<ObjectId, TWSGameFeature, TWSGame, TWSMaskedGame> {
-    protected TWSMaskedGame newMaskedGame() {
-        return new TWSMaskedGame()
+class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TWSGame, MaskedGame> {
+    protected MaskedGame newMaskedGame() {
+        return new MaskedGame()
     }
 
     Class<ObjectId> getIDClass() {

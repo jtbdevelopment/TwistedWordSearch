@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
  * Time: 6:57 PM
  */
 @CompileStatic
-enum TWSGameFeatureGroupType {
+enum GameFeatureGroupType {
     Difficulty,
     //MultiPlayer
 }

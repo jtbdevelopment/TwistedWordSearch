@@ -8,5 +8,5 @@ import groovy.transform.CompileStatic
  * Time: 7:04 PM
  */
 @CompileStatic
-class TWSGame extends AbstractMongoMultiPlayerGame<TWSGameFeature> {
+class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
 }

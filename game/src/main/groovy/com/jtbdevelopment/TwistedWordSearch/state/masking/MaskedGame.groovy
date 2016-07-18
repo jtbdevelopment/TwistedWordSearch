@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.state.masking
 
-import com.jtbdevelopment.TwistedWordSearch.state.TWSGameFeature
+import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 
@@ -9,5 +9,5 @@ import groovy.transform.CompileStatic
  * Time: 7:06 PM
  */
 @CompileStatic
-class TWSMaskedGame extends AbstractMaskedMultiPlayerGame<TWSGameFeature> {
+class MaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> {
 }

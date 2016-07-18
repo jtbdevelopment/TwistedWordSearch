@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedWordSearch.rest.handlers
 
 import com.jtbdevelopment.TwistedWordSearch.dao.GameRepository
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
-import com.jtbdevelopment.TwistedWordSearch.state.masking.TWSMaskedGame
+import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
@@ -24,9 +24,9 @@ class PlayerGamesFinderHandlerTest extends MongoGameCoreTestCase {
         def game1 = new TWSGame(id: new ObjectId())
         def game2 = new TWSGame(id: new ObjectId())
         def game3 = new TWSGame(id: new ObjectId())
-        def masked1 = new TWSMaskedGame(id: "1")
-        def masked2 = new TWSMaskedGame(id: "2")
-        def masked3 = new TWSMaskedGame(id: "3")
+        def masked1 = new MaskedGame(id: "1")
+        def masked2 = new MaskedGame(id: "2")
+        def masked3 = new MaskedGame(id: "3")
         def queryResults = [
                 (GamePhase.Challenged)      : [game1],
                 (GamePhase.Declined)        : [],
