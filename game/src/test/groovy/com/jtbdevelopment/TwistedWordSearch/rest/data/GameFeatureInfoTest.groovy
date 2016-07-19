@@ -33,8 +33,6 @@ class GameFeatureInfoTest extends GroovyTestCase {
         GameFeatureInfo.Detail detail = test.feature
         assert GameFeature.Grid.description == detail.description
         assert GameFeature.Grid.groupType == detail.groupType
-        assert GameFeature.Grid.groupDefault == detail.groupDefault
-        assert GameFeature.Grid.groupDefaultValueType == detail.groupDefaultValueType
         assert GameFeature.Grid.label == detail.label
         assert GameFeature.Grid == detail.feature
     }
@@ -51,7 +49,6 @@ class GameFeatureInfoTest extends GroovyTestCase {
         assert GameFeature.Grid40X40 == detail.feature
         assert GameFeature.Grid40X40.description == detail.description
         assert GameFeature.Grid40X40.groupType == detail.groupType
-        assert GameFeature.Grid40X40.groupDefaultValueType == detail.groupDefaultValueType
         assert GameFeature.Grid40X40.groupType == detail.groupType
         assert GameFeature.Grid40X40.label == detail.label
     }

@@ -18,10 +18,8 @@ class GameFeatureInfo {
         Detail(final GameFeature feature) {
             this.feature = feature
             this.description = feature.description
-            this.groupDefaultValueType = feature.groupDefaultValueType
             this.label = feature.label
             this.groupType = feature.groupType
-            this.groupDefault = feature.groupDefault
         }
 
         boolean equals(final o) {
@@ -39,16 +37,14 @@ class GameFeatureInfo {
             return feature.hashCode()
         }
 
-        final GameFeatureGroupType groupType
-        final GameFeature feature
-        final String label
-        final String description
-        final Class<?> groupDefaultValueType
-        final Object groupDefault
+        GameFeatureGroupType groupType
+        GameFeature feature
+        String label
+        String description
     }
 
-    final Detail feature
-    final List<Detail> options = []
+    Detail feature
+    List<Detail> options = []
 
     @SuppressWarnings("GroovyUnusedDeclaration")
     GameFeatureInfo() {

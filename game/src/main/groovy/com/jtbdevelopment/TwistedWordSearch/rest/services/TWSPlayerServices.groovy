@@ -1,15 +1,17 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.services
 
+import com.jtbdevelopment.TwistedWordSearch.rest.data.FeaturesAndPlayers
 import com.jtbdevelopment.TwistedWordSearch.rest.handlers.PlayerGamesFinderHandler
+import com.jtbdevelopment.games.rest.handlers.NewGameHandler
 import com.jtbdevelopment.games.rest.services.AbstractPlayerServices
+import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
+import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
 /**
@@ -20,8 +22,8 @@ import javax.ws.rs.core.MediaType
 @CompileStatic
 class TWSPlayerServices extends AbstractPlayerServices<ObjectId> {
 
-//    @Autowired
-//    NewGameHandler newGameHandler
+    @Autowired
+    NewGameHandler newGameHandler
     @Autowired
     PlayerGamesFinderHandler playerGamesFinderHandler
 
@@ -32,7 +34,6 @@ class TWSPlayerServices extends AbstractPlayerServices<ObjectId> {
         playerGamesFinderHandler.findGames((ObjectId) playerID.get())
     }
 
-    /*
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +45,7 @@ class TWSPlayerServices extends AbstractPlayerServices<ObjectId> {
                 featuresAndPlayers.features)
     }
 
+    /*
     @PUT
     @Path('changeTheme/{newTheme}')
     @Produces(MediaType.APPLICATION_JSON)

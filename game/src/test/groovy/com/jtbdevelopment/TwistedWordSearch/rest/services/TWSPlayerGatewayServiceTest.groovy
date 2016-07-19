@@ -26,15 +26,27 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                 ),
                 new GameFeatureInfo(
                         GameFeature.WordWrap,
-                        []
+                        [
+                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
+                                new GameFeatureInfo.Detail(GameFeature.WordWrapNo),
+                        ]
                 ),
                 new GameFeatureInfo(
                         GameFeature.JumbleOnFind,
-                        []
+                        [
+                                new GameFeatureInfo.Detail(GameFeature.JumbleOnFindNo),
+                                new GameFeatureInfo.Detail(GameFeature.JumbleOnFindYes),
+                        ]
                 ),
                 new GameFeatureInfo(
                         GameFeature.AverageWordLength,
-                        []
+                        [
+                                new GameFeatureInfo.Detail(GameFeature.AverageOf5),
+                                new GameFeatureInfo.Detail(GameFeature.AverageOf4),
+                                new GameFeatureInfo.Detail(GameFeature.AverageOf3),
+                                new GameFeatureInfo.Detail(GameFeature.AverageOf6),
+                                new GameFeatureInfo.Detail(GameFeature.AverageOf7),
+                        ]
                 ),
                 new GameFeatureInfo(
                         GameFeature.FillDifficulty,
@@ -47,7 +59,11 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                 ),
                 new GameFeatureInfo(
                         GameFeature.HideWordLetters,
-                        []
+                        [
+                                new GameFeatureInfo.Detail(GameFeature.HideWordLettersNone),
+                                new GameFeatureInfo.Detail(GameFeature.HideWordLettersSome),
+                                new GameFeatureInfo.Detail(GameFeature.HideWordLettersMany),
+                        ]
                 ),
         ] == service.featuresAndDescriptions()
     }
