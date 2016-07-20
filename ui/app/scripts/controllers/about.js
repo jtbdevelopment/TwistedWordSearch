@@ -2,19 +2,13 @@
 
 /**
  * @ngdoc function
- * @name uiApp.controller:AboutCtrl
+ * @name twsUI.controller:AboutCtrl
  * @description
  * # AboutCtrl
- * Controller of the uiApp
+ * Controller of the twsUI
  */
-angular.module('uiApp')
+angular.module('twsUI')
     .controller('AboutCtrl', ['$scope', '$http', function ($scope, $http) {
-        this.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
-
         $scope.proxyTest = 'Waiting';
         //  As a template, this proves your proxy connect service is working.
         return $http.get('/api/social/apis', {cache: true}).then(

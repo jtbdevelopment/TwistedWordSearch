@@ -1,0 +1,17 @@
+<div>
+    <button type="button" class="btn btn-default" ng-click="menuIsCollapsed = !menuIsCollapsed">
+        <span class="glyphicon glyphicon-menu-hamburger"></span>
+    </button>
+    <!--  TODO - refresh -->
+    <button type="button" class="btn btn-default" ng-click="">
+        <span class="glyphicon glyphicon-refresh"></span>
+    </button>
+    <hr>
+    <div uib-collapse="menuIsCollapsed">
+        <div>
+            <div class="btn-group-vertical btn-group-justified">
+                <a href="#create" class="btn-group btn create-new-game">Start New Series</a>
+            </div>
+        </div>
+    </div>
+</div>

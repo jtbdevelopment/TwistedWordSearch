@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name uiApp
+ * @name twsUI
  * @description
- * # uiApp
+ * # twsUI
  *
  * Main module of the application.
  */
 angular
-    .module('uiApp', [
+    .module('twsUI', [
         'ngAnimate',
         'ngCookies',
         'ngResource',
@@ -24,9 +24,7 @@ angular
     .config(function ($routeProvider) {
         $routeProvider
             .when('/main', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl',
-                controllerAs: 'main'
+                templateUrl: 'views/main.html'
             })
             .when('/about', {
                 templateUrl: 'views/about.html',
