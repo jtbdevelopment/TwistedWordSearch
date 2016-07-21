@@ -12,12 +12,20 @@ describe('Controller: MainCtrl', function () {
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         MainCtrl = $controller('MainCtrl', {
-            $scope: scope
-            // place here mocked dependencies
+            $scope: scope,
+            jtbPlayerService: undefined
         });
     }));
 
-    it('', function () {
+    it('initializes to full screen empty side bar', function () {
+        expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/empty.html');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
+    });
 
+    it('converts to sidebar setup after player loaded message', function () {
+        scope.$broadcast('playerLoaded');
+        scope.$apply();
+        expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-10 col-md-8');
     });
 });

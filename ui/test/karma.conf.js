@@ -45,7 +45,7 @@ module.exports = function (config) {
         exclude: [],
 
         // coverage reporter generates the coverage
-        reporters: ['coverage'],
+        reporters: ['progress', 'coverage'],
 
         preprocessors: {
             // source files, that you wanna generate coverage for
