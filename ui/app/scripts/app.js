@@ -31,6 +31,7 @@ angular
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
             })
+            //  TODO - switch core to controller as syntax
             .when('/signin', {
                 templateUrl: 'views/signin.html',
                 controller: 'CoreBootstrapSignInCtrl'

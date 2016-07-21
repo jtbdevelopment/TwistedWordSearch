@@ -6,6 +6,8 @@
  * @description
  * # AboutCtrl
  * Controller of the twsUI
+ *
+ * TODO - delete proxyTest which is just handy to confirm setup is working after initial setup
  */
 angular.module('twsUI')
     .controller('AboutCtrl', ['$scope', '$http', function ($scope, $http) {

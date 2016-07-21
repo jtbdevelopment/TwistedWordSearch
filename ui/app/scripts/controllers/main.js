@@ -10,12 +10,14 @@
 angular.module('twsUI').controller('MainCtrl',
     ['$scope', 'jtbPlayerService',
         function ($scope, jtbPlayerService) {
-            $scope.menuIsCollapsed = false;
-            $scope.sideBarTemplate = 'views/sidebar/empty.html';
+            var controller = this;
+            controller.sideBarTemplate = 'views/sidebar/empty.html';
+            controller.mainBodySize = 'col-xs-12 col-md-12';
 
             $scope.$on('playerLoaded', function () {
-                $scope.sideBarTemplate = 'views/sidebar/games.html';
-            })
+                controller.sideBarTemplate = 'views/sidebar/games.html';
+                controller.mainBodySize = 'col-xs-8 col-md-10';
+            });
         }
     ]
 );
