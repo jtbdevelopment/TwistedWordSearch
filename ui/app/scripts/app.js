@@ -31,6 +31,11 @@ angular
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
             })
+            .when('/create', {
+                templateUrl: 'views/create.html',
+                controller: 'CreateGameCtrl',
+                controllerAs: 'create'
+            })
             //  TODO - switch core to controller as syntax
             .when('/signin', {
                 templateUrl: 'views/signin.html',

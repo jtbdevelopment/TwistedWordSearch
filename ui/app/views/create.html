@@ -1,0 +1,18 @@
+<div>
+    <form class="form-horizontal">
+        <uib-tabset type="pills" justified="true">
+            <uib-tab ng-repeat="(featureGroup, features) in create.features" index="$index" heading="{{featureGroup}}">
+                <div class="form-group" ng-repeat="feature in features">
+                    <label uib-tooltip="{{feature.description}}">{{feature.label}}</label>
+                    <div class="btn-group btn-group-justified">
+                        <label ng-repeat="option in feature.options" uib-btn-radio="option.feature"
+                               ng-model="create.choices[feature.feature]" class="btn btn-primary"
+                               uib-tooltip="{{option.description}}" tooltip-append-to-body="true">
+                            {{option.label}}
+                        </label>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </form>
+</div>

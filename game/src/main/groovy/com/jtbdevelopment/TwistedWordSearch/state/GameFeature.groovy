@@ -42,7 +42,7 @@ enum GameFeature {
     HideWordLetters(6, GameFeatureGroupType.Difficulty, 'Partial words.', 'Hide some of the letters in the words to find.'),
     HideWordLettersNone(1, 'None', 'Words to find are shown completely.', HideWordLetters),
     HideWordLettersSome(2, 'Some', 'Words to find show more than 75% of their letters.', HideWordLetters),
-    HideWordLettersMany(3, 'Yes', 'Words to find show less than 75% of their letters.', HideWordLetters),
+    HideWordLettersMany(3, 'Many', 'Words to find show less than 75% of their letters.', HideWordLetters),
 
     //  TODO - multi player options
     /*
