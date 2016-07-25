@@ -2,8 +2,8 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$http', 'jtbGameFeatureService',
-        function ($http, jtbGameFeatureService) {
+        '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService',
+        function ($http, jtbGameFeatureService, jtbGameCache, jtbPlayerService) {
             var controller = this;
 
             controller.features = {};
@@ -20,8 +20,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
                             feature: feature.feature.feature,
                             label: feature.feature.label,
                             description: feature.feature.description,
-                            options: [],
-                            yesNo: false
+                            options: []
                         };
 
                         angular.forEach(feature.options, function (option) {
@@ -30,9 +29,6 @@ angular.module('twsUI').controller('CreateGameCtrl',
                                 label: option.label,
                                 description: option.description
                             });
-                            if (option.feature.indexOf('Yes') >= 0) {
-                                newFeature.yesNo = true;
-                            }
                         });
 
                         controller.features[group].push(newFeature);
@@ -43,6 +39,26 @@ angular.module('twsUI').controller('CreateGameCtrl',
                     //  TODO
                 }
             );
+
+            controller.createGame = function () {
+                //  TODO - ads
+                //  TODO - multi-player
+                var featureSet = [];
+                angular.forEach(controller.choices, function (value) {
+                    featureSet.push(value);
+                });
+                var playersAndFeatures = {'players': [], 'features': featureSet};
+                $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).then(
+                    function (response) {
+                        console.log(JSON.stringify(response.data));
+                        jtbGameCache.putUpdatedGame(response.data);
+                    },
+                    function (error) {
+                        console.log(JSON.stringify(error));
+                        //  TODO
+                    }
+                );
+            };
         }
     ]
 );
