@@ -4,8 +4,10 @@ import com.jtbdevelopment.TwistedWordSearch.dao.GameRepository
 import com.jtbdevelopment.TwistedWordSearch.rest.data.FeaturesAndPlayers
 import com.jtbdevelopment.TwistedWordSearch.rest.data.GameFeatureInfo
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
+import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
 import com.jtbdevelopment.core.hazelcast.caching.HazelcastCacheManager
+import com.jtbdevelopment.games.dao.AbstractGameRepository
 import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameIntegration
 import org.junit.BeforeClass
 import org.junit.Test
@@ -19,11 +21,22 @@ import javax.ws.rs.core.MediaType
  * Date: 7/13/16
  * Time: 6:57 PM
  */
-class TwistedWordSearchIntegration extends AbstractGameIntegration<MaskedGame> {
+class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, MaskedGame> {
     Class<MaskedGame> returnedGameClass() {
         return MaskedGame.class
     }
 
+    Class<TWSGame> internalGameClass() {
+        return TWSGame.class
+    }
+
+    TWSGame newGame() {
+        return new TWSGame()
+    }
+
+    AbstractGameRepository gameRepository() {
+        return gameRepository
+    }
     static HazelcastCacheManager cacheManager
     static GameRepository gameRepository
 
