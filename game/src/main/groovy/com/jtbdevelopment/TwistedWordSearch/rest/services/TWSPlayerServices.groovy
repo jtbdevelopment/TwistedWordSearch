@@ -1,9 +1,8 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.services
 
 import com.jtbdevelopment.TwistedWordSearch.rest.data.FeaturesAndPlayers
-import com.jtbdevelopment.TwistedWordSearch.rest.handlers.PlayerGamesFinderHandler
+import com.jtbdevelopment.games.rest.AbstractMultiPlayerServices
 import com.jtbdevelopment.games.rest.handlers.NewGameHandler
-import com.jtbdevelopment.games.rest.services.AbstractPlayerServices
 import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
@@ -11,7 +10,10 @@ import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import javax.ws.rs.*
+import javax.ws.rs.Consumes
+import javax.ws.rs.POST
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
 /**
@@ -20,19 +22,10 @@ import javax.ws.rs.core.MediaType
  */
 @Component
 @CompileStatic
-class TWSPlayerServices extends AbstractPlayerServices<ObjectId> {
+class TWSPlayerServices extends AbstractMultiPlayerServices<ObjectId> {
 
     @Autowired
     NewGameHandler newGameHandler
-    @Autowired
-    PlayerGamesFinderHandler playerGamesFinderHandler
-
-    @GET
-    @Path("games")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List gamesForPlayer() {
-        playerGamesFinderHandler.findGames((ObjectId) playerID.get())
-    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
