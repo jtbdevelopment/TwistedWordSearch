@@ -99,7 +99,6 @@ describe('Controller: CreateGameCtrl', function () {
         $q = _$q_;
         $rootScope = _$rootScope_;
         CreateGameCtrl = $controller('CreateGameCtrl', {
-            $http: $httpBackend,
             jtbPlayerService: jtbPlayerService,
             jtbGameCache: jtbGameCache,
             jtbGameFeatureService: jtbGameFeatures
@@ -166,5 +165,32 @@ describe('Controller: CreateGameCtrl', function () {
             'Feature2': 'Feature2Option1',
             'Feature3': 'Feature3Option1'
         });
+    });
+
+    it('submit game passes in choices and players', function () {
+        featurePromise.resolve(standardFeatures);
+        $rootScope.$apply();
+        expect(CreateGameCtrl.choices).toEqual({
+            'Feature1': 'Feature1Option1',
+            'Feature2': 'Feature2Option1',
+            'Feature3': 'Feature3Option1'
+        });
+        CreateGameCtrl.choices.Feature1 = 'Feature1Option2';
+        CreateGameCtrl.choices.Feature2 = 'Feature2Option3';
+        expect(CreateGameCtrl.choices).toEqual({
+            'Feature1': 'Feature1Option2',
+            'Feature2': 'Feature2Option3',
+            'Feature3': 'Feature3Option1'
+        });
+
+        var returnedGame = {id: 'NewGame', x: 1};
+        $http.expectPOST(expectedBaseURL + '/new', {
+            'players': [],
+            'features': ['Feature1Option2', 'Feature2Option3', 'Feature3Option1']
+        }).respond(returnedGame);
+
+        CreateGameCtrl.createGame();
+        $http.flush();
+        expect(jtbGameCache.putUpdatedGame).toHaveBeenCalledWith(returnedGame);
     });
 });

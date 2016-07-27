@@ -50,7 +50,6 @@ angular.module('twsUI').controller('CreateGameCtrl',
                 var playersAndFeatures = {'players': [], 'features': featureSet};
                 $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).then(
                     function (response) {
-                        console.log(JSON.stringify(response.data));
                         jtbGameCache.putUpdatedGame(response.data);
                     },
                     function (error) {
