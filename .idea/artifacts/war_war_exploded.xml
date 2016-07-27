@@ -73,6 +73,11 @@
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-mongo:1.6" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-games:games-websocket:1.4-SNAPSHOT" />
           <element id="library" level="project" name="Maven: org.atmosphere:atmosphere-runtime:2.4.5" />
+          <element id="library" level="project" name="Maven: com.jtbdevelopment.core-games:games-std-tracker:1.4-SNAPSHOT" />
+          <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-quartz:1.6" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.3.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.3" />
+          <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.23.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-server:2.23.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-common:2.23.1" />

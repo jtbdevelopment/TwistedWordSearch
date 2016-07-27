@@ -42,15 +42,15 @@
             <artifactId>games-websocket</artifactId>
             <version>${core.games.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-std-tracker</artifactId>
+            <version>${core.games.version}</version>
+        </dependency>
         <!--
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-events</artifactId>
-            <version>${core.games.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jtbdevelopment.core-games</groupId>
-            <artifactId>games-std-tracker</artifactId>
             <version>${core.games.version}</version>
         </dependency>
         <dependency>

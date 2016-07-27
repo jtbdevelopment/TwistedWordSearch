@@ -1,7 +1,9 @@
 package com.jtbdevelopment.TwistedWordSearch.json
 
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.jtbdevelopment.TwistedWordSearch.player.TWSPlayerAttributes
 import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
+import com.jtbdevelopment.games.players.GameSpecificPlayerAttributes
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 
 /**
@@ -11,18 +13,16 @@ import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 class TWSJacksonRegistrationTest extends GroovyTestCase {
     void testCustomizeModule() {
         TWSJacksonRegistration registration = new TWSJacksonRegistration()
-        //boolean registeredGameAttributes = false
+        boolean registeredGameAttributes = false
         boolean registeredMaskedGame = false
         def module = [
                 addAbstractTypeMapping: {
                     Class iface, Class impl ->
-                        /*
                         if (GameSpecificPlayerAttributes.class.is(iface)) {
-                            assert TwistedHangmanPlayerAttributes.class.is(impl)
+                            assert TWSPlayerAttributes.class.is(impl)
                             registeredGameAttributes = true
                             return null
                         }
-                        */
                         if (MaskedMultiPlayerGame.class.is(iface)) {
                             assert MaskedGame.class.is(impl)
                             registeredMaskedGame = true
@@ -32,7 +32,7 @@ class TWSJacksonRegistrationTest extends GroovyTestCase {
                 }
         ] as SimpleModule
         registration.customizeModule(module)
-        //assert registeredGameAttributes
+        assert registeredGameAttributes
         assert registeredMaskedGame
 
     }
