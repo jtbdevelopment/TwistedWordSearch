@@ -8,8 +8,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-    <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -23,11 +23,17 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="page-header">
+<div class="header" ng-cloak>
+    <ul class="nav nav-pills pull-right">
+        <li><a ng-href="#/about">About</a></li>
+        <li><a ng-href="#/admin" ng-show="main.showAdmin">Admin</a></li>
+        <li><a ng-click="main.logout()" ng-show="main.showLogout">Logout</a></li>
+    </ul>
+
     <!--  TODO - welcome XXX -->
-    <h1>Twisted Word Search
-        <small>Welcome XXX</small>
-    </h1>
+    <h3 class="text-muted"> Twisted Word Search
+        <small>Welcome {{main.player.displayName}}</small>
+    </h3>
 </div>
 
 <div class="container-fluid">

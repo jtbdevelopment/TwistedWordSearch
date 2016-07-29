@@ -11,12 +11,32 @@ angular.module('twsUI').controller('MainCtrl',
     ['$scope', 'jtbPlayerService',
         function ($scope, jtbPlayerService) {
             var controller = this;
-            controller.sideBarTemplate = 'views/sidebar/empty.html';
-            controller.mainBodySize = 'col-xs-12 col-md-12';
 
-            $scope.$on('playerLoaded', function () {
+            function setEmptySideBar() {
+                controller.showAdmin = false;
+                controller.showLogout = false;
+                controller.player = {};
+                controller.sideBarTemplate = 'views/sidebar/empty.html';
+                controller.mainBodySize = 'col-xs-12 col-md-12';
+            }
+
+            function setButtonSideBar() {
                 controller.sideBarTemplate = 'views/sidebar/games.html';
                 controller.mainBodySize = 'col-xs-10 col-md-8';
+            }
+
+            setEmptySideBar();
+
+            controller.logout = function () {
+                setEmptySideBar();
+                jtbPlayerService.signOutAndRedirect();
+            };
+
+            $scope.$on('playerLoaded', function () {
+                setButtonSideBar();
+                angular.copy(jtbPlayerService.currentPlayer(), controller.player);
+                controller.showLogout = controller.player.source === 'MANUAL';
+                controller.showAdmin = controller.player.adminUser || controller.showLogout;
             });
         }
     ]
