@@ -7,10 +7,17 @@
         <span class="glyphicon glyphicon-refresh"></span>
     </button>
     <hr>
-    <div uib-collapse="menuIsCollapsed">
+    <div uib-collapse="menu.menuIsCollapsed">
         <div>
             <div class="btn-group-vertical btn-group-justified">
                 <a href="#create" class="btn-group btn create-new-game">Start New Series</a>
+            </div>
+        </div>
+        <div ng-repeat="phase in menu.phases" class="list-group">
+            <div class="list-group-item" ng-click="menu.phaseCollapsed[phase] = !menu.phaseCollapsed[phase]">
+                {{phase[0]}}<span class="badge">{{menu.games[phase[1]].length}}</span></div>
+            <div class="list-group" uib-collapse="menu.phaseCollapsed[phase]">
+                <div class="list-group-item" ng-repeat="game in menu.games[phase[1]]">{{game.id}}</div>
             </div>
         </div>
     </div>
