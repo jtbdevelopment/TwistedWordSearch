@@ -11,7 +11,6 @@ angular.module('twsUI').controller('MenuCtrl',
     ['$scope', 'jtbGameCache', 'jtbGamePhaseService',
         function ($scope, jtbGameCache, jtbGamePhaseService) {
             var controller = this;
-            controller.menuIsCollapsed = false;
 
             controller.phases = [];
             controller.phaseLabels = {};

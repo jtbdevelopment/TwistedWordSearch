@@ -1,25 +1,15 @@
 <div class="col-xs-4 col-md-2" ng-controller="MenuCtrl as menu">
-    <button type="button" class="btn btn-default" ng-click="menu.menuIsCollapsed = !menu.menuIsCollapsed">
-        <span class="glyphicon glyphicon-menu-hamburger"></span>
-    </button>
-    <!--  TODO - refresh -->
-    <button type="button" class="btn btn-default" ng-click="">
-        <span class="glyphicon glyphicon-refresh"></span>
-    </button>
-    <hr>
-    <div uib-collapse="menu.menuIsCollapsed">
-        <div>
-            <div class="btn-group-vertical btn-group-justified">
-                <a href="#create" class="btn-group btn create-new-game">Start New Series</a>
-            </div>
+    <div>
+        <div class="btn-group-vertical btn-group-justified">
+            <a href="#create" class="btn-group btn create-new-game">Start New Series</a>
         </div>
-        <div ng-repeat="phase in menu.phases" class="list-group">
-            <div class="list-group-item" ng-click="menu.phaseCollapsed[phase] = !menu.phaseCollapsed[phase]">
-                {{menu.phaseLabels[phase]}}<span class="badge">{{menu.games[phase].length}}</span></div>
-            <div class="list-group" uib-collapse="menu.phaseCollapsed[phase]">
-                <div class="list-group-item" ng-repeat="game in menu.games[phase] track by game.id">
-                    {{game.id}}
-                </div>
+    </div>
+    <div ng-repeat="phase in menu.phases" class="list-group" ng-hide="menu.games[phase].length == 0">
+        <div class="list-group-item" ng-click="menu.phaseCollapsed[phase] = !menu.phaseCollapsed[phase]">
+            {{menu.phaseLabels[phase]}}<span class="badge">{{menu.games[phase].length}}</span></div>
+        <div class="list-group" uib-collapse="menu.phaseCollapsed[phase]">
+            <div class="list-group-item" ng-repeat="game in menu.games[phase] track by game.id">
+                {{game.id}}
             </div>
         </div>
     </div>
