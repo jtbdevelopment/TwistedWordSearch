@@ -39,7 +39,7 @@ describe('Controller: MainCtrl', function () {
         scope.$broadcast('playerLoaded');
         scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
-        expect(MainCtrl.mainBodySize).toEqual('col-xs-10 col-md-8');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(false);
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
@@ -50,7 +50,7 @@ describe('Controller: MainCtrl', function () {
         scope.$broadcast('playerLoaded');
         scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
-        expect(MainCtrl.mainBodySize).toEqual('col-xs-10 col-md-8');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
@@ -61,7 +61,7 @@ describe('Controller: MainCtrl', function () {
         scope.$broadcast('playerLoaded');
         scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
-        expect(MainCtrl.mainBodySize).toEqual('col-xs-10 col-md-8');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
         expect(MainCtrl.player).toEqual(playerDetails);
@@ -72,7 +72,7 @@ describe('Controller: MainCtrl', function () {
         scope.$broadcast('playerLoaded');
         scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
-        expect(MainCtrl.mainBodySize).toEqual('col-xs-10 col-md-8');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
         MainCtrl.logout();

@@ -4,7 +4,7 @@
  * @ngdoc function
  * @name twsUI.controller:MenuCtrl
  * @description
- * # MainCtrl
+ * # MenuCtrl
  * Controller of the twsUI
  */
 angular.module('twsUI').controller('MenuCtrl',
@@ -14,14 +14,19 @@ angular.module('twsUI').controller('MenuCtrl',
             controller.menuIsCollapsed = false;
 
             controller.phases = [];
+            controller.phaseLabels = {};
+            controller.phaseDescriptions = {};
             controller.phaseCollapsed = {};
             controller.games = {};
             jtbGamePhaseService.phases().then(
                 function (phases) {
-                    controller.phases = angular.copy(phases);
-                    angular.forEach(phases, function (phase) {
-                        controller.games[phase[1]] = [];
-                        controller.phaseCollapsed[phase] = false;
+                    controller.phases = [];
+                    angular.forEach(phases, function (value, key) {
+                        controller.phases.push(key);
+                        controller.phaseLabels[key] = value[1];
+                        controller.phaseDescriptions[key] = value[0];
+                        controller.games[key] = [];
+                        controller.phaseCollapsed[key] = false;
                     });
                 },
                 function () {
@@ -30,7 +35,7 @@ angular.module('twsUI').controller('MenuCtrl',
 
             function updateGames() {
                 angular.forEach(controller.phases, function (phase) {
-                    controller.games[phase[1]] = angular.copy(jtbGameCache.getGamesForPhase(phase[1]));
+                    controller.games[phase] = jtbGameCache.getGamesForPhase(phase);
                 });
             }
 

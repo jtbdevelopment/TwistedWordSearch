@@ -22,7 +22,7 @@ angular.module('twsUI').controller('MainCtrl',
 
             function setButtonSideBar() {
                 controller.sideBarTemplate = 'views/sidebar/games.html';
-                controller.mainBodySize = 'col-xs-10 col-md-8';
+                controller.mainBodySize = 'col-xs-8 col-md-10';
             }
 
             setEmptySideBar();

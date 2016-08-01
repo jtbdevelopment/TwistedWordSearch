@@ -5,24 +5,28 @@ describe('Controller: MenuCtrl', function () {
     // load the controller's module
     beforeEach(module('twsUI'));
 
-    var MenuCtrl,
-        scope;
+    var MenuCtrl, $q, $scope;
+
+    var phasePromise;
+    var phaseService = {
+        phases: function () {
+            phasePromise = $q.defer();
+            return phasePromise.promise;
+        }
+    };
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
+    beforeEach(inject(function ($controller, _$rootScope_, _$q_) {
+        $scope = _$rootScope_.$new();
+        $q = _$q_;
         MenuCtrl = $controller('MenuCtrl', {
-            $scope: scope,
-            jtbPlayerService: undefined
+            $scope: $scope,
+            jtbGamePhaseService: phaseService,
+            jtbGameCache: undefined
         });
     }));
 
-    it('initializes to full screen empty side bar', function () {
-        expect(MenuCtrl.menuIsCollapsed).toEqual(false);
+    it('placeholder', function () {
     });
 
-    it('converts to sidebar setup after player loaded message', function () {
-        scope.$broadcast('playerLoaded');
-        scope.$apply();
-    });
 });
