@@ -1,4 +1,14 @@
 .game-bar {
+  padding-left: 5px;
+
+  .create-new-game {
+    padding: 10px;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    font-weight: bold;
+  }
+
   .list-group-games {
     margin: 0;
     .list-group-item {
