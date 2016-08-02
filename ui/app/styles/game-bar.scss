@@ -1,8 +1,35 @@
 .game-bar {
   .list-group-games {
     margin: 0;
+    .list-group-item {
+      margin-top: 5px;
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+      white-space: normal;
+      font-weight: bold;
+    }
   }
+
   .btn-group-games {
     width: 100%;
+
+    .btn-group-game {
+      padding: 4px;
+      alignment: left;
+      text-align: left;
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+      white-space: normal;
+      font-weight: bold;
+      span {
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .list-group-hidden {
+    display: none;
   }
 }
