@@ -23,7 +23,7 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<nav class="navbar navbar-default navbar-fixed-top" ng-cloak="">
+<nav class="navbar navbar-default navbar-fixed-bottom" ng-cloak="">
     <div class="container-fluid"></div>
     <ul class="nav navbar-nav pull-left">
         <li>
@@ -53,15 +53,13 @@
     <div class="row">
         <div ng-include="main.sideBarTemplate"></div>
         <div class="{{main.mainBodySize}}">
-            <div class="container">
-                <div ng-view=""></div>
-            </div>
+            <div ng-view=""></div>
         </div>
     </div>
 </div>
 
 <div class="footer">
-    <div class="container">
+    <div class="container-fluid">
     </div>
 </div>
 
