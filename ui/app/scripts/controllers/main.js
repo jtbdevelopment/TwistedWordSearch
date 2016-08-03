@@ -8,8 +8,8 @@
  * Controller of the twsUI
  */
 angular.module('twsUI').controller('MainCtrl',
-    ['$scope', 'jtbPlayerService', '$location',
-        function ($scope, jtbPlayerService, $location) {
+    ['$scope', '$rootScope', 'jtbPlayerService', '$location',
+        function ($scope, $rootScope, jtbPlayerService, $location) {
             var controller = this;
 
             function setEmptySideBar() {
@@ -34,6 +34,11 @@ angular.module('twsUI').controller('MainCtrl',
 
             controller.newGame = function () {
                 $location.path('/create');
+                //  TODO - hide menu?
+            };
+
+            controller.refreshGames = function () {
+                $rootScope.$broadcast('refreshGames');
             };
 
             $scope.$on('playerLoaded', function () {

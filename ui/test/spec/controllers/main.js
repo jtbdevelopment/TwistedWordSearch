@@ -5,8 +5,7 @@ describe('Controller: MainCtrl', function () {
     // load the controller's module
     beforeEach(module('twsUI'));
 
-    var MainCtrl,
-        scope;
+    var MainCtrl, $scope, $location, $rootScope;
 
     var playerDetails = {};
     var jtbPlayerService = {
@@ -17,11 +16,16 @@ describe('Controller: MainCtrl', function () {
     };
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
+    beforeEach(inject(function ($controller, _$rootScope_, _$location_) {
+        $rootScope = _$rootScope_;
+        $location = _$location_;
+        spyOn($rootScope, '$broadcast').and.callThrough();
+        spyOn($location, 'path');
+
+        $scope = $rootScope.$new();
         playerDetails = {};
         MainCtrl = $controller('MainCtrl', {
-            $scope: scope,
+            $scope: $scope,
             jtbPlayerService: jtbPlayerService
         });
     }));
@@ -36,8 +40,8 @@ describe('Controller: MainCtrl', function () {
 
     it('converts to sidebar setup after normal fb player loaded message', function () {
         playerDetails = {adminUser: false, source: 'facebook'};
-        scope.$broadcast('playerLoaded');
-        scope.$apply();
+        $scope.$broadcast('playerLoaded');
+        $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(false);
@@ -47,8 +51,8 @@ describe('Controller: MainCtrl', function () {
 
     it('converts to sidebar setup after admin fb player loaded message', function () {
         playerDetails = {adminUser: true, source: 'facebook'};
-        scope.$broadcast('playerLoaded');
-        scope.$apply();
+        $scope.$broadcast('playerLoaded');
+        $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(true);
@@ -58,8 +62,8 @@ describe('Controller: MainCtrl', function () {
 
     it('converts to sidebar setup after normal manual player loaded message', function () {
         playerDetails = {adminUser: false, source: 'MANUAL'};
-        scope.$broadcast('playerLoaded');
-        scope.$apply();
+        $scope.$broadcast('playerLoaded');
+        $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(true);
@@ -69,8 +73,8 @@ describe('Controller: MainCtrl', function () {
 
     it('handles logout for manual players', function () {
         playerDetails = {adminUser: false, source: 'MANUAL'};
-        scope.$broadcast('playerLoaded');
-        scope.$apply();
+        $scope.$broadcast('playerLoaded');
+        $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
         expect(MainCtrl.showAdmin).toEqual(true);
@@ -82,5 +86,15 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.player).toEqual({});
         expect(jtbPlayerService.signOutAndRedirect).toHaveBeenCalled();
+    });
+
+    it('goes to create game on new game action', function () {
+        MainCtrl.newGame();
+        expect($location.path).toHaveBeenCalledWith('/create');
+    });
+
+    it('broadcasts refresh games on action', function () {
+        MainCtrl.refreshGames();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('refreshGames');
     });
 });

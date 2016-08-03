@@ -21,6 +21,7 @@ angular.module('twsUI').controller('MenuCtrl',
                 return '';
             };
 
+            //  TODO - customize if using custom classifier
             controller.phaseGlyphicons = {
                 Playing: 'play',
                 Setup: 'comment',

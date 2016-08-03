@@ -9,7 +9,7 @@ describe('Controller: MenuCtrl', function () {
 
     var games = {};
     var gameCache = {
-        getGamesForPhase: function(phase) {
+        getGamesForPhase: function (phase) {
             return games[phase];
         }
     };
@@ -45,6 +45,15 @@ describe('Controller: MenuCtrl', function () {
         expect(MenuCtrl.phaseDescriptions).toEqual({});
         expect(MenuCtrl.phaseCollapsed).toEqual({});
         expect(MenuCtrl.games).toEqual({});
+        expect(MenuCtrl.phaseGlyphicons).toEqual({
+            Playing: 'play',
+            Setup: 'comment',
+            Challenged: 'inbox',
+            RoundOver: 'repeat',
+            Declined: 'remove',
+            NextRoundStarted: 'ok-sign',
+            Quit: 'flag'
+        });
     });
 
     it('initializes after phases deferred', function () {
@@ -66,25 +75,37 @@ describe('Controller: MenuCtrl', function () {
     });
 
     describe('updates games from cache on various broadcast messages', function () {
-        beforeEach(function() {
+        beforeEach(function () {
             phasePromise.resolve(testPhases);
             $rootScope.$apply();
         });
         angular.forEach(['gameCachesLoaded', 'gameRemoved', 'gameAdded', 'gameUpdated'], function (message) {
             games = {};
-            angular.forEach(testPhases, function(value, key) {
+            angular.forEach(testPhases, function (value, key) {
                 var gamesToCreate = Math.floor(Math.random() * 10);
                 games[key] = [];
-                for(var i = 0; i < gamesToCreate; ++i) {
+                for (var i = 0; i < gamesToCreate; ++i) {
                     games[key].push({id: Math.floor(Math.random() * 10000)});
                 }
             });
 
-            it('refreshes games on ' + message, function() {
+            it('refreshes games on ' + message, function () {
                 $rootScope.$broadcast(message);
                 $rootScope.$apply();
                 expect(MenuCtrl.games).toEqual(games);
             });
+        });
+    });
+
+    describe('can describe games', function () {
+        beforeEach(function () {
+            phasePromise.resolve(testPhases);
+            $rootScope.$apply();
+        });
+
+        //  TODO
+        it('placeholder test', function () {
+            expect(MenuCtrl.describeGame()).toEqual('');
         });
     });
 });
