@@ -17,11 +17,18 @@
       word-wrap: break-word;
       white-space: normal;
       font-weight: bold;
+      padding: 10px 10px;
+      border: none;
     }
   }
 
   .btn-group-games {
     width: 100%;
+
+    img {
+      width: 25px;
+      height: 25px;
+    }
 
     .btn-group-game {
       padding: 4px;

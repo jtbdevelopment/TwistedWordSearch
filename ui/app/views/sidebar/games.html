@@ -1,15 +1,10 @@
 <div class="col-xs-4 col-md-2 game-bar" ng-controller="MenuCtrl as menu">
-    <div class="btn-group-vertical btn-group-justified">
-        <a href="#create" class="btn-group btn btn-default create-new-game">
-            <span class="glyphicon glyphicon-plus"></span>
-            Start New Series
-        </a>
-    </div>
     <div ng-repeat="phase in menu.phases">
         <div class="list-group list-group-games list-group-{{phase}}"
              ng-hide="menu.games[phase].length == 0">
             <button class="list-group-item btn-group-{{phase}}"
                     ng-click="menu.phaseCollapsed[phase] = !menu.phaseCollapsed[phase]">
+                <span class="glyphicon glyphicon-{{menu.phaseGlyphicons[phase]}}"></span>
                 {{menu.phaseLabels[phase]}}
                 <span class="badge">{{menu.games[phase].length}}</span>
             </button>
@@ -17,9 +12,12 @@
         <div class="{{menu.games[phase].length == 0 ? 'list-group-hidden' : ''}}"
              uib-collapse="menu.phaseCollapsed[phase]">
             <div class="btn-group-vertical btn-group-games">
-                <a href="#" class="btn-group btn btn-default btn-group-game btn-group-game-{{phase}}"
-                   ng-repeat="game in menu.games[phase] track by game.id">
-                    {{game.id}} filler filler filler filler
+                <a ng-repeat="game in menu.games[phase] track by game.id"
+                   href="#/game/{{game.id}}"
+                   class="btn-group btn btn-default btn-group-game btn-group-game-{{phase}}">
+                    <img ng-src="{{game.playerImages[md5]}}" class="playerImage"
+                         ng-repeat="(md5, name) in game.players">
+                    {{menu.describeGame(game)}}
                 </a>
             </div>
         </div>

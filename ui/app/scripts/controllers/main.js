@@ -8,8 +8,8 @@
  * Controller of the twsUI
  */
 angular.module('twsUI').controller('MainCtrl',
-    ['$scope', 'jtbPlayerService',
-        function ($scope, jtbPlayerService) {
+    ['$scope', 'jtbPlayerService', '$location',
+        function ($scope, jtbPlayerService, $location) {
             var controller = this;
 
             function setEmptySideBar() {
@@ -30,6 +30,10 @@ angular.module('twsUI').controller('MainCtrl',
             controller.logout = function () {
                 setEmptySideBar();
                 jtbPlayerService.signOutAndRedirect();
+            };
+
+            controller.newGame = function () {
+                $location.path('/create');
             };
 
             $scope.$on('playerLoaded', function () {

@@ -17,6 +17,20 @@ angular.module('twsUI').controller('MenuCtrl',
             controller.phaseDescriptions = {};
             controller.phaseCollapsed = {};
             controller.games = {};
+            controller.describeGame = function (game) {
+                return '';
+            };
+
+            controller.phaseGlyphicons = {
+                Playing: 'play',
+                Setup: 'comment',
+                Challenged: 'inbox',
+                RoundOver: 'repeat',
+                Declined: 'remove',
+                NextRoundStarted: 'ok-sign',
+                Quit: 'flag'
+            };
+
             jtbGamePhaseService.phases().then(
                 function (phases) {
                     controller.phases = [];
