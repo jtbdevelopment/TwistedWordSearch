@@ -1,4 +1,4 @@
-<div>
+<div class="create-game">
     <form class="form-horizontal">
         <uib-tabset type="pills" justified="true">
             <uib-tab ng-repeat="(featureGroup, features) in create.features" index="$index" heading="{{featureGroup}}">
@@ -14,6 +14,6 @@
                 </div>
             </uib-tab>
         </uib-tabset>
-        <button class="btn btn-primary" ng-click="create.createGame()">Create Game</button>
+        <button class="btn btn-primary create-game-button" ng-click="create.createGame()">Create Game</button>
     </form>
 </div>
