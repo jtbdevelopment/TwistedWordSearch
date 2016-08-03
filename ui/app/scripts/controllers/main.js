@@ -13,16 +13,19 @@ angular.module('twsUI').controller('MainCtrl',
             var controller = this;
 
             function setEmptySideBar() {
+                controller.hideGames = false;
                 controller.showAdmin = false;
                 controller.showLogout = false;
                 controller.player = {};
                 controller.sideBarTemplate = 'views/sidebar/empty.html';
                 controller.mainBodySize = 'col-xs-12 col-md-12';
+                controller.sideBarSize = 'hidden';
             }
 
             function setButtonSideBar() {
                 controller.sideBarTemplate = 'views/sidebar/games.html';
                 controller.mainBodySize = 'col-xs-8 col-md-10';
+                controller.sideBarSize = 'col-xs-4 col-md-2';
             }
 
             setEmptySideBar();
@@ -39,6 +42,10 @@ angular.module('twsUI').controller('MainCtrl',
 
             controller.refreshGames = function () {
                 $rootScope.$broadcast('refreshGames');
+            };
+
+            controller.toggleMenu = function () {
+                controller.hideGames = !controller.hideGames;
             };
 
             $scope.$on('playerLoaded', function () {

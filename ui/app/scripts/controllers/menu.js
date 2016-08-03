@@ -17,7 +17,7 @@ angular.module('twsUI').controller('MenuCtrl',
             controller.phaseDescriptions = {};
             controller.phaseCollapsed = {};
             controller.games = {};
-            controller.describeGame = function (game) {
+            controller.describeGame = function () {
                 return '';
             };
 

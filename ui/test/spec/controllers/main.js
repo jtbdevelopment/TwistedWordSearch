@@ -33,8 +33,10 @@ describe('Controller: MainCtrl', function () {
     it('initializes to full screen empty side bar', function () {
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/empty.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
+        expect(MainCtrl.sideBarSize).toEqual('hidden');
         expect(MainCtrl.showAdmin).toEqual(false);
         expect(MainCtrl.showLogout).toEqual(false);
+        expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual({});
     });
 
@@ -44,8 +46,10 @@ describe('Controller: MainCtrl', function () {
         $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-md-2');
         expect(MainCtrl.showAdmin).toEqual(false);
         expect(MainCtrl.showLogout).toEqual(false);
+        expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
     });
 
@@ -55,8 +59,10 @@ describe('Controller: MainCtrl', function () {
         $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-md-2');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(false);
+        expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
     });
 
@@ -66,8 +72,10 @@ describe('Controller: MainCtrl', function () {
         $scope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-md-2');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
+        expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
     });
 
@@ -75,15 +83,21 @@ describe('Controller: MainCtrl', function () {
         playerDetails = {adminUser: false, source: 'MANUAL'};
         $scope.$broadcast('playerLoaded');
         $scope.$apply();
+        MainCtrl.toggleMenu();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-md-2');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
+        expect(MainCtrl.hideGames).toEqual(true);
+
         MainCtrl.logout();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/empty.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
+        expect(MainCtrl.sideBarSize).toEqual('hidden');
         expect(MainCtrl.showAdmin).toEqual(false);
         expect(MainCtrl.showLogout).toEqual(false);
+        expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual({});
         expect(jtbPlayerService.signOutAndRedirect).toHaveBeenCalled();
     });
@@ -96,5 +110,15 @@ describe('Controller: MainCtrl', function () {
     it('broadcasts refresh games on action', function () {
         MainCtrl.refreshGames();
         expect($rootScope.$broadcast).toHaveBeenCalledWith('refreshGames');
+    });
+
+    it('toggling menu', function () {
+        expect(MainCtrl.hideGames).toEqual(false);
+        MainCtrl.toggleMenu();
+        expect(MainCtrl.hideGames).toEqual(true);
+        MainCtrl.toggleMenu();
+        expect(MainCtrl.hideGames).toEqual(false);
+        MainCtrl.toggleMenu();
+        expect(MainCtrl.hideGames).toEqual(true);
     });
 });

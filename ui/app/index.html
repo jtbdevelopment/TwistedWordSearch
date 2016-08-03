@@ -8,8 +8,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-    <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -27,7 +27,7 @@
     <div class="container-fluid"></div>
     <ul class="nav navbar-nav pull-left">
         <li>
-            <button type="button" class="btn btn-default navbar-btn">
+            <button type="button" class="btn btn-default navbar-btn" ng-click="main.toggleMenu()">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
             </button>
         </li>
@@ -56,7 +56,10 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div ng-include="main.sideBarTemplate"></div>
+        <!--  TODO - horizontal not working  -->
+        <div class="{{main.sideBarSize}}"
+             ng-include="main.sideBarTemplate"
+             uib-collapse="main.hideGames" horizontal></div>
         <div class="{{main.mainBodySize}}">
             <div ng-view=""></div>
         </div>
