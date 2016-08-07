@@ -46,6 +46,14 @@ angular
                 controller: 'CoreBootstrapSignedInCtrl',
                 controllerAs: 'signedIn'
             })
+            //  TODO
+            /*
+             .when('/game/setup/:gameID', {
+             templateUrl: 'views/setup.html',
+             controller: 'SetupCtrl',
+             controllerAs: 'setup'
+             })
+             */
             .otherwise({
                 redirectTo: '/signin'
             });

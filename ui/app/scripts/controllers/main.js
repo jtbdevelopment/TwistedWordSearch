@@ -14,6 +14,7 @@ angular.module('twsUI').controller('MainCtrl',
 
             function setEmptySideBar() {
                 controller.hideGames = false;
+                controller.forceShowGames = false;
                 controller.showAdmin = false;
                 controller.showLogout = false;
                 controller.player = {};
@@ -45,7 +46,23 @@ angular.module('twsUI').controller('MainCtrl',
             };
 
             controller.toggleMenu = function () {
+                controller.stopHoverMenu();
                 controller.hideGames = !controller.hideGames;
+                controller.forceShowGames = false;
+            };
+
+            controller.hoverMenu = function () {
+                if (controller.hideGames) {
+                    controller.hideGames = false;
+                    controller.forceShowGames = true;
+                }
+            };
+
+            controller.stopHoverMenu = function () {
+                if (controller.forceShowGames) {
+                    controller.hideGames = true;
+                    controller.forceShowGames = false;
+                }
             };
 
             $scope.$on('playerLoaded', function () {

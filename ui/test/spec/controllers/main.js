@@ -112,7 +112,7 @@ describe('Controller: MainCtrl', function () {
         expect($rootScope.$broadcast).toHaveBeenCalledWith('refreshGames');
     });
 
-    it('toggling menu', function () {
+    it('toggling menu, no hover involved', function () {
         expect(MainCtrl.hideGames).toEqual(false);
         MainCtrl.toggleMenu();
         expect(MainCtrl.hideGames).toEqual(true);
@@ -120,5 +120,58 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.hideGames).toEqual(false);
         MainCtrl.toggleMenu();
         expect(MainCtrl.hideGames).toEqual(true);
+    });
+
+    it('hovering when menu visible', function () {
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+
+        MainCtrl.hoverMenu();
+
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+
+        MainCtrl.stopHoverMenu();
+
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+    });
+
+    it('hovering when menu not visible', function () {
+        MainCtrl.toggleMenu();
+
+        expect(MainCtrl.hideGames).toEqual(true);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+
+        MainCtrl.hoverMenu();
+
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(true);
+
+        MainCtrl.stopHoverMenu();
+
+        expect(MainCtrl.hideGames).toEqual(true);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+    });
+
+    it('enabling disabled menu while hovering', function () {
+        MainCtrl.toggleMenu();
+
+        expect(MainCtrl.hideGames).toEqual(true);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+
+        MainCtrl.hoverMenu();
+
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(true);
+
+        MainCtrl.toggleMenu();
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(false);
+
+        MainCtrl.stopHoverMenu();
+
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.forceShowGames).toEqual(false);
     });
 });
