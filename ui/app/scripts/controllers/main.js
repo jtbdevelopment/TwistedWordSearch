@@ -12,6 +12,14 @@ angular.module('twsUI').controller('MainCtrl',
         function ($scope, $rootScope, jtbPlayerService, $location) {
             var controller = this;
 
+            function fullSizeBody() {
+                controller.mainBodySize = 'col-xs-12 col-md-12';
+            }
+
+            function partialSizeBody() {
+                controller.mainBodySize = 'col-xs-8 col-md-10';
+            }
+
             function setEmptySideBar() {
                 controller.hideGames = false;
                 controller.forceShowGames = false;
@@ -19,14 +27,14 @@ angular.module('twsUI').controller('MainCtrl',
                 controller.showLogout = false;
                 controller.player = {};
                 controller.sideBarTemplate = 'views/sidebar/empty.html';
-                controller.mainBodySize = 'col-xs-12 col-md-12';
                 controller.sideBarSize = 'hidden';
+                fullSizeBody();
             }
 
             function setButtonSideBar() {
                 controller.sideBarTemplate = 'views/sidebar/games.html';
-                controller.mainBodySize = 'col-xs-8 col-md-10';
                 controller.sideBarSize = 'col-xs-4 col-md-2';
+                partialSizeBody();
             }
 
             setEmptySideBar();
@@ -49,12 +57,18 @@ angular.module('twsUI').controller('MainCtrl',
                 controller.stopHoverMenu();
                 controller.hideGames = !controller.hideGames;
                 controller.forceShowGames = false;
+                if (controller.hideGames) {
+                    fullSizeBody();
+                } else {
+                    partialSizeBody();
+                }
             };
 
             controller.hoverMenu = function () {
                 if (controller.hideGames) {
                     controller.hideGames = false;
                     controller.forceShowGames = true;
+                    partialSizeBody();
                 }
             };
 
@@ -62,6 +76,7 @@ angular.module('twsUI').controller('MainCtrl',
                 if (controller.forceShowGames) {
                     controller.hideGames = true;
                     controller.forceShowGames = false;
+                    fullSizeBody();
                 }
             };
 

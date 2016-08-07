@@ -8,6 +8,18 @@
  *
  * Main module of the application.
  */
+
+
+angular.module('twsUIBackground', ['twsUI'])
+//  Separate module to avoid interfering with tests
+    .run(function ($rootScope, $location) {
+        $rootScope.$on('gameUpdated', function (message, oldGame, newGame) {
+            if ($location.path().endsWith(oldGame.id) && oldGame.gamePhase !== newGame.gamePhase) {
+                $location.path('/game/' + newGame.gamePhase.toLowerCase() + '/' + newGame.id);
+            }
+        });
+    });
+
 angular
     .module('twsUI', [
         'ngAnimate',
@@ -46,6 +58,31 @@ angular
                 controller: 'CoreBootstrapSignedInCtrl',
                 controllerAs: 'signedIn'
             })
+            .when('/game/challenged/:gameID', {
+                templateUrl: 'views/phases/playerList.html',
+                controller: 'PlayerListCtrl',
+                controllerAs: 'list'
+            })
+            .when('/game/declined/:gameID', {
+                templateUrl: 'views/phases/playerList.html',
+                controller: 'PlayerListCtrl',
+                controllerAs: 'list'
+            })
+            .when('/game/quit/:gameID', {
+                templateUrl: 'views/phases/playerList.html',
+                controller: 'PlayerListCtrl',
+                controllerAs: 'list'
+            })
+            .when('/game/roundover/:gameID', {
+                templateUrl: 'views/phases/playerList.html',
+                controller: 'PlayerListCtrl',
+                controllerAs: 'list'
+            })
+            .when('/game/nextroundstarted/:gameID', {
+                templateUrl: 'views/phases/playerList.html',
+                controller: 'PlayerListCtrl',
+                controllerAs: 'list'
+            })
             //  TODO
             // .when('/game/playing/:gameID', {
             //     templateUrl: 'views/phases/play.html',
@@ -56,31 +93,6 @@ angular
             //     templateUrl: 'views/phases/setup.html',
             //     controller: 'SetupCtrl',
             //     controllerAs: 'setup'
-            // })
-            // .when('/game/challenged/:gameID', {
-            //     templateUrl: 'views/phases/challenged.html',
-            //     controller: 'ChallengeCtrl',
-            //     controllerAs: 'challenged'
-            // })
-            // .when('/game/declined/:gameID', {
-            //     templateUrl: 'views/phases/declined.html',
-            //     controller: 'DeclineCtrl',
-            //     controllerAs: 'declined'
-            // })
-            // .when('/game/quit/:gameID', {
-            //     templateUrl: 'views/phases/quit.html',
-            //     controller: 'DeclineCtrl',
-            //     controllerAs: 'declined'
-            // })
-            // .when('/game/roundover/:gameID', {
-            //     templateUrl: 'views/phases/roundover.html',
-            //     controller: 'RoundOverCtrl',
-            //     controllerAs: 'roundOver'
-            // })
-            // .when('/game/nextroundstarted/:gameID', {
-            //     templateUrl: 'views/phases/nextroundstarted.html',
-            //     controller: 'NextRoundCtrl',
-            //     controllerAs: 'nextRound'
             // })
             .otherwise({
                 redirectTo: '/signin'

@@ -1,0 +1,53 @@
+<div class="player-list">
+    <!--  TODO - describe game here?  -->
+    <!--  TODO - show part of game here -->
+    <!--  TODO - show scores  here -->
+    <div class="player-actions">
+        <button class="btn btn-default btn-accept-game"
+                ng-click="list.actions.accept(list.game)"
+                ng-show="list.showAccept">
+            Accept Challenge
+        </button>
+        <button class="btn btn-default btn-decline-game"
+                ng-click="list.actions.reject(list.game)"
+                ng-show="list.showReject">
+            Decline Challenge
+        </button>
+        <button class="btn btn-default btn-quit-game"
+                ng-click="list.actions.quit(list.game)"
+                ng-show="list.showQuit">
+            Quit Game
+        </button>
+        <button class="btn btn-default btn-rematch-game"
+                ng-click="list.actions.rematch(list.game)"
+                ng-show="list.showRematch">
+            Rematch!
+        </button>
+        <button class="btn btn-default btn-end-rematch-game"
+                ng-click="list.actions.declineRematch(list.game)"
+                ng-show="list.showRematch">
+            No More Rematches
+        </button>
+    </div>
+    <div ng-repeat="group in list.groups">
+        <div class="list-group list-group-players-group list-players-group-{{group}}"
+             ng-hide="list.players[group].length == 0">
+            <button class="list-group-item btn-players-group-{{group}}"
+                    ng-click="list.groupCollapsed[group] = !list.groupCollapsed[group]">
+                <span class="glyphicon glyphicon-{{list.groupGlyphicons[group]}}"></span>
+                {{group}}
+                <span class="badge">{{list.players[group].length}}</span>
+            </button>
+        </div>
+        <div class="{{list.players[group].length == 0 ? 'list-group-hidden' : ''}}"
+             uib-collapse="list.groupCollapsed[group]">
+            <div class="list-group list-group-players list-group-players-{{group}}">
+                <li ng-repeat="player in list.players[group] track by player.id"
+                    class="list-group-item list-group-item-player list-group-item-player-{{group}}">
+                    <img ng-src="{{player.playerImage}}" class="playerImage"/>
+                    <span class="player-name">{{player.displayName}}</span>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+.player-list {
+  .player-actions {
+    margin-top: 20px;
+    button {
+      width: 30%;
+      margin-left: 35.5%;
+      font-weight: bold;
+    }
+  }
+
+  .list-group-players-group {
+    margin: 0;
+
+    .list-group-item {
+      margin-top: 5px;
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+      white-space: normal;
+      font-weight: bold;
+      padding: 10px 10px;
+      border: none;
+    }
+  }
+
+  .list-group-players {
+    width: 100%;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .list-group-item {
+      padding: 4px;
+      alignment: left;
+      text-align: left;
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+      white-space: normal;
+      font-weight: bold;
+      .player-name {
+        margin-left: 10px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .list-group-hidden {
+    display: none;
+  }
+}

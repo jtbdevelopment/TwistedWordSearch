@@ -85,7 +85,7 @@ describe('Controller: MainCtrl', function () {
         $scope.$apply();
         MainCtrl.toggleMenu();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
-        expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-md-2');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
@@ -112,66 +112,86 @@ describe('Controller: MainCtrl', function () {
         expect($rootScope.$broadcast).toHaveBeenCalledWith('refreshGames');
     });
 
-    it('toggling menu, no hover involved', function () {
-        expect(MainCtrl.hideGames).toEqual(false);
-        MainCtrl.toggleMenu();
-        expect(MainCtrl.hideGames).toEqual(true);
-        MainCtrl.toggleMenu();
-        expect(MainCtrl.hideGames).toEqual(false);
-        MainCtrl.toggleMenu();
-        expect(MainCtrl.hideGames).toEqual(true);
-    });
+    describe('menu tests', function () {
+        beforeEach(function () {
+            playerDetails = {adminUser: false, source: 'MANUAL'};
+            $scope.$broadcast('playerLoaded');
+            $scope.$apply();
+        });
 
-    it('hovering when menu visible', function () {
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(false);
+        it('toggling menu, no hover involved', function () {
+            expect(MainCtrl.hideGames).toEqual(false);
+            MainCtrl.toggleMenu();
+            expect(MainCtrl.hideGames).toEqual(true);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
+            MainCtrl.toggleMenu();
+            expect(MainCtrl.hideGames).toEqual(false);
+            MainCtrl.toggleMenu();
+            expect(MainCtrl.hideGames).toEqual(true);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
+        });
 
-        MainCtrl.hoverMenu();
+        it('hovering when menu visible', function () {
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
 
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(false);
+            MainCtrl.hoverMenu();
 
-        MainCtrl.stopHoverMenu();
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
 
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(false);
-    });
+            MainCtrl.stopHoverMenu();
 
-    it('hovering when menu not visible', function () {
-        MainCtrl.toggleMenu();
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        });
 
-        expect(MainCtrl.hideGames).toEqual(true);
-        expect(MainCtrl.forceShowGames).toEqual(false);
+        it('hovering when menu not visible', function () {
+            MainCtrl.toggleMenu();
 
-        MainCtrl.hoverMenu();
+            expect(MainCtrl.hideGames).toEqual(true);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
 
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(true);
+            MainCtrl.hoverMenu();
 
-        MainCtrl.stopHoverMenu();
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(true);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
 
-        expect(MainCtrl.hideGames).toEqual(true);
-        expect(MainCtrl.forceShowGames).toEqual(false);
-    });
+            MainCtrl.stopHoverMenu();
 
-    it('enabling disabled menu while hovering', function () {
-        MainCtrl.toggleMenu();
+            expect(MainCtrl.hideGames).toEqual(true);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
+        });
 
-        expect(MainCtrl.hideGames).toEqual(true);
-        expect(MainCtrl.forceShowGames).toEqual(false);
+        it('enabling disabled menu while hovering', function () {
+            MainCtrl.toggleMenu();
 
-        MainCtrl.hoverMenu();
+            expect(MainCtrl.hideGames).toEqual(true);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-md-12');
 
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(true);
+            MainCtrl.hoverMenu();
 
-        MainCtrl.toggleMenu();
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(true);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
 
-        MainCtrl.stopHoverMenu();
+            MainCtrl.toggleMenu();
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
 
-        expect(MainCtrl.hideGames).toEqual(false);
-        expect(MainCtrl.forceShowGames).toEqual(false);
+            MainCtrl.stopHoverMenu();
+
+            expect(MainCtrl.hideGames).toEqual(false);
+            expect(MainCtrl.forceShowGames).toEqual(false);
+            expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-md-10');
+        });
     });
 });
