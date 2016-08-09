@@ -43,6 +43,11 @@ angular
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
             })
+            .when('/admin', {
+                templateUrl: 'views/admin.html',
+                controller: 'AdminCtrl',
+                controllerAs: 'admin'
+            })
             .when('/create', {
                 templateUrl: 'views/create.html',
                 controller: 'CreateGameCtrl',
