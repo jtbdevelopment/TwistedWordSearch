@@ -13,7 +13,7 @@ angular.module('twsUI').controller('PlayerListCtrl',
                 Declined: 'thumbs-down',
                 Quit: 'flag'
             };
-            controller.groups = ['Pending', 'Accepted', 'Declined', 'Quit'];
+            controller.groups = ['Pending', 'Accepted', 'Rejected', 'Quit'];
             controller.actions = jtbBootstrapGameActions;
             controller.groupCollapsed = {};
             controller.players = {};
