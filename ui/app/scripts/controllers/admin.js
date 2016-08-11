@@ -2,19 +2,20 @@
 
 //  TODO core?
 angular.module('twsUI').controller('AdminCtrl',
-    ['$http', 'jtbPlayerService',//'$location',
-        function ($http, jtbPlayerService/*, $location*/) {
+    ['$scope', '$http', 'jtbPlayerService',//'$location',
+        function ($scope, $http, jtbPlayerService/*, $location*/) {
             var controller = this;
 
             controller.searchText = '';
             controller.pageSize = 20;
             controller.players = [];
-            function computeRevertFields() {
+            controller.activeTab = 0;
+            controller.computeRevertFields = function () {
                 controller.revertEnabled = jtbPlayerService.realPID() !== jtbPlayerService.currentID();
-                controller.revertText = controller.revertEnabled ? 'You are simulating another player.' : 'You are yourself.';
-            }
-
-            computeRevertFields();
+                controller.revertText = controller.revertEnabled ?
+                    'You are simulating another player.' :
+                    'You are yourself.';
+            };
 
             controller.playerCount = 0;
             controller.gameCount = 0;
@@ -91,7 +92,7 @@ angular.module('twsUI').controller('AdminCtrl',
                         processResponse(response.data);
                     },
                     function (data, status/*, headers, config*/) {
-                        console.error(data + '/ + status');
+                        console.error(data + '/' + status);
                         //  TODO
                     }
                 );
@@ -109,5 +110,19 @@ angular.module('twsUI').controller('AdminCtrl',
                 requestData();
             };
 
+            controller.switchToPlayer = function (id) {
+                jtbPlayerService.overridePID(id);
+            };
+
+            controller.revertToNormal = function () {
+                jtbPlayerService.overridePID(jtbPlayerService.realPID());
+            };
+
             controller.refreshData();
+            controller.computeRevertFields();
+
+            $scope.$on('playerLoaded', function () {
+                controller.computeRevertFields();
+            });
+
         }]);
