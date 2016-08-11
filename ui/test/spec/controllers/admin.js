@@ -5,8 +5,7 @@ describe('Controller: AdminCtrl', function () {
     // load the controller's module
     beforeEach(module('twsUI'));
 
-    var AdminCtrl, $q, jtbPlayerService, $http;
-    //var location = {path: jasmine.createSpy()};
+    var AdminCtrl, jtbPlayerService, $http, $scope, $rootScope;
     var overridePID, realPID;
     var playerCount = 10 + '';
     var gameCount = 100 + '';
@@ -19,35 +18,50 @@ describe('Controller: AdminCtrl', function () {
     var playerLastLogin24 = 111 + '';
     var playerLastLogin7 = 22 + '';
     var playerLastLogin30 = 55 + '';
+    var expectedResults = {
+        totalElements: 10,
+        totalPages: 5,
+        number: 3,
+        content: [
+            {
+                id: '1',
+                displayName: 'dn1'
+            },
+            {
+                id: '2',
+                displayName: 'dn2'
+            },
+            {
+                id: '3',
+                displayName: 'dn2'
+            }
+        ]
+    };
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, _$rootScope_, _$q_, $httpBackend) {
-        $q = _$q_;
+    beforeEach(inject(function ($controller, _$rootScope_, $httpBackend) {
         $http = $httpBackend;
         realPID = 'REAL';
-        overridePID = '';
+        overridePID = realPID;
+        $rootScope = _$rootScope_;
+        $scope = $rootScope.$new();
 
         jtbPlayerService = {
             realPID: function () {
                 return realPID;
+            },
+            currentID: function () {
+                return overridePID;
             },
             overridePID: function (pid) {
                 overridePID = pid;
             }
         };
         AdminCtrl = $controller('AdminCtrl', {
-            //$location: location,
-            //jtbPlayerService: mockPlayerService,
-            $window: window
+            jtbPlayerService: jtbPlayerService,
+            $scope: $scope
         });
     }));
-
-    it('initializes', function () {
-//        expect(AdminCtrl.searchText).toEqual('');
-//        expect(AdminCtrl.players).toEqual([]);
-        //       expect(AdminCtrl.selected).toEqual({});
-        expect(overridePID).toEqual('');
-    });
 
     beforeEach(function () {
         var time = Math.floor((new Date()).getTime() / 1000);
@@ -81,9 +95,94 @@ describe('Controller: AdminCtrl', function () {
         $http.expectGET(time24).respond(gamesLast24);
         $http.expectGET(time7).respond(gamesLast7);
         $http.expectGET(time30).respond(gamesLast30);
+
+        $http.expectGET('/api/player/admin/playersLike/?pageSize=20&page=0&like=').respond(expectedResults);
     });
 
-    it('initializes', function () {
+    it('initializes users', function () {
+        expect(AdminCtrl.revertEnabled).toEqual(false);
+        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+
+        expect(AdminCtrl.numberOfPages).toEqual(0);
+        expect(AdminCtrl.currentPage).toEqual(1);
+        expect(AdminCtrl.players).toEqual([]);
+        expect(AdminCtrl.searchText).toEqual('');
+        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(overridePID).toEqual(realPID);
+
+        $http.flush();
+
+        expect(AdminCtrl.totalItems).toEqual(expectedResults.totalElements);
+        expect(AdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
+        expect(AdminCtrl.currentPage).toEqual(expectedResults.number + 1);
+        expect(AdminCtrl.players).toEqual(expectedResults.content);
+        expect(AdminCtrl.searchText).toEqual('');
+        expect(AdminCtrl.pageSize).toEqual(20);
+    });
+
+    it('changes pages', function () {
+        $http.flush();
+
+        expect(AdminCtrl.totalItems).toEqual(expectedResults.totalElements);
+        expect(AdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
+        expect(AdminCtrl.currentPage).toEqual(expectedResults.number + 1);
+        expect(AdminCtrl.players).toEqual(expectedResults.content);
+        expect(AdminCtrl.searchText).toEqual('');
+        expect(AdminCtrl.pageSize).toEqual(20);
+
+        AdminCtrl.searchText = 'aaa';
+        AdminCtrl.currentPage = 7;
+        $http.expectGET('/api/player/admin/playersLike/?pageSize=20&page=6&like=aaa').respond({
+            totalElements: 0,
+            totalPages: 0,
+            number: 0,
+            content: []
+        });
+
+        AdminCtrl.changePage();
+        $http.flush();
+
+        expect(AdminCtrl.totalItems).toEqual(0);
+        expect(AdminCtrl.numberOfPages).toEqual(0);
+        expect(AdminCtrl.currentPage).toEqual(1);
+        expect(AdminCtrl.players).toEqual([]);
+        expect(AdminCtrl.searchText).toEqual('aaa');
+        expect(AdminCtrl.pageSize).toEqual(20);
+
+    });
+
+    it('refresh data', function () {
+        $http.flush();
+
+        expect(AdminCtrl.totalItems).toEqual(expectedResults.totalElements);
+        expect(AdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
+        expect(AdminCtrl.currentPage).toEqual(expectedResults.number + 1);
+        expect(AdminCtrl.players).toEqual(expectedResults.content);
+        expect(AdminCtrl.searchText).toEqual('');
+        expect(AdminCtrl.pageSize).toEqual(20);
+
+        AdminCtrl.searchText = 'a3';
+        AdminCtrl.currentPage = 7;
+        var refreshedResults = {
+            totalElements: 1,
+            totalPages: 1,
+            number: 0,
+            content: [{id: 'a3', displayName: 'a3'}]
+        };
+        $http.expectGET('/api/player/admin/playersLike/?pageSize=20&page=0&like=a3').respond(refreshedResults);
+
+        AdminCtrl.refreshData();
+        $http.flush();
+
+        expect(AdminCtrl.totalItems).toEqual(1);
+        expect(AdminCtrl.numberOfPages).toEqual(1);
+        expect(AdminCtrl.currentPage).toEqual(1);
+        expect(AdminCtrl.players).toEqual(refreshedResults.content);
+        expect(AdminCtrl.searchText).toEqual('a3');
+        expect(AdminCtrl.pageSize).toEqual(20);
+    });
+
+    it('initializes stats', function () {
         expect(AdminCtrl.playerCount).toEqual(0);
         expect(AdminCtrl.gameCount).toEqual(0);
         expect(AdminCtrl.playersCreated24hours).toEqual(0);
@@ -97,10 +196,6 @@ describe('Controller: AdminCtrl', function () {
         expect(AdminCtrl.gamesLast30days).toEqual(0);
 
         $http.flush();
-        //expect(scope.searchText).toEqual('');
-        //expect(scope.players).toEqual(players);
-        //expect(scope.selected).toEqual({});
-        //expect(overridePID).toEqual('');
         expect(AdminCtrl.playerCount).toEqual(playerCount);
         expect(AdminCtrl.gameCount).toEqual(gameCount);
         expect(AdminCtrl.gamesLast24hours).toEqual(gamesLast24);
@@ -114,76 +209,39 @@ describe('Controller: AdminCtrl', function () {
         expect(AdminCtrl.playersLastLogin30days).toEqual(playerLastLogin30);
     });
 
-    /*
-     describe('responds with possible players to imitate', function () {
-     var players = [{displayName: 'X'}, {displayName: 'Y'}];
-     beforeEach(function () {
-     http.expectGET('/api/player/admin').respond(players);
-     });
+    it('changes to user', function () {
+        expect(AdminCtrl.revertEnabled).toEqual(false);
+        expect(AdminCtrl.revertText).toEqual('You are yourself.');
 
-     it('initializes', function () {
-     expect(scope.playerCount).toEqual(0);
-     expect(scope.playersCreated24hours).toEqual(0);
-     expect(scope.playersCreated7days).toEqual(0);
-     expect(scope.playersCreated30days).toEqual(0);
-     expect(scope.playersLastLogin24hours).toEqual(0);
-     expect(scope.playersLastLogin7days).toEqual(0);
-     expect(scope.playersLastLogin30days).toEqual(0);
-     expect(scope.last24hours).toEqual(0);
-     expect(scope.last7days).toEqual(0);
-     expect(scope.last30days).toEqual(0);
+        AdminCtrl.switchToPlayer('33');
+        expect(overridePID).toEqual('33');
 
-     http.flush();
-     expect(scope.searchText).toEqual('');
-     expect(scope.players).toEqual(players);
-     expect(scope.selected).toEqual({});
-     expect(overridePID).toEqual('');
-     expect(scope.playerCount).toEqual(playerCount);
-     expect(scope.last24hours).toEqual(last24);
-     expect(scope.last7days).toEqual(gamesLast7);
-     expect(scope.last30days).toEqual(gamesLast30);
-     expect(scope.playersCreated24hours).toEqual(playerCreatedLast24);
-     expect(scope.playersCreated7days).toEqual(playerCreatedLast7);
-     expect(scope.playersCreated30days).toEqual(playerCreatedLast30);
-     expect(scope.playersLastLogin24hours).toEqual(playerLastLogin24);
-     expect(scope.playersLastLogin7days).toEqual(playerLastLogin7);
-     expect(scope.playersLastLogin30days).toEqual(playerLastLogin30);
-     });
+        expect(AdminCtrl.revertEnabled).toEqual(false);
+        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
 
-     describe('and switches', function () {
-     beforeEach(function () {
-     http.flush();
-     });
+        expect(AdminCtrl.revertEnabled).toEqual(true);
+        expect(AdminCtrl.revertText).toEqual('You are simulating another player.');
+    });
 
-     it('changing user', function () {
-     scope.selected.id = 'X123';
-     scope.changeUser();
-     expect(overridePID).toEqual('X123');
-     expect(location.path).toHaveBeenCalledWith('/');
-     });
+    it('changes to user can revert back', function () {
+        AdminCtrl.switchToPlayer('33');
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
 
-     it('reverting user', function () {
-     scope.selected.id = 'X123';
-     scope.revertUser();
-     expect(overridePID).toEqual(realPID);
-     expect(location.path).toHaveBeenCalledWith('/');
-     });
-     });
-     });
+        expect(AdminCtrl.revertEnabled).toEqual(true);
+        expect(AdminCtrl.revertText).toEqual('You are simulating another player.');
 
-     describe('responds with error on possible players to imitate', function () {
-     beforeEach(function () {
-     http.expectGET('/api/player/admin').respond(404, {});
-     });
-     it('initializes', function () {
-     http.flush();
-     expect(scope.searchText).toEqual('');
-     expect(location.path).toHaveBeenCalledWith('/error');
-     expect(scope.players).toEqual([]);
-     expect(scope.selected).toEqual({});
-     expect(overridePID).toEqual('');
-     });
-     });
-     */
+        AdminCtrl.revertToNormal();
+        expect(AdminCtrl.revertEnabled).toEqual(true);
+        expect(AdminCtrl.revertText).toEqual('You are simulating another player.');
+
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
+
+        expect(AdminCtrl.revertEnabled).toEqual(false);
+        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+    });
 });
 

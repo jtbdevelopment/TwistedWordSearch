@@ -9,7 +9,6 @@ angular.module('twsUI').controller('AdminCtrl',
             controller.searchText = '';
             controller.pageSize = 20;
             controller.players = [];
-            controller.activeTab = 0;
             controller.computeRevertFields = function () {
                 controller.revertEnabled = jtbPlayerService.realPID() !== jtbPlayerService.currentID();
                 controller.revertText = controller.revertEnabled ?
@@ -125,4 +124,6 @@ angular.module('twsUI').controller('AdminCtrl',
                 controller.computeRevertFields();
             });
 
-        }]);
+        }
+    ]
+);
