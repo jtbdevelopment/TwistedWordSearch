@@ -2,8 +2,8 @@
 
 //  TODO core?
 angular.module('twsUI').controller('AdminCtrl',
-    ['$scope', '$http', 'jtbPlayerService',//'$location',
-        function ($scope, $http, jtbPlayerService/*, $location*/) {
+    ['$scope', '$http', 'jtbPlayerService',
+        function ($scope, $http, jtbPlayerService) {
             var controller = this;
 
             controller.searchText = '';
