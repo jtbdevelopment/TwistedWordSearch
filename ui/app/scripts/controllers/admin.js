@@ -1,12 +1,21 @@
 'use strict';
 
+//  TODO core?
 angular.module('twsUI').controller('AdminCtrl',
-    ['$http', //'$location', 'jtbPlayerService',
-        function ($http/*, $location, jtbPlayerService*/) {
+    ['$http', 'jtbPlayerService',//'$location',
+        function ($http, jtbPlayerService/*, $location*/) {
             var controller = this;
-            //$scope.searchText = '';
-            //$scope.players = [];
-            //$scope.selected = {};
+
+            controller.searchText = '';
+            controller.pageSize = 20;
+            controller.players = [];
+            function computeRevertFields() {
+                controller.revertEnabled = jtbPlayerService.realPID() !== jtbPlayerService.currentID();
+                controller.revertText = controller.revertEnabled ? 'You are simulating another player.' : 'You are yourself.';
+            }
+
+            computeRevertFields();
+
             controller.playerCount = 0;
             controller.gameCount = 0;
             controller.playersCreated24hours = 0;
@@ -65,22 +74,40 @@ angular.module('twsUI').controller('AdminCtrl',
                 controller.gamesLast30days = data;
             });
 
-            /*
-             $http.get('/api/player/admin').success(function (data) {
-             $scope.players = data;
+            function processResponse(data) {
+                controller.totalItems = data.totalElements;
+                controller.numberOfPages = data.totalPages;
+                controller.players = data.content;
+                controller.currentPage = data.number + 1;
+            }
 
-             }).error(function (data, status, headers, config) {
-             console.error(data + status + headers + config);
-             $location.path('/error');
-             });
+            function requestData() {
+                var pageParams = '?pageSize=' + controller.pageSize +
+                    '&page=' + (controller.currentPage - 1) +
+                    //  TODO - encode
+                    '&like=' + controller.searchText;
+                $http.get('/api/player/admin/playersLike/' + pageParams).then(
+                    function (response) {
+                        processResponse(response.data);
+                    },
+                    function (data, status/*, headers, config*/) {
+                        console.error(data + '/ + status');
+                        //  TODO
+                    }
+                );
+            }
 
-             $scope.changeUser = function () {
-             jtbPlayerService.overridePID($scope.selected.id);
-             $location.path('/');
-             };
-             $scope.revertUser = function () {
-             jtbPlayerService.overridePID(jtbPlayerService.realPID());
-             $location.path('/');
-             };
-             */
+            controller.refreshData = function () {
+                controller.players.slice(0);
+                controller.totalItems = 0;
+                controller.numberOfPages = 0;
+                controller.currentPage = 1;
+                requestData();
+            };
+
+            controller.changePage = function () {
+                requestData();
+            };
+
+            controller.refreshData();
         }]);

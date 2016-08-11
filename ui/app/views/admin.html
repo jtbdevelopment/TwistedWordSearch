@@ -1,80 +1,105 @@
-<!--
-<div class="row">
-<div class="col-sm-8">
-  <ui-select ng-model="$parent.selected" theme="bootstrap" reset-search-input="true">
-    <ui-select-match placeholder="Select a player to mimic...">{{$select.selected.displayName}}</ui-select-match>
-    <ui-select-choices repeat="player in players | propsFilter: {displayName: $select.search}">
-      <div ng-bind-html="player.displayName | highlight: $select.search"></div>
-    </ui-select-choices>
-  </ui-select>
+<div class="admin-screen">
+    <div class="admin-user">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Switch user..</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-offset-2 col-xs-2">
+                <button class="btn btn-default btn-default-focus btn-success btn-stop-simulating"
+                        ng-disabled="!admin.revertEnabled"
+                        ng-click="">
+                    Stop
+                </button>
+            </div>
+            <div class="col-xs-offset-0 col-xs-5">
+                {{admin.revertText}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-2 col-xs-2">
+                <button class="btn btn-default btn-default-focus btn-primary btn-get-users"
+                        ng-click="admin.refreshData()">
+                    Get Users
+                </button>
+            </div>
+            <div class="col-xs-offset-0 col-xs-5">
+                <input class="form-control" type="text" ng-model="admin.searchText"
+                       placeholder="And Name contains..">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <table class="table table-striped table-condensed table-admin-users">
+                <tr>
+                    <th>Display Name</th>
+                    <th>ID</th>
+                    <th>Switch</th>
+                </tr>
+                <tr ng-repeat="player in admin.players">
+                    <td>{{player.displayName}}</td>
+                    <td>{{player.id}}</td>
+                    <td>
+                        <button class="btn btn-danger btn-danger btn-change-user">Switch to this user..</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <ul uib-pagination num-pages="admin.numberOfPages" items-per-page="admin.pageSize" direction-links="false"
+                total-items="admin.totalItems" ng-model="admin.currentPage" ng-change="admin.changePage()"></ul>
+        </div>
+    </div>
 </div>
 
-<button ng-click="changeUser()" class="btn btn-default col-sm-2">Change!</button>
-<button ng-click="revertUser()" class="btn btn-default col-sm-2">Back To Normal</button>
+<div class="admin-stats">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Stats</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <table class="table table-striped table-condensed table-admin-states">
+                <tr>
+                    <th></th>
+                    <th class="text-right">Last 24 hours</th>
+                    <th class="text-right">Last 7 days</th>
+                    <th class="text-right">Last 30 days</th>
+                </tr>
+                <tr class="text-right">
+                    <th class="text-left">Total Games</th>
+                    <td colspan="3">{{admin.gameCount}}</td>
+                </tr>
+                <tr class="text-right">
+                    <th class="text-left">Games Created</th>
+                    <td>{{admin.gamesLast24hours}}</td>
+                    <td>{{admin.gamesLast7days}}</td>
+                    <td>{{admin.gamesLast30days}}</td>
+                </tr>
+                <tr class="text-right">
+                    <th class="text-left">Total Players</th>
+                    <td colspan="3">{{admin.playerCount}}</td>
+                </tr>
+                <tr class="text-right">
+                    <th class="text-left">Players Created</th>
+                    <td>{{admin.playersCreated24hours}}</td>
+                    <td>{{admin.playersCreated7days}}</td>
+                    <td>{{admin.playersCreated30days}}</td>
+                </tr>
+                <tr class="text-right">
+                    <th class="text-left">Players Created</th>
+                    <td>{{admin.playersLastLogin24hours}}</td>
+                    <td>{{admin.playersLastLogin7days}}</td>
+                    <td>{{admin.playersLastLogin30days}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
--->
-<div class="admin-screen">
-    <div class="row total-row">
-        <div class="col-sm-2">
-            Total Games:
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.gameCount}}
-        </div>
-    </div>
-    <div class="row total-row">
-        <div class="col-sm-2">
-            Total Players:
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.playerCount}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2 col-sm-offset-2 text-right">
-            Last 24 Hours
-        </div>
-        <div class="col-sm-2 text-right">
-            Last 7 Days
-        </div>
-        <div class="col-sm-2 text-right">
-            Last 30 Days
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">Players Created:</div>
-        <div class="col-sm-2 text-right">
-            {{admin.playersCreated24hours}}
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.playersCreated7days}}
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.playersCreated30days}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">Players Logged In:</div>
-        <div class="col-sm-2 text-right">
-            {{admin.playersLastLogin24hours}}
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.playersLastLogin7days}}
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.playersLastLogin30days}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">Games Created:</div>
-        <div class="col-sm-2 text-right">
-            {{admin.gamesLast24hours}}
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.gamesLast7days}}
-        </div>
-        <div class="col-sm-2 text-right">
-            {{admin.gamesLast30days}}
-        </div>
-    </div>
 </div>
