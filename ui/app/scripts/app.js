@@ -44,7 +44,7 @@ angular
                 controllerAs: 'help'
             })
             .when('/admin', {
-                templateUrl: 'views/admin.html',
+                templateUrl: 'views/admin/admin.html',
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
             })
