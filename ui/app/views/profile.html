@@ -1,0 +1,39 @@
+<div class="player-profile">
+    <div class="row">
+        <div class="col-xs-5 col-lg-offset-2">
+            <h2>Your profile:</h2>
+            <table class="table table-hover table-condensed text-right">
+                <tr>
+                    <th>Name</th>
+                    <td>{{profile.player.displayName}}</td>
+                </tr>
+                <tr>
+                    <th>Logged In Via</th>
+                    <td>{{profile.player.source}}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{profile.player.payLevel}}</td>
+                </tr>
+                <tr>
+                    <th>Daily Free Games</th>
+                    <td>{{profile.player.gameSpecificPlayerAttributes.maxDailyFreeGames}}</td>
+                </tr>
+                <tr>
+                    <th>Free Games Used Today</th>
+                    <td>{{profile.player.gameSpecificPlayerAttributes.freeGamesUsedToday}}</td>
+                </tr>
+                <tr>
+                    <th>Free Games Remaining Today</th>
+                    <td>{{profile.player.gameSpecificPlayerAttributes.maxDailyFreeGames -
+                        profile.player.gameSpecificPlayerAttributes.freeGamesUsedToday}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Profile Image</th>
+                    <td><img ng-src="{{profile.player.imageUrl}}"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

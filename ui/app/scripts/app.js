@@ -48,6 +48,11 @@ angular
                 controller: 'AdminCtrl',
                 controllerAs: 'admin'
             })
+            .when('/profile', {
+                templateUrl: 'views/profile.html',
+                controller: 'ProfileCtrl',
+                controllerAs: 'profile'
+            })
             .when('/create', {
                 templateUrl: 'views/create.html',
                 controller: 'CreateGameCtrl',
