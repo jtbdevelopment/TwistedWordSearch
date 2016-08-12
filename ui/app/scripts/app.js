@@ -45,7 +45,7 @@ angular
             })
             .when('/admin', {
                 templateUrl: 'views/admin.html',
-                controller: 'AdminCtrl',
+                controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
             })
             .when('/profile', {

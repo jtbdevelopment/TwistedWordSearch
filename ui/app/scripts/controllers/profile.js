@@ -5,10 +5,7 @@ angular.module('twsUI')
         ['jtbPlayerService',
             function (jtbPlayerService) {
                 var controller = this;
-
                 controller.player = jtbPlayerService.currentPlayer();
-
-
             }
         ]
     );

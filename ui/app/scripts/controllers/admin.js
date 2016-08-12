@@ -1,7 +1,6 @@
 'use strict';
 
-//  TODO core?
-angular.module('twsUI').controller('AdminCtrl',
+angular.module('twsUI').controller('CoreAdminCtrl',
     ['$scope', '$http', 'jtbPlayerService',
         function ($scope, $http, jtbPlayerService) {
             var controller = this;

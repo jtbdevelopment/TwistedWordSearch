@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: AdminCtrl', function () {
+describe('Controller: CoreAdminCtrl', function () {
 
     // load the controller's module
     beforeEach(module('twsUI'));
 
-    var AdminCtrl, jtbPlayerService, $http, $scope, $rootScope;
+    var CoreAdminCtrl, jtbPlayerService, $http, $scope, $rootScope;
     var overridePID, realPID;
     var playerCount = 10 + '';
     var gameCount = 100 + '';
@@ -57,7 +57,7 @@ describe('Controller: AdminCtrl', function () {
                 overridePID = pid;
             }
         };
-        AdminCtrl = $controller('AdminCtrl', {
+        CoreAdminCtrl = $controller('CoreAdminCtrl', {
             jtbPlayerService: jtbPlayerService,
             $scope: $scope
         });
@@ -100,38 +100,38 @@ describe('Controller: AdminCtrl', function () {
     });
 
     it('initializes users', function () {
-        expect(AdminCtrl.revertEnabled).toEqual(false);
-        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+        expect(CoreAdminCtrl.revertEnabled).toEqual(false);
+        expect(CoreAdminCtrl.revertText).toEqual('You are yourself.');
 
-        expect(AdminCtrl.numberOfPages).toEqual(0);
-        expect(AdminCtrl.currentPage).toEqual(1);
-        expect(AdminCtrl.players).toEqual([]);
-        expect(AdminCtrl.searchText).toEqual('');
-        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(CoreAdminCtrl.numberOfPages).toEqual(0);
+        expect(CoreAdminCtrl.currentPage).toEqual(1);
+        expect(CoreAdminCtrl.players).toEqual([]);
+        expect(CoreAdminCtrl.searchText).toEqual('');
+        expect(CoreAdminCtrl.pageSize).toEqual(20);
         expect(overridePID).toEqual(realPID);
 
         $http.flush();
 
-        expect(AdminCtrl.totalItems).toEqual(expectedResults.totalElements);
-        expect(AdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
-        expect(AdminCtrl.currentPage).toEqual(expectedResults.number + 1);
-        expect(AdminCtrl.players).toEqual(expectedResults.content);
-        expect(AdminCtrl.searchText).toEqual('');
-        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(CoreAdminCtrl.totalItems).toEqual(expectedResults.totalElements);
+        expect(CoreAdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
+        expect(CoreAdminCtrl.currentPage).toEqual(expectedResults.number + 1);
+        expect(CoreAdminCtrl.players).toEqual(expectedResults.content);
+        expect(CoreAdminCtrl.searchText).toEqual('');
+        expect(CoreAdminCtrl.pageSize).toEqual(20);
     });
 
     it('changes pages', function () {
         $http.flush();
 
-        expect(AdminCtrl.totalItems).toEqual(expectedResults.totalElements);
-        expect(AdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
-        expect(AdminCtrl.currentPage).toEqual(expectedResults.number + 1);
-        expect(AdminCtrl.players).toEqual(expectedResults.content);
-        expect(AdminCtrl.searchText).toEqual('');
-        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(CoreAdminCtrl.totalItems).toEqual(expectedResults.totalElements);
+        expect(CoreAdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
+        expect(CoreAdminCtrl.currentPage).toEqual(expectedResults.number + 1);
+        expect(CoreAdminCtrl.players).toEqual(expectedResults.content);
+        expect(CoreAdminCtrl.searchText).toEqual('');
+        expect(CoreAdminCtrl.pageSize).toEqual(20);
 
-        AdminCtrl.searchText = 'aaa';
-        AdminCtrl.currentPage = 7;
+        CoreAdminCtrl.searchText = 'aaa';
+        CoreAdminCtrl.currentPage = 7;
         $http.expectGET('/api/player/admin/playersLike/?pageSize=20&page=6&like=aaa').respond({
             totalElements: 0,
             totalPages: 0,
@@ -139,30 +139,30 @@ describe('Controller: AdminCtrl', function () {
             content: []
         });
 
-        AdminCtrl.changePage();
+        CoreAdminCtrl.changePage();
         $http.flush();
 
-        expect(AdminCtrl.totalItems).toEqual(0);
-        expect(AdminCtrl.numberOfPages).toEqual(0);
-        expect(AdminCtrl.currentPage).toEqual(1);
-        expect(AdminCtrl.players).toEqual([]);
-        expect(AdminCtrl.searchText).toEqual('aaa');
-        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(CoreAdminCtrl.totalItems).toEqual(0);
+        expect(CoreAdminCtrl.numberOfPages).toEqual(0);
+        expect(CoreAdminCtrl.currentPage).toEqual(1);
+        expect(CoreAdminCtrl.players).toEqual([]);
+        expect(CoreAdminCtrl.searchText).toEqual('aaa');
+        expect(CoreAdminCtrl.pageSize).toEqual(20);
 
     });
 
     it('refresh data', function () {
         $http.flush();
 
-        expect(AdminCtrl.totalItems).toEqual(expectedResults.totalElements);
-        expect(AdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
-        expect(AdminCtrl.currentPage).toEqual(expectedResults.number + 1);
-        expect(AdminCtrl.players).toEqual(expectedResults.content);
-        expect(AdminCtrl.searchText).toEqual('');
-        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(CoreAdminCtrl.totalItems).toEqual(expectedResults.totalElements);
+        expect(CoreAdminCtrl.numberOfPages).toEqual(expectedResults.totalPages);
+        expect(CoreAdminCtrl.currentPage).toEqual(expectedResults.number + 1);
+        expect(CoreAdminCtrl.players).toEqual(expectedResults.content);
+        expect(CoreAdminCtrl.searchText).toEqual('');
+        expect(CoreAdminCtrl.pageSize).toEqual(20);
 
-        AdminCtrl.searchText = 'a3';
-        AdminCtrl.currentPage = 7;
+        CoreAdminCtrl.searchText = 'a3';
+        CoreAdminCtrl.currentPage = 7;
         var refreshedResults = {
             totalElements: 1,
             totalPages: 1,
@@ -171,77 +171,77 @@ describe('Controller: AdminCtrl', function () {
         };
         $http.expectGET('/api/player/admin/playersLike/?pageSize=20&page=0&like=a3').respond(refreshedResults);
 
-        AdminCtrl.refreshData();
+        CoreAdminCtrl.refreshData();
         $http.flush();
 
-        expect(AdminCtrl.totalItems).toEqual(1);
-        expect(AdminCtrl.numberOfPages).toEqual(1);
-        expect(AdminCtrl.currentPage).toEqual(1);
-        expect(AdminCtrl.players).toEqual(refreshedResults.content);
-        expect(AdminCtrl.searchText).toEqual('a3');
-        expect(AdminCtrl.pageSize).toEqual(20);
+        expect(CoreAdminCtrl.totalItems).toEqual(1);
+        expect(CoreAdminCtrl.numberOfPages).toEqual(1);
+        expect(CoreAdminCtrl.currentPage).toEqual(1);
+        expect(CoreAdminCtrl.players).toEqual(refreshedResults.content);
+        expect(CoreAdminCtrl.searchText).toEqual('a3');
+        expect(CoreAdminCtrl.pageSize).toEqual(20);
     });
 
     it('initializes stats', function () {
-        expect(AdminCtrl.playerCount).toEqual(0);
-        expect(AdminCtrl.gameCount).toEqual(0);
-        expect(AdminCtrl.playersCreated24hours).toEqual(0);
-        expect(AdminCtrl.playersCreated7days).toEqual(0);
-        expect(AdminCtrl.playersCreated30days).toEqual(0);
-        expect(AdminCtrl.playersLastLogin24hours).toEqual(0);
-        expect(AdminCtrl.playersLastLogin7days).toEqual(0);
-        expect(AdminCtrl.playersLastLogin30days).toEqual(0);
-        expect(AdminCtrl.gamesLast7days).toEqual(0);
-        expect(AdminCtrl.gamesLast24hours).toEqual(0);
-        expect(AdminCtrl.gamesLast30days).toEqual(0);
+        expect(CoreAdminCtrl.playerCount).toEqual(0);
+        expect(CoreAdminCtrl.gameCount).toEqual(0);
+        expect(CoreAdminCtrl.playersCreated24hours).toEqual(0);
+        expect(CoreAdminCtrl.playersCreated7days).toEqual(0);
+        expect(CoreAdminCtrl.playersCreated30days).toEqual(0);
+        expect(CoreAdminCtrl.playersLastLogin24hours).toEqual(0);
+        expect(CoreAdminCtrl.playersLastLogin7days).toEqual(0);
+        expect(CoreAdminCtrl.playersLastLogin30days).toEqual(0);
+        expect(CoreAdminCtrl.gamesLast7days).toEqual(0);
+        expect(CoreAdminCtrl.gamesLast24hours).toEqual(0);
+        expect(CoreAdminCtrl.gamesLast30days).toEqual(0);
 
         $http.flush();
-        expect(AdminCtrl.playerCount).toEqual(playerCount);
-        expect(AdminCtrl.gameCount).toEqual(gameCount);
-        expect(AdminCtrl.gamesLast24hours).toEqual(gamesLast24);
-        expect(AdminCtrl.gamesLast7days).toEqual(gamesLast7);
-        expect(AdminCtrl.gamesLast30days).toEqual(gamesLast30);
-        expect(AdminCtrl.playersCreated24hours).toEqual(playerCreatedLast24);
-        expect(AdminCtrl.playersCreated7days).toEqual(playerCreatedLast7);
-        expect(AdminCtrl.playersCreated30days).toEqual(playerCreatedLast30);
-        expect(AdminCtrl.playersLastLogin24hours).toEqual(playerLastLogin24);
-        expect(AdminCtrl.playersLastLogin7days).toEqual(playerLastLogin7);
-        expect(AdminCtrl.playersLastLogin30days).toEqual(playerLastLogin30);
+        expect(CoreAdminCtrl.playerCount).toEqual(playerCount);
+        expect(CoreAdminCtrl.gameCount).toEqual(gameCount);
+        expect(CoreAdminCtrl.gamesLast24hours).toEqual(gamesLast24);
+        expect(CoreAdminCtrl.gamesLast7days).toEqual(gamesLast7);
+        expect(CoreAdminCtrl.gamesLast30days).toEqual(gamesLast30);
+        expect(CoreAdminCtrl.playersCreated24hours).toEqual(playerCreatedLast24);
+        expect(CoreAdminCtrl.playersCreated7days).toEqual(playerCreatedLast7);
+        expect(CoreAdminCtrl.playersCreated30days).toEqual(playerCreatedLast30);
+        expect(CoreAdminCtrl.playersLastLogin24hours).toEqual(playerLastLogin24);
+        expect(CoreAdminCtrl.playersLastLogin7days).toEqual(playerLastLogin7);
+        expect(CoreAdminCtrl.playersLastLogin30days).toEqual(playerLastLogin30);
     });
 
     it('changes to user', function () {
-        expect(AdminCtrl.revertEnabled).toEqual(false);
-        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+        expect(CoreAdminCtrl.revertEnabled).toEqual(false);
+        expect(CoreAdminCtrl.revertText).toEqual('You are yourself.');
 
-        AdminCtrl.switchToPlayer('33');
+        CoreAdminCtrl.switchToPlayer('33');
         expect(overridePID).toEqual('33');
 
-        expect(AdminCtrl.revertEnabled).toEqual(false);
-        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+        expect(CoreAdminCtrl.revertEnabled).toEqual(false);
+        expect(CoreAdminCtrl.revertText).toEqual('You are yourself.');
         $rootScope.$broadcast('playerLoaded');
         $rootScope.$apply();
 
-        expect(AdminCtrl.revertEnabled).toEqual(true);
-        expect(AdminCtrl.revertText).toEqual('You are simulating another player.');
+        expect(CoreAdminCtrl.revertEnabled).toEqual(true);
+        expect(CoreAdminCtrl.revertText).toEqual('You are simulating another player.');
     });
 
     it('changes to user can revert back', function () {
-        AdminCtrl.switchToPlayer('33');
+        CoreAdminCtrl.switchToPlayer('33');
         $rootScope.$broadcast('playerLoaded');
         $rootScope.$apply();
 
-        expect(AdminCtrl.revertEnabled).toEqual(true);
-        expect(AdminCtrl.revertText).toEqual('You are simulating another player.');
+        expect(CoreAdminCtrl.revertEnabled).toEqual(true);
+        expect(CoreAdminCtrl.revertText).toEqual('You are simulating another player.');
 
-        AdminCtrl.revertToNormal();
-        expect(AdminCtrl.revertEnabled).toEqual(true);
-        expect(AdminCtrl.revertText).toEqual('You are simulating another player.');
+        CoreAdminCtrl.revertToNormal();
+        expect(CoreAdminCtrl.revertEnabled).toEqual(true);
+        expect(CoreAdminCtrl.revertText).toEqual('You are simulating another player.');
 
         $rootScope.$broadcast('playerLoaded');
         $rootScope.$apply();
 
-        expect(AdminCtrl.revertEnabled).toEqual(false);
-        expect(AdminCtrl.revertText).toEqual('You are yourself.');
+        expect(CoreAdminCtrl.revertEnabled).toEqual(false);
+        expect(CoreAdminCtrl.revertText).toEqual('You are yourself.');
     });
 });
 
