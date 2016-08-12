@@ -44,8 +44,8 @@ angular.module('twsUI').controller('MainCtrl',
                 jtbPlayerService.signOutAndRedirect();
             };
 
-            controller.newGame = function () {
-                $location.path('/create');
+            controller.go = function (where) {
+                $location.path(where);
                 //  TODO - hide menu?
             };
 

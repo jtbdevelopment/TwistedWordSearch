@@ -25,22 +25,22 @@
 <!-- Add your site or application content here -->
 <nav class="navbar navbar-default navbar-fixed-bottom" ng-cloak="">
     <div class="container-fluid"></div>
-    <ul class="nav navbar-nav pull-left">
+    <ul class="nav navbar-nav pull-left" ng-show="main.player.displayName !== undefined">
         <li>
-            <button type="button" class="btn btn-default navbar-btn" ng-click="main.toggleMenu()"
-                    ng-mouseover="main.hoverMenu()" ng-mouseleave="main.stopHoverMenu()">
+            <a href="" ng-click="main.toggleMenu()" ng-mouseover="main.hoverMenu()"
+               ng-mouseleave="main.stopHoverMenu()">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
-            </button>
+            </a>
         </li>
         <li>
-            <button class="btn btn-default navbar-btn" ng-click="main.newGame()">
+            <a ng-href="#/create">
                 <span class="glyphicon glyphicon-plus"></span>
-            </button>
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-default navbar-btn" ng-click="main.refreshGames()">
-                <span class="glyphicon glyphicon-refresh"></span>
-            </button>
+            <a href="" ng-click="main.refreshGames()">
+                <span ng-click="" class="glyphicon glyphicon-refresh"></span>
+            </a>
         </li>
     </ul>
     <div class="navbar-header">
@@ -49,8 +49,16 @@
         </a>
     </div>
     <ul class="nav navbar-nav pull-right">
-        <li><a ng-href="#/about">About</a></li>
-        <li><a ng-href="#/admin" ng-show="main.showAdmin">Admin</a></li>
+        <li>
+            <a ng-href="#/help">
+                <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+        </li>
+        <li>
+            <a ng-href="#/admin" ng-show="main.showAdmin">
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+        </li>
         <li><a ng-click="main.logout()" ng-show="main.showLogout">Logout</a></li>
     </ul>
 </nav>
@@ -112,7 +120,7 @@
 <script src="scripts/controllers/menu.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/create.js"></script>
-<script src="scripts/controllers/about.js"></script>
+<script src="scripts/controllers/help.js"></script>
 <script src="scripts/controllers/admin.js"></script>
 <!-- endbuild -->
 </body>

@@ -102,9 +102,9 @@ describe('Controller: MainCtrl', function () {
         expect(jtbPlayerService.signOutAndRedirect).toHaveBeenCalled();
     });
 
-    it('goes to create game on new game action', function () {
-        MainCtrl.newGame();
-        expect($location.path).toHaveBeenCalledWith('/create');
+    it('goes to location game on go action', function () {
+        MainCtrl.go('/somewhere');
+        expect($location.path).toHaveBeenCalledWith('/somewhere');
     });
 
     it('broadcasts refresh games on action', function () {

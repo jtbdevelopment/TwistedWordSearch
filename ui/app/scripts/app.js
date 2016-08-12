@@ -38,10 +38,10 @@ angular
             .when('/main', {
                 templateUrl: 'views/main.html'
             })
-            .when('/about', {
-                templateUrl: 'views/about.html',
-                controller: 'AboutCtrl',
-                controllerAs: 'about'
+            .when('/help', {
+                templateUrl: 'views/help.html',
+                controller: 'HelpCtrl',
+                controllerAs: 'help'
             })
             .when('/admin', {
                 templateUrl: 'views/admin.html',
