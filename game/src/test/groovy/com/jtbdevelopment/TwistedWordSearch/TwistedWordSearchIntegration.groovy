@@ -56,13 +56,13 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new GameFeatureInfo(
                         GameFeature.Grid,
                         [
+                                new GameFeatureInfo.Detail(GameFeature.Grid30X30),
                                 new GameFeatureInfo.Detail(GameFeature.Grid40X40),
-                                new GameFeatureInfo.Detail(GameFeature.Grid20X20),
-                                new GameFeatureInfo.Detail(GameFeature.Grid10X10),
-                                new GameFeatureInfo.Detail(GameFeature.CircleX20),
+                                new GameFeatureInfo.Detail(GameFeature.Grid50X50),
                                 new GameFeatureInfo.Detail(GameFeature.CircleX40),
-                                new GameFeatureInfo.Detail(GameFeature.PyramidX20),
+                                new GameFeatureInfo.Detail(GameFeature.CircleX50),
                                 new GameFeatureInfo.Detail(GameFeature.PyramidX40),
+                                new GameFeatureInfo.Detail(GameFeature.PyramidX50),
                         ]
                 ),
                 new GameFeatureInfo(
@@ -116,7 +116,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         MaskedGame game = newGame(P3,
                 new FeaturesAndPlayers(
                         features: [
-                                GameFeature.Grid20X20,
+                                GameFeature.Grid30X30,
                                 GameFeature.HideWordLettersNone,
                                 GameFeature.JumbleOnFindNo,
                                 GameFeature.AverageOf6,

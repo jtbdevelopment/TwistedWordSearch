@@ -6,7 +6,7 @@ package com.jtbdevelopment.TwistedWordSearch.state
 class GameFeatureTest extends GroovyTestCase {
     void testGetGroupedFeatures() {
         assert [
-                (GameFeature.Grid)             : [GameFeature.Grid40X40, GameFeature.Grid20X20, GameFeature.Grid10X10, GameFeature.CircleX20, GameFeature.CircleX40, GameFeature.PyramidX20, GameFeature.PyramidX40],
+                (GameFeature.Grid)             : [GameFeature.Grid30X30, GameFeature.Grid40X40, GameFeature.Grid50X50, GameFeature.CircleX40, GameFeature.CircleX50, GameFeature.PyramidX40, GameFeature.PyramidX50],
                 (GameFeature.AverageWordLength): [GameFeature.AverageOf5, GameFeature.AverageOf4, GameFeature.AverageOf3, GameFeature.AverageOf6, GameFeature.AverageOf7],
                 (GameFeature.WordWrap)         : [GameFeature.WordWrapYes, GameFeature.WordWrapNo],
                 (GameFeature.FillDifficulty)   : [GameFeature.RandomFill, GameFeature.SomeOverlap, GameFeature.StrongOverlap, GameFeature.WordChunks],

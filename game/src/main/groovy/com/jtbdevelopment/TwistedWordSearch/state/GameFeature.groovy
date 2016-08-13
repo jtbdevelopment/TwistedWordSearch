@@ -10,13 +10,13 @@ import groovy.transform.CompileStatic
 enum GameFeature {
     //  TODO - more - random jumble on timer
     Grid(1, GameFeatureGroupType.Difficulty, 'Grid', 'Type of grid to play on.'),
-    Grid40X40(1, '40x40', '40 x 40 square grid.', Grid),
-    Grid20X20(2, '20x20', '20 x 20 square grid.', Grid),
-    Grid10X10(3, '10x10', '10 x 10 square grid.', Grid),
-    CircleX20(3, 'CircleX20', '20 letter diameter circle.', Grid),
+    Grid30X30(1, '30x30', '30 x 30 square grid.', Grid),
+    Grid40X40(2, '40x40', '40 x 40 square grid.', Grid),
+    Grid50X50(3, '50x50', '50 x 50 square grid.', Grid),
     CircleX40(4, 'CircleX40', '40 letter diameter circle.', Grid),
-    PyramidX20(5, 'PyramidX20', 'Pyramid with 20 letter wide base.', Grid),
-    PyramidX40(5, 'PyramidX20', 'Pyramid with 40 letter wide base.', Grid),
+    CircleX50(5, 'CircleX50', '50 letter diameter circle.', Grid),
+    PyramidX40(6, 'PyramidX40', 'Pyramid with 40 letter wide base.', Grid),
+    PyramidX50(7, 'PyramidX50', 'Pyramid with 50 letter wide base.', Grid),
 
     WordWrap(2, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
     WordWrapYes(1, 'Yes', 'Allows words to wrap around edges.', WordWrap),
