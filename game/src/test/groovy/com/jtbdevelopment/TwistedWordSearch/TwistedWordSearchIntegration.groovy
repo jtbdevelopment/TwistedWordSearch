@@ -63,6 +63,8 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                                 new GameFeatureInfo.Detail(GameFeature.CircleX50),
                                 new GameFeatureInfo.Detail(GameFeature.PyramidX40),
                                 new GameFeatureInfo.Detail(GameFeature.PyramidX50),
+                                new GameFeatureInfo.Detail(GameFeature.Diamond40x40),
+                                new GameFeatureInfo.Detail(GameFeature.Diamond50x50),
                         ]
                 ),
                 new GameFeatureInfo(

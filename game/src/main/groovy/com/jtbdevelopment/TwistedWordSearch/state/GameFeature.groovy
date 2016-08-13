@@ -17,6 +17,8 @@ enum GameFeature {
     CircleX50(5, 'CircleX50', '50 letter diameter circle.', Grid),
     PyramidX40(6, 'PyramidX40', 'Pyramid with 40 letter wide base.', Grid),
     PyramidX50(7, 'PyramidX50', 'Pyramid with 50 letter wide base.', Grid),
+    Diamond40x40(8, 'Diamond 40x40', '40x40 diamond.', Grid),
+    Diamond50x50(9, 'Diamond 50x50', '50x50 diamond.', Grid),
 
     WordWrap(2, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
     WordWrapYes(1, 'Yes', 'Allows words to wrap around edges.', WordWrap),
