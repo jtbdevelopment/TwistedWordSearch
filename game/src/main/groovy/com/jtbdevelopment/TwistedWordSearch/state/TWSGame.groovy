@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.state
 
+import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.games.mongo.state.AbstractMongoMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.springframework.data.mongodb.core.mapping.Document
@@ -11,4 +12,5 @@ import org.springframework.data.mongodb.core.mapping.Document
 @CompileStatic
 @Document(collection = 'game')
 class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
+    Grid grid
 }

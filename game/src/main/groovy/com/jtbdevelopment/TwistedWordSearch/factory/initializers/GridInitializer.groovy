@@ -20,8 +20,8 @@ class GridInitializer implements GameInitializer<TWSGame> {
             (GameFeature.Grid50X50)   : 50,
             (GameFeature.CircleX40)   : 40,
             (GameFeature.CircleX50)   : 50,
-            (GameFeature.PyramidX40)  : 40,
-            (GameFeature.PyramidX50)  : 50,
+            (GameFeature.PyramidX40)  : 20,
+            (GameFeature.PyramidX50)  : 25,
             (GameFeature.Diamond40x40): 40,
             (GameFeature.Diamond50x50): 50,
     ]
@@ -29,7 +29,7 @@ class GridInitializer implements GameInitializer<TWSGame> {
     private final static Map<GameFeature, Integer> GRID_COLS = [
             (GameFeature.Grid30X30)   : 30,
             (GameFeature.Grid40X40)   : 40,
-            (GameFeature.Grid40X40)   : 50,
+            (GameFeature.Grid50X50)   : 50,
             (GameFeature.CircleX40)   : 40,
             (GameFeature.CircleX50)   : 50,
             (GameFeature.PyramidX40)  : 40,
@@ -40,42 +40,9 @@ class GridInitializer implements GameInitializer<TWSGame> {
 
     void initializeGame(final TWSGame game) {
         GameFeature gridType = game.features.find { it.group == GameFeature.Grid }
-        Grid grid = new Grid(GRID_ROWS[gridType], GRID_COLS[gridType])
+        game.grid = new Grid(GRID_ROWS[gridType], GRID_COLS[gridType])
 
 /*
-        //  Pryamid x 20 - too small 40 min
-        '         XX         '
-        '        XXXX        '
-        '       XXXXXX       '
-        '      XXXXXXXX      '
-        '     XXXXXXXXXX     '
-        '    XXXXXXXXXXXX    '
-        '   XXXXXXXXXXXXXX   '
-        '  XXXXXXXXXXXXXXXX  '
-        ' XXXXXXXXXXXXXXXXXX '
-        'XXXXXXXXXXXXXXXXXXXX'
-
-        //  Diamond 20x20 - 30x30 probably
-        '         XX         '
-        '        XXXX        '
-        '       XXXXXX       '
-        '      XXXXXXXX      '
-        '     XXXXXXXXXX     '
-        '    XXXXXXXXXXXX    '
-        '   XXXXXXXXXXXXXX   '
-        '  XXXXXXXXXXXXXXXX  '
-        ' XXXXXXXXXXXXXXXXXX '
-        'XXXXXXXXXXXXXXXXXXXX'
-        'XXXXXXXXXXXXXXXXXXXX'
-        ' XXXXXXXXXXXXXXXXXX '
-        '  XXXXXXXXXXXXXXXX  '
-        '   XXXXXXXXXXXXXX   '
-        '    XXXXXXXXXXXX    '
-        '     XXXXXXXXXX     '
-        '      XXXXXXXX      '
-        '       XXXXXX       '
-        '        XXXX        '
-        '         XX         '
 
         '       XXXXXX       '
         '     XXXXXXXXXX     '
