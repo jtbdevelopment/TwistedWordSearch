@@ -41,13 +41,12 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                         ]
                 ),
                 new GameFeatureInfo(
-                        GameFeature.AverageWordLength,
+                        GameFeature.WordDifficulty,
                         [
-                                new GameFeatureInfo.Detail(GameFeature.AverageOf5),
-                                new GameFeatureInfo.Detail(GameFeature.AverageOf4),
-                                new GameFeatureInfo.Detail(GameFeature.AverageOf3),
-                                new GameFeatureInfo.Detail(GameFeature.AverageOf6),
-                                new GameFeatureInfo.Detail(GameFeature.AverageOf7),
+                                new GameFeatureInfo.Detail(GameFeature.BeginnerDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.ExperiencedDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.ExpertDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.ProfessionalDifficulty),
                         ]
                 ),
                 new GameFeatureInfo(

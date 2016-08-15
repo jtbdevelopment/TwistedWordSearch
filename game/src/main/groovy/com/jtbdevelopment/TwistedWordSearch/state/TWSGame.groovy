@@ -13,4 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = 'game')
 class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Grid grid
+    int words
+    int averageLength
 }

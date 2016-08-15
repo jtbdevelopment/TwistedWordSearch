@@ -28,12 +28,11 @@ enum GameFeature {
     JumbleOnFindNo(1, 'No', 'Puzzle not rearranged after finding a word.', JumbleOnFind),
     JumbleOnFindYes(2, 'Yes', 'Puzzle is re-jumbled after each word find.', JumbleOnFind),
 
-    AverageWordLength(4, GameFeatureGroupType.Difficulty, 'Word Length', 'Average word length.'),
-    AverageOf5(1, '5', 'Average word length to be near 5 letters.', AverageWordLength),
-    AverageOf4(2, '4', 'Average word length to be near 4 letters.', AverageWordLength),
-    AverageOf3(3, '3', 'Average word length to be near 3 letters.', AverageWordLength),
-    AverageOf6(4, '6', 'Average word length to be near 6 letters.', AverageWordLength),
-    AverageOf7(5, '7+', 'Average word length to be near 7+ letters.', AverageWordLength),
+    WordDifficulty(4, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
+    BeginnerDifficulty(1, 'Beginner', 'Easiest - Fewer and longer words.', WordDifficulty),
+    ExperiencedDifficulty(2, 'Experienced', 'Easier - More words that are a little shorter on average.', WordDifficulty),
+    ExpertDifficulty(3, 'Expert', 'Harder - Even more words that are a little shorter on average.', WordDifficulty),
+    ProfessionalDifficulty(4, 'Professional', 'Hardest - Most and shortest words.', WordDifficulty),
 
     FillDifficulty(5, GameFeatureGroupType.Difficulty, 'Fill Difficulty', 'How random are fill letters vs words?'),
     RandomFill(1, 'Random', 'Fill letters are random', FillDifficulty),
