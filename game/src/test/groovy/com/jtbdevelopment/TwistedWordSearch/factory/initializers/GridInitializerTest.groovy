@@ -49,13 +49,13 @@ class GridInitializerTest extends GroovyTestCase {
 
         game.features = [GameFeature.CircleX40] as Set
         initializer.initializeGame(game)
-        assert 40 == game.grid.rows
-        assert 40 == game.grid.columns
+        assert 41 == game.grid.rows
+        assert 41 == game.grid.columns
 
         game.features = [GameFeature.CircleX50] as Set
         initializer.initializeGame(game)
-        assert 50 == game.grid.rows
-        assert 50 == game.grid.columns
+        assert 51 == game.grid.rows
+        assert 51 == game.grid.columns
     }
 
 
