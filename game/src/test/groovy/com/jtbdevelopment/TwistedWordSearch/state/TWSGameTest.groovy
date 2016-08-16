@@ -8,6 +8,9 @@ class TWSGameTest extends GroovyTestCase {
     TWSGame game = new TWSGame()
 
     void testInitialize() {
-
+        assertNull game.grid
+        assert 0 == game.wordAverageLengthGoal
+        assert 0 == game.numberOfWords
+        assert 0 == game.usableSquares
     }
 }

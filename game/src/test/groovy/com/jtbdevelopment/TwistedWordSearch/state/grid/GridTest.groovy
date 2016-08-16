@@ -18,5 +18,15 @@ class GridTest extends GroovyTestCase {
                 }
         }
         assert expected == grid.gridCells
+        assert (9 * 11) == grid.usableSquares
+    }
+
+    void testGetUsableCellsAfterSettingSomeToSpace() {
+        Grid grid = new Grid(10, 12)
+        assert (10 * 12) == grid.usableSquares
+        grid.gridCells[0][1] = ' ' as char
+        grid.gridCells[5][6] = ' ' as char
+        grid.gridCells[7][0] = ' ' as char
+        assert (10 * 12) - 3 == grid.usableSquares
     }
 }

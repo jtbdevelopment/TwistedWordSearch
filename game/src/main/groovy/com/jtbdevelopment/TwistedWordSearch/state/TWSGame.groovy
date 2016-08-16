@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = 'game')
 class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Grid grid
-    int words
-    int averageLength
+    int numberOfWords
+    int wordAverageLengthGoal
+    int usableSquares // computation saver - should equal grid.getUsableSquares when done initializing
 }

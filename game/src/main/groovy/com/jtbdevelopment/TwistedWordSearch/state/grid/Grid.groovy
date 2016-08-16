@@ -25,4 +25,13 @@ class Grid {
         }
     }
 
+    public int getUsableSquares() {
+        (int) gridCells.collect {
+            row ->
+                row.findAll {
+                    cell ->
+                        cell != ' ' as char
+                }.size()
+        }.sum()
+    }
 }

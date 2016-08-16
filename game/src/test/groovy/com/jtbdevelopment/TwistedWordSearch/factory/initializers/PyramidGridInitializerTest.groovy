@@ -47,6 +47,6 @@ class PyramidGridInitializerTest extends GroovyTestCase {
     }
 
     void testGetOrder() {
-        assert GameInitializer.DEFAULT_ORDER == initializer.order
+        assert GameInitializer.EARLY_ORDER + 10 == initializer.order
     }
 }

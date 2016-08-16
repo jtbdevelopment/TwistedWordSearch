@@ -58,6 +58,6 @@ class DiamondGridInitializer implements GameInitializer<TWSGame> {
     }
 
     int getOrder() {
-        return DEFAULT_ORDER
+        return EARLY_ORDER + 10
     }
 }
