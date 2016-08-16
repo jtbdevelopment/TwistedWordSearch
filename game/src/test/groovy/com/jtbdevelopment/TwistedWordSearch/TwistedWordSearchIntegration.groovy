@@ -120,7 +120,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                                 GameFeature.Grid30X30,
                                 GameFeature.HideWordLettersNone,
                                 GameFeature.JumbleOnFindNo,
-                                GameFeature.AverageOf6,
+                                GameFeature.ExpertDifficulty,
                                 GameFeature.StrongOverlap,
                                 GameFeature.WordWrapYes,
                         ] as Set,
