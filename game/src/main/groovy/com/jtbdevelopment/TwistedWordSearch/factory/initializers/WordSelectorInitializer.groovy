@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class WordSelector implements GameInitializer<TWSGame> {
+class WordSelectorInitializer implements GameInitializer<TWSGame> {
 
     @Autowired
-    private BucketedUSEnglishDictionary dictionary
+    protected BucketedUSEnglishDictionary dictionary
 
     private static final Random random = new Random()
 
@@ -32,7 +32,7 @@ class WordSelector implements GameInitializer<TWSGame> {
 
             int range = upper - lower + 1
             int sizeChoice = random.nextInt(range) + lower
-            def wordBucket = dictionary.wordsByLength[sizeChoice]
+            def wordBucket = dictionary.getWordsByLength()[sizeChoice]
             words.add(wordBucket.get(random.nextInt(wordBucket.size())))
             currentAvg = (int) Math.round(
                     (float) ((float) words.collect {
@@ -40,6 +40,7 @@ class WordSelector implements GameInitializer<TWSGame> {
                     }.sum()) / words.size()
             )
         }
+        game.words = words
     }
 
     int getOrder() {

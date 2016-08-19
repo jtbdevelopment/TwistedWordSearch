@@ -16,7 +16,7 @@ class BucketedUSEnglishDictionary {
     @Autowired
     FilteredUSEnglishDictionary filteredUSEnglishDictionary
 
-    final HashMap<Integer, List<String>> wordsByLength = new HashMap<>();
+    private final Map<Integer, List<String>> wordsByLength = new HashMap<>();
 
     @PostConstruct
     public void setup() {
@@ -28,5 +28,9 @@ class BucketedUSEnglishDictionary {
                 }
                 wordsByLength[size].add(word)
         }
+    }
+
+    public Map<Integer, List<String>> getWordsByLength() {
+        return wordsByLength
     }
 }
