@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component
  * Date: 4/20/15
  * Time: 6:48 PM
  */
-//  TODO - make this validator part of starter base
 @Component
 @CompileStatic
 class OptionsValidator implements GameValidator<TWSGame> {

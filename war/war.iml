@@ -37,6 +37,15 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="game" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-dictionaries:1.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.multiverse:multiverse-core:0.7.0" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jsr166-mirror:jsr166y:1.7.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.3.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.1.7" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.1.7" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-mongo:1.4-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-jackson:1.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.5" level="project" />
@@ -45,18 +54,10 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.12.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:1.9.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.3.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.3.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:2.14.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.7.21" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.5" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.2.1" level="project" />
-    <orderEntry type="library" name="Maven: org.multiverse:multiverse-core:0.7.0" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jsr166-mirror:jsr166y:1.7.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.1.7" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.1.7" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-hazelcast:1.4-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-hazelcast:1.6" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring:1.6" level="project" />

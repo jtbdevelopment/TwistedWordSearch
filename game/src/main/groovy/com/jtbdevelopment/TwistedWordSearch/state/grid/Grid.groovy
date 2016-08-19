@@ -7,10 +7,10 @@ import groovy.transform.CompileStatic
  * Time: 5:00 PM
  */
 @CompileStatic
-class Grid {
+class Grid implements Serializable {
     int rows
     int columns
-    final char[][] gridCells
+    char[][] gridCells
 
     public Grid(int rows, int columns) {
         gridCells = new char[rows][columns]

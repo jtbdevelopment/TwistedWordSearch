@@ -7,6 +7,7 @@ import groovy.transform.CompileStatic
  * Time: 3:40 PM
  */
 @CompileStatic
+//  TODO - delete?
 class GridCell {
     final boolean active
     final char letter
