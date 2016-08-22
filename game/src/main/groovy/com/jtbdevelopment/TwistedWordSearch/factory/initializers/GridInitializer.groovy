@@ -41,30 +41,6 @@ class GridInitializer implements GameInitializer<TWSGame> {
     void initializeGame(final TWSGame game) {
         GameFeature gridType = game.features.find { it.group == GameFeature.Grid }
         game.grid = new Grid(GRID_ROWS[gridType], GRID_COLS[gridType])
-
-/*
-
-        '       XXXXXX       '
-        '     XXXXXXXXXX     '
-        '   XXXXXXXXXXXXXX   '
-        '  XXXXXXXXXXXXXXXX  '
-        '  XXXXXXXXXXXXXXXX  '
-        ' XXXXXXXXXXXXXXXXXX '
-        ' XXXXXXXXXXXXXXXXXX '
-        'XXXXXXXXXXXXXXXXXXXX'
-        'XXXXXXXXXXXXXXXXXXXX'
-        'XXXXXXXXXXXXXXXXXXXX'
-        'XXXXXXXXXXXXXXXXXXXX'
-        'XXXXXXXXXXXXXXXXXXXX'
-        'XXXXXXXXXXXXXXXXXXXX'
-        ' XXXXXXXXXXXXXXXXXX '
-        ' XXXXXXXXXXXXXXXXXX '
-        '  XXXXXXXXXXXXXXXX  '
-        '  XXXXXXXXXXXXXXXX  '
-        '   XXXXXXXXXXXXXX   '
-        '     XXXXXXXXXX     '
-        '       XXXXXX       '
-*/
     }
 
     int getOrder() {
