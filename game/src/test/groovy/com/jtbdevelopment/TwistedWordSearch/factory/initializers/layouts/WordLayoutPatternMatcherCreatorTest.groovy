@@ -92,7 +92,7 @@ class WordLayoutPatternMatcherCreatorTest extends GroovyTestCase {
             int row ->
                 (0..3).each {
                     col ->
-                        grid[row][col] = '?' as char
+                        grid[row][col] = ' ' as char
                 }
         }
         return grid

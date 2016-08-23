@@ -26,9 +26,9 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
 
     @SuppressWarnings("GrMethodMayBeStatic")
     private void fillCircle(final Grid grid) {
-        (1..grid.rows).each {
+        (0..grid.rowUpperBound).each {
             int row ->
-                char[] cells = grid.gridCells[row - 1]
+                char[] cells = grid.getGridRow(row)
                 int first = cells.findIndexOf {
                     it == '?' as char
                 }
@@ -43,11 +43,11 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
 
     @SuppressWarnings("GrMethodMayBeStatic")
     private void clearGrid(final Grid grid) {
-        (1..grid.rows).each {
+        (0..(grid.rowUpperBound)).each {
             int row ->
-                (1..grid.columns).each {
+                (0..grid.columnUpperBound).each {
                     int col ->
-                        grid.gridCells[row - 1][col - 1] = ' ' as char;
+                        grid.setGridCell(row, col, ' ' as char);
                 }
         }
     }
@@ -61,15 +61,16 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
         int x = radius
         int y = 0
         int err = 0
+        char q = '?' as char
         while (x >= y) {
-            setCell(grid, centerX + x, centerY + y)
-            setCell(grid, centerX + y, centerY + x)
-            setCell(grid, centerX - y, centerY + x)
-            setCell(grid, centerX - x, centerY + y)
-            setCell(grid, centerX - x, centerY - y)
-            setCell(grid, centerX - y, centerY - x)
-            setCell(grid, centerX + y, centerY - x)
-            setCell(grid, centerX + x, centerY - y)
+            grid.setGridCell(centerX + x, centerY + y, q)
+            grid.setGridCell(centerX + y, centerY + x, q)
+            grid.setGridCell(centerX - y, centerY + x, q)
+            grid.setGridCell(centerX - x, centerY + y, q)
+            grid.setGridCell(centerX - x, centerY - y, q)
+            grid.setGridCell(centerX - y, centerY - x, q)
+            grid.setGridCell(centerX + y, centerY - x, q)
+            grid.setGridCell(centerX + x, centerY - y, q)
 
             y += 1
             err += (1 + 2 * y)
@@ -78,11 +79,6 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
                 err += (1 - 2 * x)
             }
         }
-    }
-
-    @SuppressWarnings("GrMethodMayBeStatic")
-    private void setCell(final Grid grid, final int x, final int y) {
-        grid.gridCells[y][x] = '?' as char
     }
 
     int getOrder() {

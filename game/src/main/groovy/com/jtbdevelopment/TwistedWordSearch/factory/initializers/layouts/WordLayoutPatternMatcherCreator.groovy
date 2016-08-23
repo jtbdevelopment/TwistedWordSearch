@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers.layouts
 
+import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
 /**
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component
  * Time: 6:50 AM
  */
 @Component
+@CompileStatic
 class WordLayoutPatternMatcherCreator {
 
     @SuppressWarnings("GrMethodMayBeStatic")
@@ -38,7 +40,7 @@ class WordLayoutPatternMatcherCreator {
                     int r ->
                         (0..(size - 1)).each {
                             int c ->
-                                cells[r][c] = '?' as char
+                                cells[r][c] = ' ' as char
                         }
                 }
                 switch (layout) {

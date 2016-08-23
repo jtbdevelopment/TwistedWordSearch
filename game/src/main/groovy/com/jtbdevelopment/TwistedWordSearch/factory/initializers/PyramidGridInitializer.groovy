@@ -26,17 +26,18 @@ class PyramidGridInitializer implements GameInitializer<TWSGame> {
 //    'XXXXXXXXXXXXXXXXXXXX'
     void initializeGame(final TWSGame game) {
         GameFeature gridType = game.features.find { it.group == GameFeature.Grid }
+        char space = ' ' as char
         if (gridType.toString().startsWith("Pyramid")) {
             int halfColumns = (int) (game.grid.columns / 2)
-            (0..(game.grid.rows - 1)).each {
+            (0..game.grid.rowUpperBound).each {
                 int row ->
                     int splits = halfColumns - row - 1
                     if (splits > 0) {
                         (0..(splits - 1)).each {
                             int split ->
-                                def mirrorColumn = (game.grid.columns - 1) - split
-                                game.grid.gridCells[row][mirrorColumn] = ' ' as char
-                                game.grid.gridCells[row][split] = ' ' as char
+                                def mirrorColumn = game.grid.columnUpperBound - split
+                                game.grid.setGridCell(row, mirrorColumn, space)
+                                game.grid.setGridCell(row, split, space)
                         }
                     }
             }

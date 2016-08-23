@@ -9,6 +9,8 @@ class GridTest extends GroovyTestCase {
         Grid grid = new Grid(9, 11)
         assert 9 == grid.rows
         assert 11 == grid.columns
+        assert 8 == grid.rowUpperBound
+        assert 10 == grid.columnUpperBound
         char[][] expected = new char[9][11]
         (0..8).each {
             int row ->
@@ -17,16 +19,24 @@ class GridTest extends GroovyTestCase {
                         expected[row][col] = '?' as char
                 }
         }
-        assert expected == grid.gridCells
+
+        (0..grid.rowUpperBound).each {
+            int row ->
+                assert '???????????' == grid.getGridRow(row).toString()
+        }
         assert (9 * 11) == grid.usableSquares
+        assert '?' as char == grid.getGridCell(1, 1)
+        assert '?' as char == grid.getGridCell(new GridCoordinate(1, 3))
     }
 
     void testGetUsableCellsAfterSettingSomeToSpace() {
+        char space = ' ' as char
         Grid grid = new Grid(10, 12)
         assert (10 * 12) == grid.usableSquares
-        grid.gridCells[0][1] = ' ' as char
-        grid.gridCells[5][6] = ' ' as char
-        grid.gridCells[7][0] = ' ' as char
+        grid.setGridCell(0, 1, space)
+        assert space == grid.getGridCell(0, 1)
+        grid.setGridCell(5, 6, space)
+        grid.setGridCell(7, 0, space)
         assert (10 * 12) - 3 == grid.usableSquares
     }
 }
