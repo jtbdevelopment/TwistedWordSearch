@@ -30,13 +30,13 @@ class GridTest extends GroovyTestCase {
     }
 
     void testGetUsableCellsAfterSettingSomeToSpace() {
-        char space = ' ' as char
         Grid grid = new Grid(10, 12)
         assert (10 * 12) == grid.usableSquares
-        grid.setGridCell(0, 1, space)
-        assert space == grid.getGridCell(0, 1)
-        grid.setGridCell(5, 6, space)
-        grid.setGridCell(7, 0, space)
+        grid.setGridCell(0, 1, Grid.SPACE)
+        assert Grid.SPACE == grid.getGridCell(0, 1)
+        grid.setGridCell(new GridCoordinate(5, 6), Grid.SPACE)
+        assert Grid.SPACE == grid.getGridCell(5, 6)
+        grid.setGridCell(7, 0, Grid.SPACE)
         assert (10 * 12) - 3 == grid.usableSquares
     }
 }

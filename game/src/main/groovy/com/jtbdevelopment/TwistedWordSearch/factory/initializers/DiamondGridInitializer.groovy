@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedWordSearch.factory.initializers
 
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.games.factory.GameInitializer
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -36,7 +37,6 @@ class DiamondGridInitializer implements GameInitializer<TWSGame> {
 //    '         XX         '
     void initializeGame(final TWSGame game) {
         GameFeature gridType = game.features.find { it.group == GameFeature.Grid }
-        char space = ' ' as char
         if (gridType.toString().startsWith("Diamond")) {
             int halfColumns = (int) (game.grid.columns / 2)
             int halfRows = (int) (game.grid.columns / 2)
@@ -48,10 +48,10 @@ class DiamondGridInitializer implements GameInitializer<TWSGame> {
                         (0..(splits - 1)).each {
                             int split ->
                                 def mirrorColumn = game.grid.columnUpperBound - split
-                                game.grid.setGridCell(row, mirrorColumn, space)
-                                game.grid.setGridCell(row, split, space)
-                                game.grid.setGridCell(mirrorRow, mirrorColumn, space)
-                                game.grid.setGridCell(mirrorRow, split, space)
+                                game.grid.setGridCell(row, mirrorColumn, Grid.SPACE)
+                                game.grid.setGridCell(row, split, Grid.SPACE)
+                                game.grid.setGridCell(mirrorRow, mirrorColumn, Grid.SPACE)
+                                game.grid.setGridCell(mirrorRow, split, Grid.SPACE)
                         }
                     }
             }

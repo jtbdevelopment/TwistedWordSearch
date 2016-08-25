@@ -8,6 +8,9 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class Grid implements Serializable {
+    public static char SPACE = ' ' as char;
+    public static char QUESTION_MARK = '?' as char
+
     final int rows
     final int columns
     private final char[][] gridCells
@@ -20,7 +23,7 @@ class Grid implements Serializable {
             int row ->
                 (0..(columns - 1)).each {
                     int col ->
-                        gridCells[row][col] = '?' as char
+                        gridCells[row][col] = QUESTION_MARK
                 }
         }
     }
@@ -35,6 +38,10 @@ class Grid implements Serializable {
 
     public char[] getGridRow(final int row) {
         return gridCells[row]
+    }
+
+    public char setGridCell(final GridCoordinate coordinate, char letter) {
+        gridCells[coordinate.row][coordinate.column] = letter
     }
 
     public char setGridCell(final int row, final int column, char letter) {
@@ -54,7 +61,7 @@ class Grid implements Serializable {
             row ->
                 row.findAll {
                     cell ->
-                        cell != ' ' as char
+                        cell != SPACE
                 }.size()
         }.sum()
     }

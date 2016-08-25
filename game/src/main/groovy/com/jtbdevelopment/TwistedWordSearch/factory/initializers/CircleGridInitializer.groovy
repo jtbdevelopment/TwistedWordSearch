@@ -30,13 +30,13 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
             int row ->
                 char[] cells = grid.getGridRow(row)
                 int first = cells.findIndexOf {
-                    it == '?' as char
+                    it == Grid.QUESTION_MARK
                 }
                 int last = cells.findLastIndexOf {
-                    it == '?' as char
+                    it == Grid.QUESTION_MARK
                 }
                 (first..last).each {
-                    cells[it] = '?' as char
+                    cells[it] = Grid.QUESTION_MARK
                 }
         }
     }
@@ -47,7 +47,7 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
             int row ->
                 (0..grid.columnUpperBound).each {
                     int col ->
-                        grid.setGridCell(row, col, ' ' as char);
+                        grid.setGridCell(row, col, Grid.SPACE);
                 }
         }
     }
@@ -61,7 +61,7 @@ class CircleGridInitializer implements GameInitializer<TWSGame> {
         int x = radius
         int y = 0
         int err = 0
-        char q = '?' as char
+        char q = Grid.QUESTION_MARK
         while (x >= y) {
             grid.setGridCell(centerX + x, centerY + y, q)
             grid.setGridCell(centerX + y, centerY + x, q)
