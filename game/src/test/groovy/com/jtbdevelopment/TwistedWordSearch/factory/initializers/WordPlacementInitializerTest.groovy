@@ -14,16 +14,18 @@ import com.jtbdevelopment.games.factory.GameInitializer
 class WordPlacementInitializerTest extends GroovyTestCase {
     WordPlacementInitializer initializer = new WordPlacementInitializer()
 
+    CircleGridInitializer circleGridInitializer = new CircleGridInitializer()
     void testInitializeGame() {
-        TWSGame game = new TWSGame(features: [GameFeature.WordWrapYes])
-        game.grid = new Grid(3, 3)
+        TWSGame game = new TWSGame(features: [GameFeature.WordWrapYes, GameFeature.CircleX50])
+        game.grid = new Grid(9, 9)
         game.words = ['ONE']
 
         initializer.randomLayoutPicker = [
                 getRandomLayout: {
-                    return WordLayout.VerticalDown
+                    return WordLayout.SlopingDownForward
                 }
         ] as RandomLayoutPicker
+        circleGridInitializer.initializeGame(game)
         initializer.initializeGame(game)
 
         (0..game.grid.rowUpperBound).each {

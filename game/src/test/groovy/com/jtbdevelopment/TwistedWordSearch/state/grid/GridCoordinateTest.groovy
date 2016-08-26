@@ -5,6 +5,21 @@ package com.jtbdevelopment.TwistedWordSearch.state.grid
  * Time: 6:58 AM
  */
 class GridCoordinateTest extends GroovyTestCase {
+
+    void testGetSetCoordinates() {
+        GridCoordinate coordinate = new GridCoordinate(30, 17)
+        assert 30 == coordinate.row
+        assert 17 == coordinate.column
+
+        coordinate.row = 25
+        assert 25 == coordinate.row
+        assert 17 == coordinate.column
+
+        coordinate.column = 5
+        assert 25 == coordinate.row
+        assert 5 == coordinate.column
+    }
+
     void testEquals() {
         assert new GridCoordinate(15, 22) == new GridCoordinate(15, 22)
         assert new GridCoordinate(17, 4) == new GridCoordinate(17, 4)

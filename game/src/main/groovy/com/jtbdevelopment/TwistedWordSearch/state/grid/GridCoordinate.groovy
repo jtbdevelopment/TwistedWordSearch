@@ -8,8 +8,8 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class GridCoordinate {
-    final int row
-    final int column
+    int row
+    int column
 
     public GridCoordinate(final int row, final int column) {
         this.row = row

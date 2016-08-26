@@ -19,9 +19,9 @@ class Grid implements Serializable {
         gridCells = new char[rows][columns]
         this.rows = rows
         this.columns = columns
-        (0..(rows - 1)).each {
+        (0..rowUpperBound).each {
             int row ->
-                (0..(columns - 1)).each {
+                (0..columnUpperBound).each {
                     int col ->
                         gridCells[row][col] = QUESTION_MARK
                 }
@@ -34,6 +34,18 @@ class Grid implements Serializable {
 
     public int getColumnUpperBound() {
         return columns - 1
+    }
+
+    public void resetGridLetters() {
+        (0..rowUpperBound).each {
+            int row ->
+                (0..columnUpperBound).each {
+                    int col ->
+                        if (gridCells[row][col] != SPACE) {
+                            gridCells[row][col] = QUESTION_MARK
+                        }
+                }
+        }
     }
 
     public char[] getGridRow(final int row) {

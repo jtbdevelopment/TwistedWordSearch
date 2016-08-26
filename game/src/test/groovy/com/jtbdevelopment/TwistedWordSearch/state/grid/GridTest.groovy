@@ -39,4 +39,23 @@ class GridTest extends GroovyTestCase {
         grid.setGridCell(7, 0, Grid.SPACE)
         assert (10 * 12) - 3 == grid.usableSquares
     }
+
+    void testResetGridLetters() {
+        Grid grid = new Grid(10, 12)
+        grid.setGridCell(7, 0, Grid.SPACE)
+        grid.setGridCell(0, 1, Grid.SPACE)
+        grid.setGridCell(3, 3, 'X' as char)
+        grid.setGridCell(4, 4, 'X' as char)
+
+        assert Grid.SPACE == grid.getGridCell(0, 1)
+        assert Grid.SPACE == grid.getGridCell(7, 0)
+        assert 'X' as char == grid.getGridCell(3, 3)
+        assert 'X' as char == grid.getGridCell(4, 4)
+
+        grid.resetGridLetters()
+        assert Grid.SPACE == grid.getGridCell(0, 1)
+        assert Grid.SPACE == grid.getGridCell(7, 0)
+        assert Grid.QUESTION_MARK == grid.getGridCell(3, 3)
+        assert Grid.QUESTION_MARK == grid.getGridCell(4, 4)
+    }
 }
