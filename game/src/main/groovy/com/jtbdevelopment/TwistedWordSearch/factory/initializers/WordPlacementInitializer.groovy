@@ -87,7 +87,7 @@ class WordPlacementInitializer implements GameInitializer<TWSGame> {
                                         gridRow + (index * perLetterRowAdjustment) + wrapAdjustment.row,
                                         gridCol + (index * perLetterColAdjustment) + wrapAdjustment.column)
                                 if (!validGridCell(game, nextCoordinate)) {
-                                    if (allowWordWrap && wrapAdjustment.row == 0 || wrapAdjustment.column == 0) {
+                                    if (allowWordWrap && wrapAdjustment.row == 0 && wrapAdjustment.column == 0) {
                                         performWrap(game, wrapAdjustment, nextCoordinate)
                                     } else {
                                         return

@@ -33,7 +33,7 @@ class WordSelectorInitializer implements GameInitializer<TWSGame> {
             int range = upper - lower + 1
             int sizeChoice = random.nextInt(range) + lower
             def wordBucket = dictionary.getWordsByLength()[sizeChoice]
-            words.add(wordBucket.get(random.nextInt(wordBucket.size())))
+            words.add(wordBucket.get(random.nextInt(wordBucket.size())).toUpperCase())
             currentAvg = (int) Math.round(
                     (float) ((float) words.collect {
                         it.size()

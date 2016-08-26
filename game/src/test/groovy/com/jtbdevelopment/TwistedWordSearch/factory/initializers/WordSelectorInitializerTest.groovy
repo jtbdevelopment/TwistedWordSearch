@@ -30,21 +30,21 @@ class WordSelectorInitializerTest extends GroovyTestCase {
         initializer.dictionary = dictionary
         TWSGame game = new TWSGame(wordAverageLengthGoal: 5, numberOfWords: 2)
         Set<Set<String>> validCombos = [
-                ['four', 'forgets'] as Set,
-                ['of', 'forgets'] as Set,
-                ['forged', 'one'] as Set,
-                ['fired', 'one'] as Set,
-                ['fired', 'forged'] as Set,
-                ['one', 'doctoring'] as Set,
-                ['at', 'forgets'] as Set,
-                ['fired', 'four'] as Set,
-                ['forged', 'of'] as Set,
-                ['forged', 'four'] as Set,
-                ['forged', 'at'] as Set,
-                ['one', 'forgets'] as Set,
-                ['doctored', 'one'] as Set,
-                ['doctored', 'four'] as Set,
-                ['fired', 'forgets'] as Set,
+                ['FOUR', 'FORGETS'] as Set,
+                ['OF', 'FORGETS'] as Set,
+                ['FORGED', 'ONE'] as Set,
+                ['FIRED', 'ONE'] as Set,
+                ['FIRED', 'FORGED'] as Set,
+                ['ONE', 'DOCTORING'] as Set,
+                ['AT', 'FORGETS'] as Set,
+                ['FIRED', 'FOUR'] as Set,
+                ['FORGED', 'OF'] as Set,
+                ['FORGED', 'FOUR'] as Set,
+                ['FORGED', 'AT'] as Set,
+                ['ONE', 'FORGETS'] as Set,
+                ['DOCTORED', 'ONE'] as Set,
+                ['DOCTORED', 'FOUR'] as Set,
+                ['FIRED', 'FORGETS'] as Set,
         ] as Set
         initializer.initializeGame(game)
         assertNotNull game.words
