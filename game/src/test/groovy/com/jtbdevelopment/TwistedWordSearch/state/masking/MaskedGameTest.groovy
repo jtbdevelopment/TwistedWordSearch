@@ -8,6 +8,8 @@ class MaskedGameTest extends GroovyTestCase {
     MaskedGame game = new MaskedGame()
 
     void testInitialize() {
-
+        assertNull game.grid
+        assertNull game.wordsToFind
+        assertNull game.wordsFoundByPlayer
     }
 }
