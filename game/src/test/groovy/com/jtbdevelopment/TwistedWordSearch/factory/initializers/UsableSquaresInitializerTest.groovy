@@ -14,9 +14,9 @@ class UsableSquaresInitializerTest extends GroovyTestCase {
     void testInitializeGame() {
         TWSGame game = new TWSGame()
         game.grid = new Grid(10, 10)
-        game.grid.gridCells[0][0] = ' ' as char
-        game.grid.gridCells[7][5] = ' ' as char
-        assert 98 == game.grid.usableSquares
+        game.grid.setGridCell(0, 0, Grid.SPACE)
+        game.grid.setGridCell(7, 5, Grid.SPACE)
+        assert 98 == game.grid.usableSquaresCount
         assert 0 == game.usableSquares
 
         initializer.initializeGame(game)

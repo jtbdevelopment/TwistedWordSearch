@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 class UsableSquaresInitializer implements GameInitializer<TWSGame> {
     void initializeGame(final TWSGame game) {
-        game.usableSquares = game.grid.usableSquares
+        game.usableSquares = game.grid.usableSquaresCount
     }
 
     int getOrder() {

@@ -68,12 +68,22 @@ class Grid implements Serializable {
         return gridCells[coordinate.row][coordinate.column]
     }
 
-    public int getUsableSquares() {
+    public int getUsableSquaresCount() {
         (int) gridCells.collect {
             row ->
                 row.findAll {
                     cell ->
                         cell != SPACE
+                }.size()
+        }.sum()
+    }
+
+    public int getQuestionMarkSquaresCount() {
+        (int) gridCells.collect {
+            row ->
+                row.findAll {
+                    cell ->
+                        cell == QUESTION_MARK
                 }.size()
         }.sum()
     }

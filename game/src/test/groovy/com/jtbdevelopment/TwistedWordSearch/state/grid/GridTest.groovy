@@ -24,20 +24,20 @@ class GridTest extends GroovyTestCase {
             int row ->
                 assert '???????????' == grid.getGridRow(row).toString()
         }
-        assert (9 * 11) == grid.usableSquares
+        assert (9 * 11) == grid.usableSquaresCount
         assert '?' as char == grid.getGridCell(1, 1)
         assert '?' as char == grid.getGridCell(new GridCoordinate(1, 3))
     }
 
     void testGetUsableCellsAfterSettingSomeToSpace() {
         Grid grid = new Grid(10, 12)
-        assert (10 * 12) == grid.usableSquares
+        assert (10 * 12) == grid.usableSquaresCount
         grid.setGridCell(0, 1, Grid.SPACE)
         assert Grid.SPACE == grid.getGridCell(0, 1)
         grid.setGridCell(new GridCoordinate(5, 6), Grid.SPACE)
         assert Grid.SPACE == grid.getGridCell(5, 6)
         grid.setGridCell(7, 0, Grid.SPACE)
-        assert (10 * 12) - 3 == grid.usableSquares
+        assert (10 * 12) - 3 == grid.usableSquaresCount
     }
 
     void testResetGridLetters() {

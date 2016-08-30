@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component
 @CompileStatic
 abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGame> {
     private static final Logger logger = LoggerFactory.getLogger(AbstractWordPlacementInitializer.class)
-    private Random random = new Random()
+    protected Random random = new Random()
 
     @Autowired
     RandomLayoutPicker randomLayoutPicker

@@ -15,7 +15,7 @@ class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Grid grid
     int numberOfWords
     int wordAverageLengthGoal
-    int usableSquares // computation saver - should equal grid.getUsableSquares when done initializing
+    int usableSquares // computation saver - should equal grid.getUsableSquaresCount when done initializing
 
     Set<String> words
 }
