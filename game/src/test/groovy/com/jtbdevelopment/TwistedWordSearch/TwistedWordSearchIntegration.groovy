@@ -110,7 +110,6 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         ]
     }
 
-    //  TODO - doesn't do much yet
     @Test
     void testCreateNewGame() {
         def P3 = createPlayerAPITarget(TEST_PLAYER3)
@@ -127,6 +126,23 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                         players: [TEST_PLAYER3.md5],
                 ))
         assert game
+        assert [(TEST_PLAYER3.md5): TEST_PLAYER3.displayName] == game.players
+        assert null != game.grid
+        assert 0 < game.wordsToFind.size()
+        assert [(TEST_PLAYER3.md5): [] as Set] == game.wordsFoundByPlayer
+        (1..game.grid.length).each {
+            int row ->
+                (1..game.grid.length).each {
+                    int col ->
+                        def cell = game.grid[row - 1][col - 1]
+                        assert cell >= ('A' as char) && cell <= ('Z' as char)
+                }
+        }
+    }
+
+    @Override
+    void testGetMultiplayerGames() {
+        //  TODO - base method needs work to be more useful
     }
 
     protected MaskedGame newGame(WebTarget target, FeaturesAndPlayers featuresAndPlayers) {

@@ -35,7 +35,7 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
 
         TWSGame twsGame = (TWSGame) game
         MaskedGame twsMaskedGame = (MaskedGame) playerMaskedGame
-        twsMaskedGame.grid = twsGame.grid
+        twsMaskedGame.grid = twsGame.grid.gridCells
         twsMaskedGame.wordsToFind = twsGame.wordsToFind
     }
 

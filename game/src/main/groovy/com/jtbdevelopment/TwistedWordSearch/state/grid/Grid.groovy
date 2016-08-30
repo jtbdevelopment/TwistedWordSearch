@@ -13,7 +13,7 @@ class Grid implements Serializable {
 
     final int rows
     final int columns
-    private final char[][] gridCells
+    final char[][] gridCells
 
     public Grid(int rows, int columns) {
         gridCells = new char[rows][columns]

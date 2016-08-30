@@ -47,7 +47,7 @@ class RandomFillInitializerTest extends GroovyTestCase {
         def (Set<Character> wordLetters, Map<Character, Integer> counts) = testGame(game)
 
         // average shold be around 384
-        assert 0 == counts.findAll { it.value > 450 }.size()
+        assert 0 == counts.findAll { it.value > 460 }.size()
     }
 
     void testInitializeGameWordChunks() {
@@ -56,7 +56,7 @@ class RandomFillInitializerTest extends GroovyTestCase {
         def (Set<Character> wordLetters, Map<Character, Integer> counts) = testGame(game)
 
         // average shold be around 384
-        assert 0 == counts.findAll { it.value > 450 }.size()
+        assert 0 == counts.findAll { it.value > 460 }.size()
     }
 
     void testInitializeGameSomeOverlap() {

@@ -28,7 +28,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
         ]
 
         MaskedGame masked = masker.maskGameForPlayer(game, PONE)
-        assert masked.grid.is(game.grid)
+        assert masked.grid.is(game.grid.gridCells)
         assert game.wordsToFind == masked.wordsToFind
         assert [(PONE.md5): ['I', 'FOUND', 'THESE'] as Set, (PFOUR.md5): [] as Set] == masked.wordsFoundByPlayer
 
