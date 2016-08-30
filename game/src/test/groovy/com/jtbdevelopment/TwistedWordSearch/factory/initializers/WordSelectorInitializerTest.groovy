@@ -49,6 +49,7 @@ class WordSelectorInitializerTest extends GroovyTestCase {
         initializer.initializeGame(game)
         assertNotNull game.words
         assert validCombos.contains(game.words)
+        assert game.words == game.wordsToFind
 
     }
 

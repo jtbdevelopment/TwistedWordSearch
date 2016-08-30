@@ -41,6 +41,7 @@ class WordSelectorInitializer implements GameInitializer<TWSGame> {
             )
         }
         game.words = words
+        game.wordsToFind = words
     }
 
     int getOrder() {

@@ -12,5 +12,8 @@ class TWSGameTest extends GroovyTestCase {
         assert 0 == game.wordAverageLengthGoal
         assert 0 == game.numberOfWords
         assert 0 == game.usableSquares
+        assertNull game.words
+        assertNull game.wordsToFind
+        assertNull game.wordsFoundByPlayer
     }
 }
