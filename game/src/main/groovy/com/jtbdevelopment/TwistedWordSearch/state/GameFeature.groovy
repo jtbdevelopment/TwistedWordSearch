@@ -24,6 +24,7 @@ enum GameFeature {
     WordWrapYes(1, 'Yes', 'Allows words to wrap around edges.', WordWrap),
     WordWrapNo(2, 'No', 'Prevents words from wrapping around edges.', WordWrap),
 
+    //  TODO - implement
     JumbleOnFind(3, GameFeatureGroupType.Difficulty, 'Jumble', 'Finding a word causes the puzzle to re-jumble remaining letters.'),
     JumbleOnFindNo(1, 'No', 'Puzzle not rearranged after finding a word.', JumbleOnFind),
     JumbleOnFindYes(2, 'Yes', 'Puzzle is re-jumbled after each word find.', JumbleOnFind),
@@ -40,6 +41,7 @@ enum GameFeature {
     StrongOverlap(3, 'Word Letters', 'Fill letters will fill mostly with letters from words', FillDifficulty),
     WordChunks(4, 'Word Chunks', 'Fill with chunks of words.', FillDifficulty),
 
+    //  TODO - implement
     HideWordLetters(6, GameFeatureGroupType.Difficulty, 'Partial words.', 'Hide some of the letters in the words to find.'),
     HideWordLettersNone(1, 'None', 'Words to find are shown completely.', HideWordLetters),
     HideWordLettersSome(2, 'Some', 'Words to find show more than 75% of their letters.', HideWordLetters),
