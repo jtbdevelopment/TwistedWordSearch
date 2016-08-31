@@ -1,0 +1,55 @@
+<div class="play-game">
+    <!--  TODO - offer bigger/smaller text -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-1 col-xs-offset-2">
+                <button type="button" class="btn btn-default" ng-click="play.shiftLeft()">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                <button type="button" class="btn btn-default" ng-click="play.shiftUp()">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                <button type="button" class="btn btn-default" ng-click="play.shiftDown()">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                <button type="button" class="btn btn-default" ng-click="play.shiftRight()">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                <table class="table table-condensed table-bordered table-responsive player-grid">
+                    <tr class="text-center" ng-repeat="row in play.grid track by $index">
+                        <td ng-repeat="cell in row track by $index">{{cell}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-default words-left">
+                    <div class="panel-heading">
+                        <h4>Words Left To Find - {{play.game.wordsToFind.length}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <span ng-repeat="word in play.game.wordsToFind">{{word}} </span>
+                    </div>
+                </div>
+                <!--  TODO - show color for player here?  -->
+                <div class="panel panel-default words-found" ng-repeat="(id, name) in play.game.players">
+                    <div class="panel-heading">
+                        <h4>Words Found By {{name}} - {{play.game.wordsFoundByPlayer[id].length}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <span ng-repeat="word in play.game.wordsFoundByPlayer[id]">{{word}} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

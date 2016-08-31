@@ -29,8 +29,8 @@ class GameMaskerTest extends MongoGameCoreTestCase {
 
         MaskedGame masked = masker.maskGameForPlayer(game, PONE)
         assert masked.grid.is(game.grid.gridCells)
-        assert game.wordsToFind == masked.wordsToFind
-        assert [(PONE.md5): ['I', 'FOUND', 'THESE'] as Set, (PFOUR.md5): [] as Set] == masked.wordsFoundByPlayer
+        assert game.wordsToFind == new TreeSet(masked.wordsToFind)
+        assert [(PONE.md5): new TreeSet(['I', 'FOUND', 'THESE'] as Set), (PFOUR.md5): [] as Set] == masked.wordsFoundByPlayer
 
         //  Minor proofs that overridden methods called base implementations
         assert [(PONE.md5): PONE.displayName, (PFOUR.md5): PFOUR.displayName] == masked.players

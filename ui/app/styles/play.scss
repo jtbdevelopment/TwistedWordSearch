@@ -1,0 +1,13 @@
+.play-game {
+  .player-grid {
+    width: auto;
+    padding: 1px;
+    font-size: 11px;
+    tr {
+      padding: 0;
+      td {
+        padding: 5px;
+      }
+    }
+  }
+}

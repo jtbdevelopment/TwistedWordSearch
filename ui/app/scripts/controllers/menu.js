@@ -1,12 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name twsUI.controller:MenuCtrl
- * @description
- * # MenuCtrl
- * Controller of the twsUI
- */
 angular.module('twsUI').controller('MenuCtrl',
     ['$scope', 'jtbGameCache', 'jtbGamePhaseService',
         function ($scope, jtbGameCache, jtbGamePhaseService) {

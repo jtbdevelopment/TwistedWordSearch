@@ -83,6 +83,7 @@ angular
                 controller: 'PlayerListCtrl',
                 controllerAs: 'list'
             })
+            //  TODO - review
             .when('/game/roundover/:gameID', {
                 templateUrl: 'views/phases/playerList.html',
                 controller: 'PlayerListCtrl',
@@ -93,12 +94,12 @@ angular
                 controller: 'PlayerListCtrl',
                 controllerAs: 'list'
             })
+            .when('/game/playing/:gameID', {
+                templateUrl: 'views/phases/play.html',
+                controller: 'PlayCtrl',
+                controllerAs: 'play'
+            })
             //  TODO
-            // .when('/game/playing/:gameID', {
-            //     templateUrl: 'views/phases/play.html',
-            //     controller: 'PlayCtrl',
-            //     controllerAs: 'play'
-            // })
             // .when('/game/setup/:gameID', {
             //     templateUrl: 'views/phases/setup.html',
             //     controller: 'SetupCtrl',

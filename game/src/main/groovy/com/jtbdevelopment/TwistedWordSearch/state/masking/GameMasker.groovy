@@ -36,7 +36,7 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
         TWSGame twsGame = (TWSGame) game
         MaskedGame twsMaskedGame = (MaskedGame) playerMaskedGame
         twsMaskedGame.grid = twsGame.grid.gridCells
-        twsMaskedGame.wordsToFind = twsGame.wordsToFind
+        twsMaskedGame.wordsToFind = new TreeSet<>(twsGame.wordsToFind)
     }
 
     @Override
@@ -50,7 +50,7 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
         TWSGame twsGame = (TWSGame) game
         MaskedGame twsMaskedGame = (MaskedGame) playerMaskedGame
         twsMaskedGame.wordsFoundByPlayer = game.players.collectEntries {
-            [(it.md5): twsGame.wordsFoundByPlayer[it.id]]
+            [(it.md5): new TreeSet(twsGame.wordsFoundByPlayer[it.id])]
         }
     }
 }
