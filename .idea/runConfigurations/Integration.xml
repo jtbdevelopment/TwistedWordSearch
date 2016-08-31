@@ -25,8 +25,6 @@
     <patterns>
       <pattern testClass="com.jtbdevelopment.TwistedWordSearch.*Integration*" />
     </patterns>
-    <method>
-      <option name="Make" enabled="false" />
-    </method>
+    <method />
   </configuration>
 </component>

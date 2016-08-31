@@ -13,7 +13,7 @@
              uib-collapse="menu.phaseCollapsed[phase]">
             <div class="btn-group-vertical btn-group-games">
                 <a ng-repeat="game in menu.games[phase] track by game.id"
-                   href="#/game/{{game.gamePhase.toLowerCase()}}/{{game.id}}"
+                   ng-href="#/game/{{game.gamePhase.toLowerCase()}}/{{game.id}}"
                    class="btn-group btn btn-default btn-group-game btn-group-game-{{phase}}">
                     <img ng-src="{{game.playerImages[md5]}}" class="playerImage"
                          ng-repeat="(md5, name) in game.players">
