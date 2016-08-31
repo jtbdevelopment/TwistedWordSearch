@@ -2,8 +2,8 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService',
-        function ($http, jtbGameFeatureService, jtbGameCache, jtbPlayerService) {
+        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService',
+        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService) {
             var controller = this;
 
             controller.features = {};
@@ -50,7 +50,9 @@ angular.module('twsUI').controller('CreateGameCtrl',
                 var playersAndFeatures = {'players': [], 'features': featureSet};
                 $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).then(
                     function (response) {
-                        jtbGameCache.putUpdatedGame(response.data);
+                        var game = response.data;
+                        jtbGameCache.putUpdatedGame(game);
+                        $location.path('/game/' + game.gamePhase.toLowerCase() + '/' + game.id);
                     },
                     function (error) {
                         console.log(JSON.stringify(error));

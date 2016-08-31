@@ -6,7 +6,7 @@ describe('Controller: CreateGameCtrl', function () {
     beforeEach(module('twsUI'));
 
     var CreateGameCtrl;
-    var $http, $q, $rootScope;
+    var $http, $q, $rootScope, $location;
     var expectedBaseURL = 'http://myserver.com/something/x';
     var jtbPlayerService = {
         currentPlayerBaseURL: function () {
@@ -97,8 +97,12 @@ describe('Controller: CreateGameCtrl', function () {
     beforeEach(inject(function ($controller, $httpBackend, _$q_, _$rootScope_) {
         $http = $httpBackend;
         $q = _$q_;
+        $location = {
+            path: jasmine.createSpy()
+        };
         $rootScope = _$rootScope_;
         CreateGameCtrl = $controller('CreateGameCtrl', {
+            $location: $location,
             jtbPlayerService: jtbPlayerService,
             jtbGameCache: jtbGameCache,
             jtbGameFeatureService: jtbGameFeatures
@@ -183,7 +187,7 @@ describe('Controller: CreateGameCtrl', function () {
             'Feature3': 'Feature3Option1'
         });
 
-        var returnedGame = {id: 'NewGame', x: 1};
+        var returnedGame = {id: 'NewGame', x: 1, gamePhase: 'Phase'};
         $http.expectPOST(expectedBaseURL + '/new', {
             'players': [],
             'features': ['Feature1Option2', 'Feature2Option3', 'Feature3Option1']
@@ -192,5 +196,6 @@ describe('Controller: CreateGameCtrl', function () {
         CreateGameCtrl.createGame();
         $http.flush();
         expect(jtbGameCache.putUpdatedGame).toHaveBeenCalledWith(returnedGame);
+        expect($location.path).toHaveBeenCalledWith('/game/phase/NewGame');
     });
 });
