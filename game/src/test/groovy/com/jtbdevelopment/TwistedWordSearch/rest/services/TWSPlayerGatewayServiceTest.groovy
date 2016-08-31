@@ -15,13 +15,16 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                 new GameFeatureInfo(
                         GameFeature.Grid,
                         [
+                                new GameFeatureInfo.Detail(GameFeature.Grid20X20),
                                 new GameFeatureInfo.Detail(GameFeature.Grid30X30),
                                 new GameFeatureInfo.Detail(GameFeature.Grid40X40),
                                 new GameFeatureInfo.Detail(GameFeature.Grid50X50),
+                                new GameFeatureInfo.Detail(GameFeature.CircleX30),
                                 new GameFeatureInfo.Detail(GameFeature.CircleX40),
                                 new GameFeatureInfo.Detail(GameFeature.CircleX50),
                                 new GameFeatureInfo.Detail(GameFeature.PyramidX40),
                                 new GameFeatureInfo.Detail(GameFeature.PyramidX50),
+                                new GameFeatureInfo.Detail(GameFeature.Diamond30x30),
                                 new GameFeatureInfo.Detail(GameFeature.Diamond40x40),
                                 new GameFeatureInfo.Detail(GameFeature.Diamond50x50),
                         ]
