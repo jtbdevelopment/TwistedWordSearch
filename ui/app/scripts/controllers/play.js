@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$routeParams', 'jtbGameCache', 'jtbPlayerService',
-        function ($scope, $routeParams, jtbGameCache, jtbPlayerService) {
+    ['$scope', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
+        function ($scope, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
             //var currentPlayer = jtbPlayerService.currentPlayer();
@@ -46,36 +46,40 @@ angular.module('twsUI').controller('PlayCtrl',
 
             updateControllerFromGame();
 
-            controller.shiftLeft = function () {
-                controller.columnOffset -= 1;
+            controller.shiftLeft = function (amount) {
+                controller.columnOffset -= amount;
                 if(controller.columnOffset === -controller.columns) {
                     controller.columnOffset = 0;
                 }
                 recomputeDisplayedGrid();
             };
 
-            controller.shiftRight = function () {
-                controller.columnOffset += 1;
+            controller.shiftRight = function (amount) {
+                controller.columnOffset += amount;
                 if(controller.columnOffset === controller.columns) {
                     controller.columnOffset = 0;
                 }
                 recomputeDisplayedGrid();
             };
 
-            controller.shiftUp = function () {
-                controller.rowOffset -= 1;
+            controller.shiftUp = function (amount) {
+                controller.rowOffset -= amount;
                 if(controller.rowOffset === -controller.rows) {
                     controller.rowOffset = 0;
                 }
                 recomputeDisplayedGrid();
             };
 
-            controller.shiftDown = function () {
-                controller.rowOffset += 1;
+            controller.shiftDown = function (amount) {
+                controller.rowOffset += amount;
                 if(controller.rowOffset === controller.rows) {
                     controller.rowOffset = 0;
                 }
                 recomputeDisplayedGrid();
+            };
+
+            controller.quit = function () {
+                jtbBootstrapGameActions.quit(controller.game);
             };
 
             $scope.$on('gameUpdated', function (message, oldGame) {
