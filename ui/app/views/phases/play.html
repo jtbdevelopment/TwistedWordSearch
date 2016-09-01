@@ -1,4 +1,4 @@
-<div class="play-game">
+<div class="play-game" ng-cloak>
     <!--  TODO - offer bigger/smaller text -->
     <div class="container-fluid">
         <div class="row">
@@ -59,9 +59,16 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <table class="table table-condensed table-responsive player-grid">
-                            <tr class="text-center" ng-repeat="row in play.grid track by $index">
-                                <td ng-repeat="cell in row track by $index">{{cell}}</td>
+                        <table class="table table-condensed player-grid"
+                               ng-click="play.onMouseClick()"
+                               ng-mouseleave="play.onMouseExit($event)"
+                               ng-mouseenter="play.onMouseEnter($event)"
+                               ng-mousemove="play.onMouseMove($event)">
+                            <tr class="text-center" ng-repeat="row in play.grid track by $index"
+                                ng-init="gridRow = $index">
+                                <td ng-repeat="cell in row track by $index" data-ws-row="{{gridRow}}"
+                                    data-ws-column="{{$index}}">{{cell}}
+                                </td>
                             </tr>
                         </table>
                     </div>

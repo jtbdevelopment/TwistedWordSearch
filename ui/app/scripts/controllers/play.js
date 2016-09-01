@@ -82,6 +82,22 @@ angular.module('twsUI').controller('PlayCtrl',
                 jtbBootstrapGameActions.quit(controller.game);
             };
 
+            controller.onMouseEnter = function (event) {
+                console.log('Enter ');
+            };
+
+            controller.onMouseExit = function (event) {
+                console.log('Exit ');
+            };
+
+            controller.onMouseClick = function () {
+                console.log('click ');
+            };
+
+            controller.onMouseMove = function (event) {
+                console.log('move ');
+            };
+
             $scope.$on('gameUpdated', function (message, oldGame) {
                 if (oldGame.id === controller.game.id) {
                     updateControllerFromGame();

@@ -1,13 +1,19 @@
 .play-game {
   .player-grid {
-    //width: auto;
     padding: 1px;
-    font-size: 11px;
+    margin-top: 20px;
+    font-size: 13px;
+    font-family: 'DejaVu Sans Mono', monospace;
     tr {
       padding: 0;
       td {
         border: 0;
         padding: 5px;
+      }
+      td:hover {
+        font-weight: bold;
+        font-size: larger;
+        padding: 1px;
       }
     }
   }
