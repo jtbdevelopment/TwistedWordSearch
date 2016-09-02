@@ -5,18 +5,21 @@ angular.module('twsUI').controller('PlayCtrl',
         function ($scope, $timeout, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
+            var CURRENT_SELECTION = 'current-selection ';
+
             //var currentPlayer = jtbPlayerService.currentPlayer();
             controller.grid = [];
-            controller.endPoint = [];
+            controller.cellStyles = [];
             controller.rowOffset = 0;
             controller.columnOffset = 0;
             controller.rows = 0;
             controller.columns = 0;
 
+
             function recomputeDisplayedGrid() {
                 angular.forEach(controller.game.grid, function (row, index) {
                     controller.grid.push(new Array(controller.columns));
-                    controller.endPoint.push(new Array(controller.columns));
+                    controller.cellStyles.push(new Array(controller.columns));
                     var offSetRow = index + controller.rowOffset;
                     if (offSetRow < 0) {
                         offSetRow = controller.rows + offSetRow;
@@ -34,7 +37,7 @@ angular.module('twsUI').controller('PlayCtrl',
                         }
 
                         controller.grid[offSetRow][offSetColumn] = column;
-                        controller.endPoint[offSetRow][offSetColumn] = false;
+                        controller.cellStyles[offSetRow][offSetColumn] = '';
                     });
                 });
             }
@@ -88,8 +91,11 @@ angular.module('twsUI').controller('PlayCtrl',
 
             controller.tracking = false;
             controller.trackingPaused = false;
-            controller.clickStart = [];
-            controller.currentEnd = [];
+            controller.selectedCells = [];
+            controller.selectStart = undefined;
+            controller.selectEnd = undefined;
+            controller.currentWordForward = '';
+            controller.currentWordBackward = '';
             controller.onMouseEnter = function () {
                 controller.tracking = controller.trackingPaused;
             };
@@ -99,32 +105,51 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.tracking = false;
             };
 
+            function clearStyleFromCoordinates(coordinates, style) {
+                angular.forEach(coordinates, function (coordinate) {
+                    controller.cellStyles[coordinate.row][coordinate.column] = controller.cellStyles[coordinate.row][coordinate.column].replace(style, '');
+                });
+            }
+
+            function addStyleToCoordinates(coordinates, style) {
+                angular.forEach(coordinates, function (coordinate) {
+                    controller.cellStyles[coordinate.row][coordinate.column] += style;
+                });
+            }
+
             controller.onMouseClick = function (event) {
                 controller.tracking = !controller.tracking;
                 if (controller.tracking) {
                     var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
                     var column = parseInt(event.currentTarget.getAttribute('data-ws-column'));
-                    controller.clickStart = [row, column];
-                    controller.currentEnd = [-1, -1];
-                    controller.endPoint[row][column] = true;
-                } else {
-                    controller.endPoint[controller.clickStart[0]][controller.clickStart[1]] = false;
-                    if (controller.currentEnd[0] >= 0) {
-                        controller.endPoint[controller.currentEnd[0]][controller.currentEnd[1]] = false;
+                    if (controller.grid[row][column] === ' ') {
+                        controller.tracking = false;
+                        return;
                     }
+                    var coordinate = {
+                        row: row,
+                        column: column
+                    };
+                    controller.selectStart = coordinate;
+                    controller.selectEnd = coordinate;
+                    controller.selectedCells = [coordinate];
+                    controller.currentWordBackward = '';
+                    controller.currentWordForward = '';
+                    addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                } else {
+                    clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     //  TODO - submit word!
+                    controller.selectedCells = [];
+                    controller.currentWordBackward = '';
+                    controller.currentWordForward = '';
                 }
             };
 
-            controller.onMouseMove = function (event) {
-                if (!controller.tracking) {
-                    return;
-                }
-
+            function computeTargetEndPoint(event) {
                 var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
                 var column = parseInt(event.currentTarget.getAttribute('data-ws-column'));
-                var dRow = controller.clickStart[0] - row;
-                var dCol = column - controller.clickStart[1];
+                var dRow = controller.selectStart.row - row;
+                var dCol = column - controller.selectStart.column;
                 // up = 0, down = 180
                 // left to right up = 45
                 // left to right = 90, right to left = -90
@@ -134,37 +159,70 @@ angular.module('twsUI').controller('PlayCtrl',
                 var angle = Math.atan2(dCol, dRow) * 180 / Math.PI;
                 var roundedAngle = Math.round(angle / 45);
                 var targetRow, targetColumn;
-                console.log(angle + '/' + roundedAngle);
                 switch (roundedAngle) {
                     case 0:
                     case 4:
                         targetRow = row;
-                        targetColumn = controller.clickStart[1];
+                        targetColumn = controller.selectStart.column;
                         break;
                     case 2:
                     case -2:
-                        targetRow = controller.clickStart[0];
+                        targetRow = controller.selectStart.row;
                         targetColumn = column;
                         break;
                     default:
                         if (Math.abs(dRow) > Math.abs(dCol)) {
-                            targetRow = controller.clickStart[0] - dRow;
-                            targetColumn = controller.clickStart[1] + (Math.abs(dRow) * Math.sign(dCol));
+                            targetRow = controller.selectStart.row - dRow;
+                            targetColumn = controller.selectStart.column + (Math.abs(dRow) * Math.sign(dCol));
                         } else {
-                            targetRow = controller.clickStart[0] - (Math.abs(dCol) * Math.sign(dRow));
-                            targetColumn = controller.clickStart[1] + dCol;
+                            targetRow = controller.selectStart.row - (Math.abs(dCol) * Math.sign(dRow));
+                            targetColumn = controller.selectStart.column + dCol;
                         }
                 }
-                console.log(JSON.stringify(controller.currentEnd) + '/' + targetRow + ',' + targetColumn);
-                if (controller.currentEnd[0] !== targetRow || controller.currentEnd[1] !== targetColumn) {
-                    if (controller.currentEnd[0] >= 0) {
-                        if (controller.currentEnd[0] !== controller.clickStart[0] ||
-                            controller.currentEnd[1] !== controller.clickStart[1])
-                            controller.endPoint[controller.currentEnd[0]][controller.currentEnd[1]] = false;
+                return {row: targetRow, column: targetColumn};
+            }
+
+            controller.onMouseMove = function (event) {
+                if (!controller.tracking) {
+                    return;
+                }
+                var target = computeTargetEndPoint(event);
+                if (controller.selectEnd.row !== target.row || controller.selectEnd.column !== target.column) {
+                    clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                    controller.selectEnd = target;
+                    controller.selectedCells = [controller.selectStart];
+                    var coordinate = {
+                        row: controller.selectStart.row,
+                        column: controller.selectStart.column
+                    };
+                    while (coordinate.row !== target.row || coordinate.column !== target.column) {
+                        if (coordinate.row > target.row) {
+                            coordinate.row -= 1;
+                        }
+                        if (coordinate.row < target.row) {
+                            coordinate.row += 1;
+                        }
+                        if (coordinate.column > target.column) {
+                            coordinate.column -= 1;
+                        }
+                        if (coordinate.column < target.column) {
+                            coordinate.column += 1;
+                        }
+                        if (controller.grid[coordinate.row][coordinate.column] === ' ') {
+                            break;
+                        }
+                        controller.selectedCells.push({row: coordinate.row, column: coordinate.column});
                     }
-                    controller.currentEnd = [targetRow, targetColumn];
-                    console.log(JSON.stringify(controller.currentEnd));
-                    controller.endPoint[controller.currentEnd[0]][controller.currentEnd[1]] = true;
+                    addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                    //  TODO - highlight when a word is found?
+                    controller.currentWordForward = '';
+                    controller.currentWordBackward = '';
+                    angular.forEach(controller.selectedCells, function (coordinate) {
+                        controller.currentWordForward += controller.grid[coordinate.row][coordinate.column];
+                        controller.currentWordBackward =
+                            controller.grid[coordinate.row][coordinate.column] +
+                            controller.currentWordBackward;
+                    });
                 }
             };
 

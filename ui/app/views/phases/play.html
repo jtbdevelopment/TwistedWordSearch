@@ -58,6 +58,11 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-12 text-center current-word">
+                        <span>{{play.currentWordForward}} / {{play.currentWordBackward}}</span>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12">
                         <table class="table table-condensed player-grid"
                                ng-mouseleave="play.onMouseExit($event)"
@@ -68,8 +73,7 @@
                                     ng-mousemove="play.onMouseMove($event)"
                                     ng-click="play.onMouseClick($event)"
                                     data-ws-column="{{$index}}"
-                                    class="{{play.endPoint[gridRow][$index] ? 'end-point' : ''}}"
-                                >
+                                    class="{{play.cellStyles[gridRow][$index]}}">
                                     {{cell}}
                                 </td>
                             </tr>

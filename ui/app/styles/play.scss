@@ -1,4 +1,8 @@
 .play-game {
+  .current-word {
+    margin-top: 20px;
+  }
+
   .player-grid {
     padding: 1px;
     margin-top: 20px;
@@ -17,7 +21,7 @@
       }
     }
 
-    .end-point {
+    .current-selection {
       font-weight: bolder;
       font-style: italic;
     }
