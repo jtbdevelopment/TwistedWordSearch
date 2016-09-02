@@ -63,7 +63,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
+                    <canvas id="grid-canvas" class="grid-canvas" ng-style="gridCanvasStyle"></canvas>
+                    <div grid-master class="col-xs-12">
                         <table class="table table-condensed player-grid"
                                ng-mouseleave="play.onMouseExit($event)"
                                ng-mouseenter="play.onMouseEnter($event)">

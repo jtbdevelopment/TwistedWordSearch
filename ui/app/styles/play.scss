@@ -3,6 +3,11 @@
     margin-top: 20px;
   }
 
+  .grid-canvas {
+    z-index: -10;
+    position: absolute;
+  }
+
   .player-grid {
     padding: 1px;
     margin-top: 20px;
