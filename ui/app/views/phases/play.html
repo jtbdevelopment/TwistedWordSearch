@@ -60,14 +60,17 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <table class="table table-condensed player-grid"
-                               ng-click="play.onMouseClick()"
                                ng-mouseleave="play.onMouseExit($event)"
-                               ng-mouseenter="play.onMouseEnter($event)"
-                               ng-mousemove="play.onMouseMove($event)">
+                               ng-mouseenter="play.onMouseEnter($event)">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"
                                 ng-init="gridRow = $index">
                                 <td ng-repeat="cell in row track by $index" data-ws-row="{{gridRow}}"
-                                    data-ws-column="{{$index}}">{{cell}}
+                                    ng-mousemove="play.onMouseMove($event)"
+                                    ng-click="play.onMouseClick($event)"
+                                    data-ws-column="{{$index}}"
+                                    class="{{play.endPoint[gridRow][$index] ? 'end-point' : ''}}"
+                                >
+                                    {{cell}}
                                 </td>
                             </tr>
                         </table>
