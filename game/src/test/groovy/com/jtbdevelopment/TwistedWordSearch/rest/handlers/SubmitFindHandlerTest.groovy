@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedWordSearch.rest.handlers
 
 import com.jtbdevelopment.TwistedWordSearch.exceptions.InvalidStartCoordinateException
 import com.jtbdevelopment.TwistedWordSearch.exceptions.InvalidWordFindCoordinatesException
+import com.jtbdevelopment.TwistedWordSearch.exceptions.NoWordToFindAtCoordinatesException
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
@@ -150,5 +151,35 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         shouldFail(InvalidWordFindCoordinatesException.class) {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(-1, -1), new GridCoordinate(-1, -1), new GridCoordinate(-1, 0)])
         }
+    }
+
+    void testNoWordFoundExceptionIfNotActuallyGood() {
+        shouldFail(NoWordToFindAtCoordinatesException.class) {
+            handler.handleActionInternal(PONE, game, [new GridCoordinate(9, 9), new GridCoordinate(0, -1)])
+        }
+    }
+
+    void testAbleToFindWordCoordinatesGivenInForwardDirection() {
+        TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 8), new GridCoordinate(0, -1)])
+        assert update.is(game)
+        assert ['WORD', 'WRAPPED'] as Set == update.wordsToFind
+        assert [(PONE.id): ['AT'] as Set] == update.wordsFoundByPlayer
+        assert ['AT': [new GridCoordinate(8, 8), new GridCoordinate(8, 7)] as Set] == update.foundWordLocations
+    }
+
+    void testAbleToFindWordCoordinatesGivenInBackwardDirection() {
+        TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 7), new GridCoordinate(0, 1)])
+        assert update.is(game)
+        assert ['WORD', 'WRAPPED'] as Set == update.wordsToFind
+        assert [(PONE.id): ['AT'] as Set] == update.wordsFoundByPlayer
+        assert ['AT': [new GridCoordinate(8, 8), new GridCoordinate(8, 7)] as Set] == update.foundWordLocations
+    }
+
+    void testAbleToFindWordCoordinatesGivenInWrap() {
+        TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(2, 7), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1)])
+        assert update.is(game)
+        assert ['WORD', 'AT'] as Set == update.wordsToFind
+        assert [(PONE.id): ['WRAPPED'] as Set] == update.wordsFoundByPlayer
+        assert ['WRAPPED': [new GridCoordinate(2, 7), new GridCoordinate(1, 8), new GridCoordinate(1, 8), new GridCoordinate(0, 9), new GridCoordinate(9, 0), new GridCoordinate(8, 1), new GridCoordinate(7, 2), new GridCoordinate(6, 3)] as Set] == update.foundWordLocations
     }
 }

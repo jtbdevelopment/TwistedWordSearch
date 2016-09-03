@@ -16,6 +16,11 @@ class GridCoordinate implements Serializable {
         this.column = column
     }
 
+    public GridCoordinate(final GridCoordinate copy) {
+        this.row = copy.row
+        this.column = copy.column
+    }
+
     boolean equals(final o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false
