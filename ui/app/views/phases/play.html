@@ -63,9 +63,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <canvas id="grid-canvas" class="grid-canvas" ng-style="gridCanvasStyle"></canvas>
-                    <div grid-master class="col-xs-12">
-                        <table class="table table-condensed player-grid"
+                    <div grid-master class="col-xs-12 player-grid" >
+                        <canvas id="grid-canvas" class="grid-canvas" ng-style="gridCanvasStyle"></canvas>
+                        <!--canvas id="grid-canvas" class="grid-canvas"></canvas-->
+                        <table class="table table-condensed"
                                ng-mouseleave="play.onMouseExit($event)"
                                ng-mouseenter="play.onMouseEnter($event)">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"

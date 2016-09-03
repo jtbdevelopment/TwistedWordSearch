@@ -6,6 +6,7 @@
   .grid-canvas {
     z-index: -1;
     position: absolute;
+    border: 1px solid #4682b4;
   }
 
   .player-grid {
@@ -13,16 +14,19 @@
     margin-top: 20px;
     font-size: 13px;
     font-family: 'DejaVu Sans Mono', monospace;
-    tr {
-      padding: 0;
-      td {
-        border: 0;
-        padding: 5px;
-      }
-      td:hover {
-        //font-weight: bold;
-        font-size: larger;
-        padding: 1px;
+    table {
+      margin: 0;
+      tr {
+        padding: 0;
+        td {
+          border: 0;
+          padding: 5px;
+        }
+        td:hover {
+          //font-weight: bold;
+          font-size: larger;
+          padding: 1px;
+        }
       }
     }
 

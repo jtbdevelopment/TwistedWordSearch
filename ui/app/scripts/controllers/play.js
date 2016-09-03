@@ -7,20 +7,6 @@ angular.module('twsUI').controller('PlayCtrl',
 
             var CURRENT_SELECTION = 'current-selection ';
 
-            controller.canvasContext = angular.element('#grid-canvas')[0].getContext('2d');
-            controller.canvasContext.beginPath();
-            controller.canvasContext.moveTo(10, 10);
-            controller.canvasContext.lineTo(500, 500);
-            controller.canvasContext.lineWidth = 5;
-            controller.canvasContext.strokeStyle = '#ff0000';
-            controller.canvasContext.stroke();
-            controller.canvasContext.beginPath();
-            controller.canvasContext.moveTo(20, 20);
-            controller.canvasContext.lineTo(500, 500);
-            controller.canvasContext.lineWidth = 5;
-            controller.canvasContext.strokeStyle = '#ff0000';
-            controller.canvasContext.stroke();
-
             //var currentPlayer = jtbPlayerService.currentPlayer();
             controller.grid = [];
             controller.cellStyles = [];
@@ -106,7 +92,7 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.tracking = false;
             controller.trackingPaused = false;
             controller.selectedCells = [];
-            controller.selectStartElement = undefined;
+            controller.selectedStartElement = undefined;
             controller.selectStart = undefined;
             controller.selectEnd = undefined;
             controller.currentWordForward = '';
@@ -133,6 +119,13 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             controller.onMouseClick = function (event) {
+                /*
+                var canvas = angular.element('#grid-canvas')[0];
+                canvas.top = $scope.gridCanvasStyle.offsetTop;
+                canvas.left= $scope.gridCanvasStyle.offsetLeft;
+                canvas.height = $scope.gridCanvasStyle.offsetHeight;
+                canvas.width = $scope.gridCanvasStyle.offsetWidth;
+                */
                 controller.tracking = !controller.tracking;
                 if (controller.tracking) {
                     var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
@@ -145,13 +138,24 @@ angular.module('twsUI').controller('PlayCtrl',
                         row: row,
                         column: column
                     };
+                    controller.canvas = angular.element('#grid-canvas')[0];
+                    controller.canvasContext = controller.canvas.getContext('2d');
+
                     controller.selectStart = coordinate;
                     controller.selectEnd = coordinate;
                     controller.selectedCells = [coordinate];
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
                     addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
-                    controller.selectStartElement = event.currentTarget;
+                    controller.selectedStartElement = {
+                        offsetTop: event.currentTarget.offsetTop,
+                        offsetLeft: event.currentTarget.offsetLeft,
+                        offsetWidth: event.currentTarget.offsetWidth,
+                        offsetHeight: event.currentTarget.offsetHeight
+                    };
+                    controller.canvas.height = $scope.gridCanvasStyle.height;
+                    controller.canvas.width = $scope.gridCanvasStyle.width;
+                    console.log('ss ' + JSON.stringify(controller.selectedStartElement));
                 } else {
                     clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     //  TODO - submit word!
@@ -239,23 +243,41 @@ angular.module('twsUI').controller('PlayCtrl',
                             controller.grid[coordinate.row][coordinate.column] +
                             controller.currentWordBackward;
                     });
-                    var halfWidth = controller.selectStartElement.offsetWidth / 2;
-                    var halfHeight = controller.selectStartElement.offsetHeight / 2;
-                    var startX = controller.selectStartElement.offsetLeft + halfWidth;
-                    var startY = controller.selectStartElement.offsetTop + halfHeight;
+                    var halfWidth = controller.selectedStartElement.offsetWidth / 2;
+                    var halfHeight = controller.selectedStartElement.offsetHeight / 2;
+                    var startX = controller.selectedStartElement.offsetLeft + halfWidth;
+                    var startY = controller.selectedStartElement.offsetTop + halfHeight;
                     var lastCell = controller.selectedCells.length - 1;
-                    var endX = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfWidth * 2) - halfWidth + startX;
-                    var endY = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfHeight * 2) - halfHeight + startY;
+                    var endX = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfWidth * 2) + startX;
+                    var endY = ((controller.selectedCells[lastCell].row - controller.selectedCells[0].row) * halfHeight * 2) + startY;
+                    controller.canvasContext.clearRect(0, 0, controller.canvas.width, controller.canvas.height);
                     controller.canvasContext.beginPath();
-                    controller.canvasContext.moveTo(startX, startY);
-                    controller.canvasContext.lineTo(endX, endY);
                     controller.canvasContext.lineWidth = 5;
                     controller.canvasContext.strokeStyle = '#ff0000';
+                    controller.canvasContext.moveTo(startX, startY);
+                    controller.canvasContext.lineTo(endX, endY);
                     controller.canvasContext.stroke();
-
+                    controller.canvasContext.closePath();
+                    console.log('s ' + startX + '/' + startY);
+                    console.log('e ' + endX + '/' + endY);
+                    console.log(controller.canvas.height);
+                    console.log(controller.canvas.width);
                 }
             };
 
+            $scope.gridCanvasStyle = {};
+            /*
+            $scope.$watch('gridCanvasStyle', function(newValue) {
+                if(angular.isDefined(newValue)) {
+                    var canvas = angular.element('#grid-canvas')[0];
+                    canvas.top = newValue.offsetTop;
+                    canvas.left= newValue.offsetLeft;
+                    canvas.height = newValue.offsetHeight;
+                    canvas.width = newValue.offsetWidth;
+                }
+                console.log(JSON.stringify(newValue));
+            });
+            */
             $scope.$on('gameUpdated', function (message, oldGame) {
                 if (oldGame.id === controller.game.id) {
                     updateControllerFromGame();
