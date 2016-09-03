@@ -7,6 +7,20 @@ angular.module('twsUI').controller('PlayCtrl',
 
             var CURRENT_SELECTION = 'current-selection ';
 
+            controller.canvasContext = angular.element('#grid-canvas')[0].getContext('2d');
+            controller.canvasContext.beginPath();
+            controller.canvasContext.moveTo(10, 10);
+            controller.canvasContext.lineTo(500, 500);
+            controller.canvasContext.lineWidth = 5;
+            controller.canvasContext.strokeStyle = '#ff0000';
+            controller.canvasContext.stroke();
+            controller.canvasContext.beginPath();
+            controller.canvasContext.moveTo(20, 20);
+            controller.canvasContext.lineTo(500, 500);
+            controller.canvasContext.lineWidth = 5;
+            controller.canvasContext.strokeStyle = '#ff0000';
+            controller.canvasContext.stroke();
+
             //var currentPlayer = jtbPlayerService.currentPlayer();
             controller.grid = [];
             controller.cellStyles = [];
@@ -92,6 +106,7 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.tracking = false;
             controller.trackingPaused = false;
             controller.selectedCells = [];
+            controller.selectStartElement = undefined;
             controller.selectStart = undefined;
             controller.selectEnd = undefined;
             controller.currentWordForward = '';
@@ -136,6 +151,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
                     addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                    controller.selectStartElement = event.currentTarget;
                 } else {
                     clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     //  TODO - submit word!
@@ -223,6 +239,20 @@ angular.module('twsUI').controller('PlayCtrl',
                             controller.grid[coordinate.row][coordinate.column] +
                             controller.currentWordBackward;
                     });
+                    var halfWidth = controller.selectStartElement.offsetWidth / 2;
+                    var halfHeight = controller.selectStartElement.offsetHeight / 2;
+                    var startX = controller.selectStartElement.offsetLeft + halfWidth;
+                    var startY = controller.selectStartElement.offsetTop + halfHeight;
+                    var lastCell = controller.selectedCells.length - 1;
+                    var endX = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfWidth * 2) - halfWidth + startX;
+                    var endY = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfHeight * 2) - halfHeight + startY;
+                    controller.canvasContext.beginPath();
+                    controller.canvasContext.moveTo(startX, startY);
+                    controller.canvasContext.lineTo(endX, endY);
+                    controller.canvasContext.lineWidth = 5;
+                    controller.canvasContext.strokeStyle = '#ff0000';
+                    controller.canvasContext.stroke();
+
                 }
             };
 
