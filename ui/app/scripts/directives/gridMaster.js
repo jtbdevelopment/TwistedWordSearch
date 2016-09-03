@@ -1,21 +1,19 @@
 'use strict';
 
 angular.module('twsUI').directive('gridMaster', function () {
-    function link(scope, element) { //scope we are in, element we are bound to, attrs of that element
-        scope.$watch(function () { //watch any changes to our element
-            scope.gridCanvasStyle = { //scope variable style, shared with our controller
-                //top: element[0].offsetTop,// + 'px',
-                //left: element[0].offsetLeft,// + 'px',
+    function link(scope, element) {
+        scope.$watch(function () {
+            scope.gridCanvasStyle = {
                 top: 0,
                 left: 0,
-                height: element[0].offsetHeight,// + 'px', //set the height in style to our elements height
-                width: element[0].offsetWidth// + 'px' //same with width
+                height: element[0].offsetHeight,
+                width: element[0].offsetWidth
             };
         });
     }
 
     return {
-        restrict: 'AE', //describes how we can assign an element to our directive in this case like <div master></div
-        link: link // the function to link to our element
+        restrict: 'AE',
+        link: link
     };
 });

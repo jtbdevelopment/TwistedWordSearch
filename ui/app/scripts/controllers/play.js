@@ -1,5 +1,6 @@
 'use strict';
 
+//  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
     ['$scope', '$timeout', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
         function ($scope, $timeout, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
@@ -14,6 +15,9 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.columnOffset = 0;
             controller.rows = 0;
             controller.columns = 0;
+
+            controller.canvas = angular.element('#grid-canvas')[0];
+            controller.canvasContext = controller.canvas.getContext('2d');
 
 
             function recomputeDisplayedGrid() {
@@ -119,13 +123,6 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             controller.onMouseClick = function (event) {
-                /*
-                var canvas = angular.element('#grid-canvas')[0];
-                canvas.top = $scope.gridCanvasStyle.offsetTop;
-                canvas.left= $scope.gridCanvasStyle.offsetLeft;
-                canvas.height = $scope.gridCanvasStyle.offsetHeight;
-                canvas.width = $scope.gridCanvasStyle.offsetWidth;
-                */
                 controller.tracking = !controller.tracking;
                 if (controller.tracking) {
                     var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
@@ -138,9 +135,6 @@ angular.module('twsUI').controller('PlayCtrl',
                         row: row,
                         column: column
                     };
-                    controller.canvas = angular.element('#grid-canvas')[0];
-                    controller.canvasContext = controller.canvas.getContext('2d');
-
                     controller.selectStart = coordinate;
                     controller.selectEnd = coordinate;
                     controller.selectedCells = [coordinate];
@@ -155,13 +149,13 @@ angular.module('twsUI').controller('PlayCtrl',
                     };
                     controller.canvas.height = $scope.gridCanvasStyle.height;
                     controller.canvas.width = $scope.gridCanvasStyle.width;
-                    console.log('ss ' + JSON.stringify(controller.selectedStartElement));
                 } else {
                     clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     //  TODO - submit word!
                     controller.selectedCells = [];
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
+                    clearGridCanvas();
                 }
             };
 
@@ -171,11 +165,9 @@ angular.module('twsUI').controller('PlayCtrl',
                 var dRow = controller.selectStart.row - row;
                 var dCol = column - controller.selectStart.column;
                 // up = 0, down = 180
-                // left to right up = 45
                 // left to right = 90, right to left = -90
-                // left to right down = 135
-                // right to left up = -45
-                // right to left down -135
+                // left to right up = 45, down = 135
+                // right to left up = -45, down = -135
                 var angle = Math.atan2(dCol, dRow) * 180 / Math.PI;
                 var roundedAngle = Math.round(angle / 45);
                 var targetRow, targetColumn;
@@ -200,6 +192,10 @@ angular.module('twsUI').controller('PlayCtrl',
                         }
                 }
                 return {row: targetRow, column: targetColumn};
+            }
+
+            function clearGridCanvas() {
+                controller.canvasContext.clearRect(0, 0, controller.canvas.width, controller.canvas.height);
             }
 
             controller.onMouseMove = function (event) {
@@ -250,7 +246,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     var lastCell = controller.selectedCells.length - 1;
                     var endX = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfWidth * 2) + startX;
                     var endY = ((controller.selectedCells[lastCell].row - controller.selectedCells[0].row) * halfHeight * 2) + startY;
-                    controller.canvasContext.clearRect(0, 0, controller.canvas.width, controller.canvas.height);
+                    clearGridCanvas();
                     controller.canvasContext.beginPath();
                     controller.canvasContext.lineWidth = 5;
                     controller.canvasContext.strokeStyle = '#ff0000';
@@ -258,26 +254,9 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.canvasContext.lineTo(endX, endY);
                     controller.canvasContext.stroke();
                     controller.canvasContext.closePath();
-                    console.log('s ' + startX + '/' + startY);
-                    console.log('e ' + endX + '/' + endY);
-                    console.log(controller.canvas.height);
-                    console.log(controller.canvas.width);
                 }
             };
 
-            $scope.gridCanvasStyle = {};
-            /*
-            $scope.$watch('gridCanvasStyle', function(newValue) {
-                if(angular.isDefined(newValue)) {
-                    var canvas = angular.element('#grid-canvas')[0];
-                    canvas.top = newValue.offsetTop;
-                    canvas.left= newValue.offsetLeft;
-                    canvas.height = newValue.offsetHeight;
-                    canvas.width = newValue.offsetWidth;
-                }
-                console.log(JSON.stringify(newValue));
-            });
-            */
             $scope.$on('gameUpdated', function (message, oldGame) {
                 if (oldGame.id === controller.game.id) {
                     updateControllerFromGame();
