@@ -89,6 +89,21 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         }
     }
 
+    void testnvalidWordFindCoordinatesIfListLongerThanBiggestBoundary() {
+        shouldFail(InvalidWordFindCoordinatesException.class) {
+            handler.handleActionInternal(
+                    PONE,
+                    new TWSGame(grid: new Grid(5, 3)),
+                    [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1,1), new GridCoordinate(1,1)])
+        }
+        shouldFail(InvalidWordFindCoordinatesException.class) {
+            handler.handleActionInternal(
+                    PONE,
+                    new TWSGame(grid: new Grid(3, 4)),
+                    [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1,1), new GridCoordinate(1,1)])
+        }
+    }
+
     void testInvalidWordFindCoordinatesIfSecondCoordinateIsNotAProperMoveOneOrZero() {
         shouldFail(InvalidWordFindCoordinatesException.class) {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(0, 0)])

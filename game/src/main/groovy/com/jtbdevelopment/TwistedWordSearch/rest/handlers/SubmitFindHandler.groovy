@@ -28,6 +28,10 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
             throw new InvalidWordFindCoordinatesException()
         }
 
+        if(coordinates.size() > Math.max(game.grid.rows, game.grid.columns)) {
+            throw new InvalidWordFindCoordinatesException()
+        }
+
         GridCoordinate start = coordinates[0]
 
         if (start.column < 0 || start.row < 0 || start.column > game.grid.columnUpperBound || start.row > game.grid.rowUpperBound) {
@@ -38,7 +42,7 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
         }
 
         GridCoordinate next = coordinates[1]
-        if ((next.column == 0 && next.column == 0) || next.column < -1 || next.column >= 1 || next.row < -1 || next.row > 1) {
+        if ((next.column == 0 && next.column == 0) || next.column < -1 || next.column > 1 || next.row < -1 || next.row > 1) {
             throw new InvalidWordFindCoordinatesException();
         }
         List<GridCoordinate> remaining = new ArrayList<>(coordinates)
