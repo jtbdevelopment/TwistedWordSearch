@@ -15,5 +15,6 @@ class TWSGameTest extends GroovyTestCase {
         assertNull game.words
         assertNull game.wordsToFind
         assertNull game.wordsFoundByPlayer
+        assertNull game.foundWordLocations
     }
 }

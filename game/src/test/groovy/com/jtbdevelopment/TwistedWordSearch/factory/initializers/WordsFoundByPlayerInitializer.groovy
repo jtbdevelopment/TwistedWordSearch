@@ -16,6 +16,7 @@ class WordsFoundByPlayerInitializer implements GameInitializer<TWSGame> {
         game.wordsFoundByPlayer = game.players.collectEntries {
             [(it.id): [] as Set]
         }
+        game.foundWordLocations = [:]
     }
 
     int getOrder() {

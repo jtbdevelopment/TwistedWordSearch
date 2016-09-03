@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedWordSearch.state.masking
 
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.state.GamePhase
 import org.bson.types.ObjectId
@@ -26,6 +27,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
                 (PONE.id) : ['I', 'FOUND', 'THESE'] as Set,
                 (PFOUR.id): [] as Set
         ]
+        game.foundWordLocations = ['I': [new GridCoordinate(1, 1), new GridCoordinate(1, 2), new Grid(1, 3)] as Set]
 
         MaskedGame masked = masker.maskGameForPlayer(game, PONE)
         assert masked.grid.is(game.grid.gridCells)
@@ -35,6 +37,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
         //  Minor proofs that overridden methods called base implementations
         assert [(PONE.md5): PONE.displayName, (PFOUR.md5): PFOUR.displayName] == masked.players
         assert GamePhase.Playing == masked.gamePhase
+        assert game.foundWordLocations.is(masked.foundWordLocations)
     }
 
     void testGetIDClass() {

@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.state.masking
 
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 
@@ -14,4 +15,5 @@ class MaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> {
 
     Set<String> wordsToFind
     Map<String, Set<String>> wordsFoundByPlayer
+    Map<String, Set<GridCoordinate>> foundWordLocations
 }

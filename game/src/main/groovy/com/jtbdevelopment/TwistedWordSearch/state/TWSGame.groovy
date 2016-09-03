@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.state
 
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.mongo.state.AbstractMongoMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -21,6 +22,7 @@ class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Set<String> words
     Set<String> wordsToFind
     Map<ObjectId, Set<String>> wordsFoundByPlayer
+    Map<String, Set<GridCoordinate>> foundWordLocations;
 
     //  TODO - map
 }

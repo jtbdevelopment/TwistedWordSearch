@@ -16,6 +16,7 @@ class WordsFoundByPlayerInitializerTest extends MongoGameCoreTestCase {
         initializer.initializeGame(game)
 
         assert [(PONE.id): [] as Set, (PTHREE.id): [] as Set] == game.wordsFoundByPlayer
+        assert [:] == game.foundWordLocations
     }
 
     void testGetOrder() {

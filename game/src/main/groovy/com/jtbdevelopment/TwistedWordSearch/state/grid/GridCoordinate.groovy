@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
  * Time: 3:40 PM
  */
 @CompileStatic
-class GridCoordinate {
+class GridCoordinate implements Serializable {
     int row
     int column
 
