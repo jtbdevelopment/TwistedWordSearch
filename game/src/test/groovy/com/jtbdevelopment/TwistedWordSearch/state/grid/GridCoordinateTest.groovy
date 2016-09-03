@@ -20,6 +20,12 @@ class GridCoordinateTest extends GroovyTestCase {
         assert 5 == coordinate.column
     }
 
+    void testDefaultConstructor() {
+        GridCoordinate coordinate = new GridCoordinate()
+        assert 0 == coordinate.row
+        assert 0 == coordinate.column
+    }
+
     void testCopyConstructor() {
         GridCoordinate original = new GridCoordinate(10, 11)
         GridCoordinate copy = new GridCoordinate(original)

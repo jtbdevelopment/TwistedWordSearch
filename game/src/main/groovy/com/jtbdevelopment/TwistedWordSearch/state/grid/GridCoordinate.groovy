@@ -11,6 +11,10 @@ class GridCoordinate implements Serializable {
     int row
     int column
 
+    public GridCoordinate() {
+
+    }
+
     public GridCoordinate(final int row, final int column) {
         this.row = row
         this.column = column

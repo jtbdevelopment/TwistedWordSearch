@@ -5,10 +5,12 @@ import com.jtbdevelopment.TwistedWordSearch.rest.data.FeaturesAndPlayers
 import com.jtbdevelopment.TwistedWordSearch.rest.data.GameFeatureInfo
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
 import com.jtbdevelopment.core.hazelcast.caching.HazelcastCacheManager
 import com.jtbdevelopment.games.dao.AbstractGameRepository
 import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameIntegration
+import org.bson.types.ObjectId
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -143,6 +145,45 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         }
     }
 
+    @Test
+    void testFindingAWord() {
+        def P3 = createPlayerAPITarget(TEST_PLAYER3)
+        MaskedGame game = newGame(P3,
+                new FeaturesAndPlayers(
+                        features: [
+                                GameFeature.Grid30X30,
+                                GameFeature.HideWordLettersNone,
+                                GameFeature.JumbleOnFindNo,
+                                GameFeature.ExpertDifficulty,
+                                GameFeature.StrongOverlap,
+                                GameFeature.WordWrapYes,
+                        ] as Set,
+                        players: [TEST_PLAYER3.md5],
+                ))
+        TWSGame rawGame = gameRepository.findOne(new ObjectId(game.id))
+        rawGame.grid.setGridCell(0, 0, 'A' as char)
+        rawGame.grid.setGridCell(0, 1, 'T' as char)
+        rawGame.grid.setGridCell(10, 10, 'F' as char)
+        rawGame.grid.setGridCell(9, 10, 'U' as char)
+        rawGame.grid.setGridCell(8, 10, 'R' as char)
+        rawGame.wordsToFind.add('AT')
+        rawGame.wordsToFind.add('FUR')
+        gameRepository.save(rawGame)
+
+        def P3G = createGameTarget(createPlayerAPITarget(TEST_PLAYER3), game)
+
+        game = findWord(P3G, [new GridCoordinate(0, 1), new GridCoordinate(0, -1)])
+        assert game != null
+        assert game.wordsToFind.contains('FUR')
+        assert !game.wordsToFind.contains('AT')
+        assert [(TEST_PLAYER3.md5): ['AT'] as Set] == game.wordsFoundByPlayer
+        assert ['AT': [new GridCoordinate(0, 0), new GridCoordinate(0, 1)] as Set] == game.foundWordLocations
+
+        def response = P3G.path('find').request(MediaType.APPLICATION_JSON).put(Entity.entity([new GridCoordinate(0, 1), new GridCoordinate(0, -1)], MediaType.APPLICATION_JSON))
+        assert response != null
+        assert response.statusInfo.statusCode == 400
+    }
+
     @Override
     void testGetMultiplayerGames() {
         //  TODO - base method needs work to be more useful
@@ -157,4 +198,10 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 .post(entity, returnedGameClass())
     }
 
+    protected MaskedGame findWord(WebTarget target, List<GridCoordinate> coordinates) {
+        def find = Entity.entity(coordinates, MediaType.APPLICATION_JSON)
+        target.path("find").request(MediaType.APPLICATION_JSON).put(find, returnedGameClass())
+    }
+
 }
+
