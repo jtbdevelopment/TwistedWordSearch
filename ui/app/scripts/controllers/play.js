@@ -10,6 +10,8 @@ angular.module('twsUI').controller('PlayCtrl',
 
             //var currentPlayer = jtbPlayerService.currentPlayer();
             controller.grid = [];
+            controller.forwardIsWord = false;
+            controller.backwardIsWord = false;
             controller.cellStyles = [];
             controller.rowOffset = 0;
             controller.columnOffset = 0;
@@ -123,6 +125,8 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             controller.onMouseClick = function (event) {
+                controller.canvas = angular.element('#grid-canvas')[0];
+                controller.canvasContext = controller.canvas.getContext('2d');
                 controller.tracking = !controller.tracking;
                 if (controller.tracking) {
                     var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
@@ -155,6 +159,8 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.selectedCells = [];
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
+                    controller.forwardIsWord = false;
+                    controller.backwardIsWord = false;
                     clearGridCanvas();
                 }
             };
@@ -198,6 +204,59 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.canvasContext.clearRect(0, 0, controller.canvas.width, controller.canvas.height);
             }
 
+            function computeSelectedCells(target) {
+                controller.selectedCells = [controller.selectStart];
+                var coordinate = {
+                    row: controller.selectStart.row,
+                    column: controller.selectStart.column
+                };
+                while (coordinate.row !== target.row || coordinate.column !== target.column) {
+                    if (coordinate.row > target.row) {
+                        coordinate.row -= 1;
+                    }
+                    if (coordinate.row < target.row) {
+                        coordinate.row += 1;
+                    }
+                    if (coordinate.column > target.column) {
+                        coordinate.column -= 1;
+                    }
+                    if (coordinate.column < target.column) {
+                        coordinate.column += 1;
+                    }
+                    if (controller.grid[coordinate.row][coordinate.column] === ' ') {
+                        break;
+                    }
+                    controller.selectedCells.push({row: coordinate.row, column: coordinate.column});
+                }
+            }
+
+            function computeSelectedWord() {
+                controller.currentWordForward = '';
+                controller.currentWordBackward = '';
+                angular.forEach(controller.selectedCells, function (coordinate) {
+                    controller.currentWordForward += controller.grid[coordinate.row][coordinate.column];
+                    controller.currentWordBackward =
+                        controller.grid[coordinate.row][coordinate.column] +
+                        controller.currentWordBackward;
+                });
+            }
+
+            function highlightWord(startCell, endCell, color) {
+                var halfWidth = controller.selectedStartElement.offsetWidth / 2;
+                var halfHeight = controller.selectedStartElement.offsetHeight / 2;
+                var startX = controller.selectedStartElement.offsetLeft + halfWidth;
+                var startY = controller.selectedStartElement.offsetTop + halfHeight;
+                var endX = ((endCell.column - startCell.column) * halfWidth * 2) + startX;
+                var endY = ((endCell.row - startCell.row) * halfHeight * 2) + startY;
+                controller.canvasContext.beginPath();
+                controller.canvasContext.lineWidth = 8;
+                controller.canvasContext.strokeStyle = color;
+                controller.canvasContext.moveTo(startX, startY);
+                controller.canvasContext.lineTo(endX, endY);
+                controller.canvasContext.stroke();
+                controller.canvasContext.closePath();
+            }
+
             controller.onMouseMove = function (event) {
                 if (!controller.tracking) {
                     return;
@@ -206,54 +265,15 @@ angular.module('twsUI').controller('PlayCtrl',
                 if (controller.selectEnd.row !== target.row || controller.selectEnd.column !== target.column) {
                     clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     controller.selectEnd = target;
-                    controller.selectedCells = [controller.selectStart];
-                    var coordinate = {
-                        row: controller.selectStart.row,
-                        column: controller.selectStart.column
-                    };
-                    while (coordinate.row !== target.row || coordinate.column !== target.column) {
-                        if (coordinate.row > target.row) {
-                            coordinate.row -= 1;
-                        }
-                        if (coordinate.row < target.row) {
-                            coordinate.row += 1;
-                        }
-                        if (coordinate.column > target.column) {
-                            coordinate.column -= 1;
-                        }
-                        if (coordinate.column < target.column) {
-                            coordinate.column += 1;
-                        }
-                        if (controller.grid[coordinate.row][coordinate.column] === ' ') {
-                            break;
-                        }
-                        controller.selectedCells.push({row: coordinate.row, column: coordinate.column});
-                    }
+                    computeSelectedCells(target);
                     addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     //  TODO - highlight when a word is found?
-                    controller.currentWordForward = '';
-                    controller.currentWordBackward = '';
-                    angular.forEach(controller.selectedCells, function (coordinate) {
-                        controller.currentWordForward += controller.grid[coordinate.row][coordinate.column];
-                        controller.currentWordBackward =
-                            controller.grid[coordinate.row][coordinate.column] +
-                            controller.currentWordBackward;
-                    });
-                    var halfWidth = controller.selectedStartElement.offsetWidth / 2;
-                    var halfHeight = controller.selectedStartElement.offsetHeight / 2;
-                    var startX = controller.selectedStartElement.offsetLeft + halfWidth;
-                    var startY = controller.selectedStartElement.offsetTop + halfHeight;
-                    var lastCell = controller.selectedCells.length - 1;
-                    var endX = ((controller.selectedCells[lastCell].column - controller.selectedCells[0].column) * halfWidth * 2) + startX;
-                    var endY = ((controller.selectedCells[lastCell].row - controller.selectedCells[0].row) * halfHeight * 2) + startY;
+                    computeSelectedWord();
                     clearGridCanvas();
-                    controller.canvasContext.beginPath();
-                    controller.canvasContext.lineWidth = 5;
-                    controller.canvasContext.strokeStyle = '#ff0000';
-                    controller.canvasContext.moveTo(startX, startY);
-                    controller.canvasContext.lineTo(endX, endY);
-                    controller.canvasContext.stroke();
-                    controller.canvasContext.closePath();
+                    highlightWord(
+                        controller.selectedCells[0],
+                        controller.selectedCells[controller.selectedCells.length - 1],
+                        '#FFFF99');
                 }
             };
 
