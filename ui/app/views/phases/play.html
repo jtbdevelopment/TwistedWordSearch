@@ -59,11 +59,16 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 text-center current-word">
-                        <span>{{play.currentWordForward}} / {{play.currentWordBackward}}</span>
+                        <span ng-class="play.forwardIsWord ? 'found-a-word' : ''">
+                            {{play.currentWordForward}}
+                        </span> /
+                        <span ng-class="play.backwardIsWord ? 'found-a-word' : ''">
+                            {{play.currentWordBackward}}
+                        </span>
                     </div>
                 </div>
                 <div class="row">
-                    <div grid-master class="col-xs-12 player-grid" >
+                    <div grid-master class="col-xs-12 player-grid">
                         <canvas id="grid-canvas" class="grid-canvas" ng-style="gridCanvasStyle"></canvas>
                         <!--canvas id="grid-canvas" class="grid-canvas"></canvas-->
                         <table class="table table-condensed"

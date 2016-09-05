@@ -20,7 +20,9 @@ import org.springframework.stereotype.Component
 @Component
 class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, TWSGame> {
     protected TWSGame handleActionInternal(
-            final Player player, final TWSGame game, final List<GridCoordinate> relativeCoordinates) {
+            final Player player,
+            final TWSGame game,
+            final List<GridCoordinate> relativeCoordinates) {
         validateCoordinates(game, relativeCoordinates)
 
         List<GridCoordinate> absoluteCoordinates = collectCoordinates(game, relativeCoordinates)
@@ -40,14 +42,17 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
 
     protected static void updateGameForFoundWord(
             final TWSGame game,
-            final Player player, final String word, final List<GridCoordinate> absoluteCoordiantes) {
+            final Player player,
+            final String word,
+            final List<GridCoordinate> absoluteCoordinates) {
         game.wordsToFind.remove(word)
         game.wordsFoundByPlayer[(ObjectId) player.id].add(word)
-        game.foundWordLocations[word] = absoluteCoordiantes as Set
+        game.foundWordLocations[word] = absoluteCoordinates as Set
     }
 
     private static List<GridCoordinate> collectCoordinates(
-            final TWSGame game, final List<GridCoordinate> relativeCoordinates) {
+            final TWSGame game,
+            final List<GridCoordinate> relativeCoordinates) {
         List<GridCoordinate> absolute = [new GridCoordinate(relativeCoordinates[0])];
         GridCoordinate coordinate = new GridCoordinate(relativeCoordinates[0])
         (1..(relativeCoordinates.size() - 1)).each {
@@ -72,14 +77,18 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
         absolute
     }
 
-    private static String collectWord(final TWSGame game, final List<GridCoordinate> absoluteCoordinates) {
+    private static String collectWord(
+            final TWSGame game,
+            final List<GridCoordinate> absoluteCoordinates) {
         char[] letters = absoluteCoordinates.collect {
             game.grid.getGridCell(it)
         }
         return new String(letters)
     }
 
-    private static void validateCoordinates(final TWSGame game, final List<GridCoordinate> relativeCoordinates) {
+    private static void validateCoordinates(
+            final TWSGame game,
+            final List<GridCoordinate> relativeCoordinates) {
         if (relativeCoordinates == null || relativeCoordinates.size() < 2) {
             throw new InvalidWordFindCoordinatesException()
         }
@@ -98,7 +107,7 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
         }
 
         GridCoordinate next = relativeCoordinates[1]
-        if ((next.column == 0 && next.column == 0) || next.column < -1 || next.column > 1 || next.row < -1 || next.row > 1) {
+        if ((next.column == 0 && next.row == 0) || next.column < -1 || next.column > 1 || next.row < -1 || next.row > 1) {
             throw new InvalidWordFindCoordinatesException();
         }
         List<GridCoordinate> remaining = new ArrayList<>(relativeCoordinates)

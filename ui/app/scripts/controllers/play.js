@@ -2,8 +2,8 @@
 
 //  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$timeout', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
-        function ($scope, $timeout, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
+    ['$scope', '$http', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
+        function ($scope, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
             var CURRENT_SELECTION = 'current-selection ';
@@ -17,10 +17,6 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.columnOffset = 0;
             controller.rows = 0;
             controller.columns = 0;
-
-            controller.canvas = angular.element('#grid-canvas')[0];
-            controller.canvasContext = controller.canvas.getContext('2d');
-
 
             function recomputeDisplayedGrid() {
                 angular.forEach(controller.game.grid, function (row, index) {
@@ -155,7 +151,35 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.canvas.width = $scope.gridCanvasStyle.width;
                 } else {
                     clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
-                    //  TODO - submit word!
+                    if (controller.forwardIsWord || controller.backwardIsWord) {
+                        var cells = [];
+                        if (controller.backwardIsWord) {
+                            controller.selectedCells.reverse();
+                        }
+                        var last;
+                        angular.forEach(controller.selectedCells, function (cell, index) {
+                            if (index === 0) {
+                                cells.push(cell);
+                                last = cell;
+                            }
+                            else {
+                                cells.push({
+                                    row: cell.row - last.row,
+                                    column: cell.column - last.column
+                                });
+                                last = cell;
+                            }
+                        });
+                        $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find', cells).success(
+                            function (updatedGame) {
+                                jtbGameCache.putUpdatedGame(updatedGame);
+                                updateControllerFromGame();
+                            }
+                        ).error(function (data, status) {
+                            console.error(data + '/' + status);
+                            //  TODO
+                        });
+                    }
                     controller.selectedCells = [];
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
@@ -267,13 +291,14 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.selectEnd = target;
                     computeSelectedCells(target);
                     addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
-                    //  TODO - highlight when a word is found?
                     computeSelectedWord();
                     clearGridCanvas();
                     highlightWord(
                         controller.selectedCells[0],
                         controller.selectedCells[controller.selectedCells.length - 1],
-                        '#FFFF99');
+                        '#FFFF99');  //  TODO - parameterize
+                    controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
+                    controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
                 }
             };
 
