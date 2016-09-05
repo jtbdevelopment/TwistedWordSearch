@@ -9,8 +9,13 @@
     font-weight: bold;
   }
 
-  .grid-canvas {
+  .select-canvas {
     z-index: -1;
+    position: absolute;
+  }
+
+  .found-canvas {
+    z-index: -2;
     position: absolute;
   }
 

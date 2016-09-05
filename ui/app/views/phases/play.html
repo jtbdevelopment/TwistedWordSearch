@@ -69,14 +69,15 @@
                 </div>
                 <div class="row">
                     <div grid-master class="col-xs-12 player-grid">
-                        <canvas id="grid-canvas" class="grid-canvas" ng-style="gridCanvasStyle"></canvas>
-                        <!--canvas id="grid-canvas" class="grid-canvas"></canvas-->
+                        <canvas id="select-canvas" class="select-canvas" ng-style="gridCanvasStyle"></canvas>
+                        <canvas id="found-canvas" class="found-canvas" ng-style="gridCanvasStyle"></canvas>
                         <table class="table table-condensed"
                                ng-mouseleave="play.onMouseExit($event)"
                                ng-mouseenter="play.onMouseEnter($event)">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"
                                 ng-init="gridRow = $index">
                                 <td ng-repeat="cell in row track by $index" data-ws-row="{{gridRow}}"
+                                    id="td{{gridRow}}x{{$index}}"
                                     ng-mousemove="play.onMouseMove($event)"
                                     ng-click="play.onMouseClick($event)"
                                     data-ws-column="{{$index}}"
