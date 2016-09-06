@@ -10,9 +10,23 @@ class GamePhaseTransitionEngineTest extends GroovyTestCase {
     GamePhaseTransitionEngine engine = new GamePhaseTransitionEngine()
 
     void testEvaluateSetupPhase() {
-        TWSGame game = new TWSGame(gamePhase: GamePhase.Setup)
+        TWSGame game = new TWSGame(gamePhase: GamePhase.Setup, wordsToFind: ['TESTING'])
         def g = engine.evaluateSetupPhase(game)
         assert g.is(game)
         assert GamePhase.Playing == g.gamePhase
+    }
+
+    void testEvaluatePlayingWhileWordsToFindNotEmptyDoesNothing() {
+        TWSGame game = new TWSGame(gamePhase: GamePhase.Playing, wordsToFind: ['LEFT'] as Set)
+        def g = engine.evaluateSetupPhase(game)
+        assert g.is(game)
+        assert GamePhase.Playing == g.gamePhase
+    }
+
+    void testEvaluatePlayingWhileWordsToFindEmptyEndsGame() {
+        TWSGame game = new TWSGame(gamePhase: GamePhase.Playing, wordsToFind: [] as Set)
+        def g = engine.evaluateSetupPhase(game)
+        assert g.is(game)
+        assert GamePhase.RoundOver == g.gamePhase
     }
 }

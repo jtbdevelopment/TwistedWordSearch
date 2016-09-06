@@ -16,4 +16,12 @@ class GamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<TWSGam
     protected TWSGame evaluateSetupPhase(final TWSGame game) {
         return changeStateAndReevaluate(GamePhase.Playing, game)
     }
+
+    @Override
+    protected TWSGame evaluatePlayingPhase(final TWSGame game) {
+        if (game.wordsToFind.empty) {
+            return changeStateAndReevaluate(GamePhase.RoundOver, game)
+        }
+        return super.evaluatePlayingPhase(game)
+    }
 }
