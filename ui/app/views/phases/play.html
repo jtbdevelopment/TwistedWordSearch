@@ -69,9 +69,8 @@
                 </div>
                 <div class="row">
                     <div grid-master class="col-xs-12 player-grid">
-                        <canvas id="select-canvas" class="select-canvas" ng-style="gridCanvasStyle"></canvas>
-                        <canvas id="found-canvas" class="found-canvas" ng-style="gridCanvasStyle"></canvas>
                         <table class="table table-condensed"
+                               id="word-grid"
                                ng-mouseleave="play.onMouseExit($event)"
                                ng-mouseenter="play.onMouseEnter($event)">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"
@@ -86,6 +85,8 @@
                                 </td>
                             </tr>
                         </table>
+                        <canvas id="select-canvas" class="select-canvas" ng-style="gridCanvasStyle"></canvas>
+                        <canvas id="found-canvas" class="found-canvas" ng-style="gridCanvasStyle" ng-init="play.highlighFoundWords()"></canvas>
                     </div>
 
                 </div>

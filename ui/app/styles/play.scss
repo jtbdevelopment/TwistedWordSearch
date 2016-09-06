@@ -17,6 +17,7 @@
   .found-canvas {
     z-index: -2;
     position: absolute;
+    //border: 1px solid red;
   }
 
   .player-grid {
@@ -33,17 +34,23 @@
           padding: 5px;
         }
         td:hover {
-          //font-weight: bold;
           font-size: larger;
           padding: 1px;
         }
       }
     }
 
+    .found-word {
+      font-weight: bolder;
+      text-decoration: underline;
+      font-style: italic;
+    }
+
     .current-selection {
       font-weight: bolder;
       font-style: italic;
     }
+
   }
 
   .words {

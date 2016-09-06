@@ -2,8 +2,8 @@
 
 //  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$http', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
-        function ($scope, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
+    ['$scope', '$timeout', '$http', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
+        function ($scope, $timeout, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
             $scope.gridCanvasStyle = {
@@ -25,10 +25,21 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.rows = 0;
             controller.columns = 0;
 
+            function computeOriginalRow(row) {
+                var originalRow = row + controller.rowOffset;
+                if (originalRow < 0) {
+                    originalRow += controller.rows;
+                }
+                if (originalRow >= controller.rows) {
+                    originalRow -= controller.rows;
+                }
+                return originalRow;
+            }
+
             function computeOffsetRow(row) {
                 var offSetRow = row + controller.rowOffset;
                 if (offSetRow < 0) {
-                    offSetRow = controller.rows + offSetRow;
+                    offSetRow += controller.rows;
                 }
                 if (offSetRow >= controller.rows) {
                     offSetRow -= controller.rows;
@@ -36,10 +47,21 @@ angular.module('twsUI').controller('PlayCtrl',
                 return offSetRow;
             }
 
+            function computeOriginalColumn(column) {
+                var originalColumn = column - controller.columnOffset;
+                if (originalColumn < 0) {
+                    originalColumn += controller.columns;
+                }
+                if (originalColumn >= controller.columns) {
+                    originalColumn -= controller.columns;
+                }
+                return originalColumn;
+            }
+
             function computeOffsetColumn(column) {
                 var offSetColumn = column + controller.columnOffset;
                 if (offSetColumn < 0) {
-                    offSetColumn = controller.columns + offSetColumn;
+                    offSetColumn += controller.columns;
                 }
                 if (offSetColumn >= controller.columns) {
                     offSetColumn -= controller.columns;
@@ -47,14 +69,64 @@ angular.module('twsUI').controller('PlayCtrl',
                 return offSetColumn;
             }
 
+            controller.timeout = 1000;
+            function redrawFoundWordLines() {
+                $timeout(function () {
+                    controller.foundCanvas = angular.element('#found-canvas')[0];
+                    controller.foundContext = controller.foundCanvas.getContext('2d');
+                    controller.foundCanvas.height = $scope.gridCanvasStyle.height;
+                    controller.foundCanvas.width = $scope.gridCanvasStyle.width;
+                    var linesToDraw = [];
+                    angular.forEach(controller.game.foundWordLocations, function (cells) {
+                        var currentLine = {};
+                        var lastCoordinate;
+                        angular.forEach(cells, function (cell, index) {
+                            var thisCoordinate = {
+                                row: computeOffsetRow(cell.row),
+                                column: computeOffsetColumn(cell.column)
+                            };
+                            if (index === 0) {
+                                lastCoordinate = thisCoordinate;
+                                currentLine.from = lastCoordinate;
+                            } else {
+                                if (Math.abs(lastCoordinate.row - thisCoordinate.row) > 1 || Math.abs(lastCoordinate.column - thisCoordinate.column) > 1) {
+                                    currentLine.to = lastCoordinate;
+                                    linesToDraw.push(currentLine);
+                                    currentLine = {};
+                                    currentLine.from = thisCoordinate;
+                                }
+                                lastCoordinate = thisCoordinate;
+                            }
+                        });
+                        currentLine.to = lastCoordinate;
+                        linesToDraw.push(currentLine);
+                    });
+                    clearGridCanvas(controller.foundCanvas, controller.foundContext);
+                    controller.foundContext.beginPath();
+                    angular.forEach(linesToDraw, function (lineToDraw) {
+                        //  TODO - customize color
+                        highlightWord(
+                            controller.foundContext,
+                            lineToDraw.from,
+                            lineToDraw.to,
+                            '#89E894');
+                    });
+                    controller.foundContext.closePath();
+                }, controller.timeout);  //  bit buggy depends on how fast it renders
+                controller.timeout = 0;
+            }
+
             function recomputeDisplayedGrid() {
-                controller.foundCanvas = angular.element('#found-canvas')[0];
-                controller.foundContext = controller.foundCanvas.getContext('2d');
-                controller.foundCanvas.height = $scope.gridCanvasStyle.height;
-                controller.foundCanvas.width = $scope.gridCanvasStyle.width;
-                angular.forEach(controller.game.grid, function (row, index) {
+                controller.grid = [];
+                controller.cellStyles = [];
+                console.log(controller.game.grid.length);
+                console.log(controller.grid.length);
+                angular.forEach(controller.game.grid, function () {
                     controller.grid.push(new Array(controller.columns));
                     controller.cellStyles.push(new Array(controller.columns));
+                });
+                console.log(controller.grid.length);
+                angular.forEach(controller.game.grid, function (row, index) {
                     var offSetRow = computeOffsetRow(index);
                     angular.forEach(row, function (column, index) {
                         var offSetColumn = computeOffsetColumn(index);
@@ -62,32 +134,34 @@ angular.module('twsUI').controller('PlayCtrl',
                         controller.grid[offSetRow][offSetColumn] = column;
                         controller.cellStyles[offSetRow][offSetColumn] = '';
                     });
-                    //  TODO add found word style
                 });
 
-                var aCell = angular.element('#td0x0')[0];
-                var halfWidth = aCell.offsetWidth / 2;
-                var halfHeight = aCell.offsetHeight / 2;
-
-                clearGridCanvas(controller.foundCanvas, controller.foundContext);
-                controller.foundContext.beginPath();
                 angular.forEach(controller.game.foundWordLocations, function (cells) {
-                    var startY = computeOffsetRow(cells[0].row);
-                    var startX = computeOffsetColumn(cells[0].column);
+                    angular.forEach(cells, function (cell) {
+                        var offSetRow = computeOffsetRow(cell.row);
+                        var offSetColumn = computeOffsetColumn(cell.column);
+                        controller.cellStyles[offSetRow][offSetColumn] += PART_OF_FOUND_WORD;
+                    });
                 });
-                controller.foundContext.closePath();
+
+
+                redrawFoundWordLines();
             }
 
             function updateControllerFromGame() {
                 controller.tracking = false;
                 controller.game = jtbGameCache.getGameForID($routeParams.gameID);
-                controller.grid.slice(0);
+                controller.grid = [];
                 controller.rows = controller.game.grid.length;
                 controller.columns = controller.game.grid[0].length;
                 recomputeDisplayedGrid();
             }
 
             updateControllerFromGame();
+
+            controller.highlighFoundWords = function() {
+                redrawFoundWordLines();
+            };
 
             controller.shiftLeft = function (amount) {
                 controller.columnOffset -= amount;
@@ -128,7 +202,6 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.tracking = false;
             controller.trackingPaused = false;
             controller.selectedCells = [];
-            controller.selectedStartElement = undefined;
             controller.selectStart = undefined;
             controller.selectEnd = undefined;
             controller.currentWordForward = '';
@@ -175,12 +248,6 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
                     addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
-                    controller.selectedStartElement = {
-                        offsetTop: event.currentTarget.offsetTop,
-                        offsetLeft: event.currentTarget.offsetLeft,
-                        offsetWidth: event.currentTarget.offsetWidth,
-                        offsetHeight: event.currentTarget.offsetHeight
-                    };
                     controller.selectCanvas.height = $scope.gridCanvasStyle.height;
                     controller.selectCanvas.width = $scope.gridCanvasStyle.width;
                 } else {
@@ -193,8 +260,10 @@ angular.module('twsUI').controller('PlayCtrl',
                         var last;
                         angular.forEach(controller.selectedCells, function (cell, index) {
                             if (index === 0) {
-                                //  TODO - adjust for offsets
-                                cells.push(cell);
+                                cells.push({
+                                    row: computeOriginalRow(cell.row),
+                                    column: computeOriginalColumn(cell.column)
+                                });
                                 last = cell;
                             }
                             else {
@@ -282,7 +351,11 @@ angular.module('twsUI').controller('PlayCtrl',
                     if (coordinate.column < target.column) {
                         coordinate.column += 1;
                     }
-                    if (controller.grid[coordinate.row][coordinate.column] === ' ') {
+                    if (controller.grid[coordinate.row][coordinate.column] === ' ' ||
+                        coordinate.row < 0 ||
+                        coordinate.column < 0 ||
+                        coordinate.column >= controller.columns ||
+                        coordinate.row >= controller.rows) {
                         break;
                     }
                     controller.selectedCells.push({row: coordinate.row, column: coordinate.column});
@@ -300,20 +373,19 @@ angular.module('twsUI').controller('PlayCtrl',
                 });
             }
 
-            function highlightWord(startCell, endCell, color) {
-                var halfWidth = controller.selectedStartElement.offsetWidth / 2;
-                var halfHeight = controller.selectedStartElement.offsetHeight / 2;
-                var startX = controller.selectedStartElement.offsetLeft + halfWidth;
-                var startY = controller.selectedStartElement.offsetTop + halfHeight;
+            function highlightWord(context, startCell, endCell, color) {
+                var table = angular.element('#word-grid')[0];
+                var halfWidth = table.offsetWidth / controller.columns / 2;
+                var halfHeight = table.offsetHeight / controller.rows / 2;
+                var startX = (startCell.column * halfWidth * 2) + halfWidth;
+                var startY = (startCell.row * halfHeight * 2) + halfHeight;
                 var endX = ((endCell.column - startCell.column) * halfWidth * 2) + startX;
                 var endY = ((endCell.row - startCell.row) * halfHeight * 2) + startY;
-                controller.selectContext.beginPath();
-                controller.selectContext.lineWidth = 8;
-                controller.selectContext.strokeStyle = color;
-                controller.selectContext.moveTo(startX, startY);
-                controller.selectContext.lineTo(endX, endY);
-                controller.selectContext.stroke();
-                controller.selectContext.closePath();
+                context.lineWidth = 8;
+                context.strokeStyle = color;
+                context.moveTo(startX, startY);
+                context.lineTo(endX, endY);
+                context.stroke();
             }
 
             controller.onMouseMove = function (event) {
@@ -328,10 +400,13 @@ angular.module('twsUI').controller('PlayCtrl',
                     addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     computeSelectedWord();
                     clearGridCanvas(controller.selectCanvas, controller.selectContext);
+                    controller.selectContext.beginPath();
                     highlightWord(
+                        controller.selectContext,
                         controller.selectedCells[0],
                         controller.selectedCells[controller.selectedCells.length - 1],
                         '#FFFF99');  //  TODO - parameterize
+                    controller.selectContext.closePath();
                     controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
                     controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
                 }
