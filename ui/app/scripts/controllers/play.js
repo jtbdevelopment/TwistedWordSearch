@@ -15,7 +15,6 @@ angular.module('twsUI').controller('PlayCtrl',
             var CURRENT_SELECTION = 'current-selection ';
             var PART_OF_FOUND_WORD = 'found-word ';
 
-            //var currentPlayer = jtbPlayerService.currentPlayer();
             controller.grid = [];
             controller.forwardIsWord = false;
             controller.backwardIsWord = false;
@@ -69,8 +68,9 @@ angular.module('twsUI').controller('PlayCtrl',
                 return offSetColumn;
             }
 
+            //  TODO - this is crappy
             controller.timeout = 1000;
-            function redrawFoundWordLines() {
+            controller.highlightFoundWords = function () {
                 $timeout(function () {
                     controller.foundCanvas = angular.element('#found-canvas')[0];
                     controller.foundContext = controller.foundCanvas.getContext('2d');
@@ -114,7 +114,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.foundContext.closePath();
                 }, controller.timeout);  //  bit buggy depends on how fast it renders
                 controller.timeout = 0;
-            }
+            };
 
             function recomputeDisplayedGrid() {
                 controller.grid = [];
@@ -145,7 +145,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 });
 
 
-                redrawFoundWordLines();
+                controller.highlightFoundWords();
             }
 
             function updateControllerFromGame() {
@@ -158,10 +158,6 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             updateControllerFromGame();
-
-            controller.highlighFoundWords = function() {
-                redrawFoundWordLines();
-            };
 
             controller.shiftLeft = function (amount) {
                 controller.columnOffset -= amount;
@@ -274,15 +270,7 @@ angular.module('twsUI').controller('PlayCtrl',
                                 last = cell;
                             }
                         });
-                        $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find', cells).success(
-                            function (updatedGame) {
-                                jtbGameCache.putUpdatedGame(updatedGame);
-                                updateControllerFromGame();
-                            }
-                        ).error(function (data, status) {
-                            console.error(data + '/' + status);
-                            //  TODO
-                        });
+                        jtbBootstrapGameActions.wrapActionOnGame($http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find', cells));
                     }
                     controller.selectedCells = [];
                     controller.currentWordBackward = '';
@@ -371,6 +359,8 @@ angular.module('twsUI').controller('PlayCtrl',
                         controller.grid[coordinate.row][coordinate.column] +
                         controller.currentWordBackward;
                 });
+                controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
+                controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
             }
 
             function highlightWord(context, startCell, endCell, color) {
@@ -388,27 +378,30 @@ angular.module('twsUI').controller('PlayCtrl',
                 context.stroke();
             }
 
+            controller.highlightSelectedLetters = function () {
+                clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                computeSelectedCells(controller.selectEnd);
+                addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                clearGridCanvas(controller.selectCanvas, controller.selectContext);
+                controller.selectContext.beginPath();
+                highlightWord(
+                    controller.selectContext,
+                    controller.selectedCells[0],
+                    controller.selectedCells[controller.selectedCells.length - 1],
+                    '#FFFF99');  //  TODO - parameterize
+                controller.selectContext.closePath();
+            };
+
+
             controller.onMouseMove = function (event) {
                 if (!controller.tracking) {
                     return;
                 }
                 var target = computeTargetEndPoint(event);
                 if (controller.selectEnd.row !== target.row || controller.selectEnd.column !== target.column) {
-                    clearStyleFromCoordinates(controller.selectedCells, CURRENT_SELECTION);
                     controller.selectEnd = target;
-                    computeSelectedCells(target);
-                    addStyleToCoordinates(controller.selectedCells, CURRENT_SELECTION);
+                    controller.highlightSelectedLetters();
                     computeSelectedWord();
-                    clearGridCanvas(controller.selectCanvas, controller.selectContext);
-                    controller.selectContext.beginPath();
-                    highlightWord(
-                        controller.selectContext,
-                        controller.selectedCells[0],
-                        controller.selectedCells[controller.selectedCells.length - 1],
-                        '#FFFF99');  //  TODO - parameterize
-                    controller.selectContext.closePath();
-                    controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
-                    controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
                 }
             };
 

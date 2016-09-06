@@ -85,8 +85,10 @@
                                 </td>
                             </tr>
                         </table>
-                        <canvas id="select-canvas" class="select-canvas" ng-style="gridCanvasStyle"></canvas>
-                        <canvas id="found-canvas" class="found-canvas" ng-style="gridCanvasStyle" ng-init="play.highlighFoundWords()"></canvas>
+                        <canvas id="select-canvas" class="select-canvas" ng-style="gridCanvasStyle"
+                                onresize="play.highlightSelectedLetters()"></canvas>
+                        <canvas id="found-canvas" class="found-canvas" ng-style="gridCanvasStyle"
+                                onresize="play.highlightFoundWords()"></canvas>
                     </div>
 
                 </div>
