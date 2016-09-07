@@ -365,13 +365,59 @@ angular.module('twsUI').controller('PlayCtrl',
 
             function highlightWord(context, startCell, endCell, color) {
                 var table = angular.element('#word-grid')[0];
-                var halfWidth = table.offsetWidth / controller.columns / 2;
-                var halfHeight = table.offsetHeight / controller.rows / 2;
-                var startX = (startCell.column * halfWidth * 2) + halfWidth;
-                var startY = (startCell.row * halfHeight * 2) + halfHeight;
-                var endX = ((endCell.column - startCell.column) * halfWidth * 2) + startX;
-                var endY = ((endCell.row - startCell.row) * halfHeight * 2) + startY;
-                context.lineWidth = 8;
+                var width = table.offsetWidth / controller.columns;
+                var halfWidth = width / 2;
+                var height = table.offsetHeight / controller.rows;
+                var halfHeight = height / 2;
+                var startX = (startCell.column * width);
+                var startY = (startCell.row * height);
+                var endX = ((endCell.column - startCell.column) * width) + startX;
+                var endY = ((endCell.row - startCell.row) * height) + startY;
+                var yDeltaSign = Math.sign(endCell.row - startCell.row);
+                var xDeltaSign = Math.sign(endCell.column - startCell.column);
+                switch (xDeltaSign) {
+                    case 0:
+                        startX += halfWidth;
+                        endX += halfWidth;
+                        if (yDeltaSign > 0) {
+                            endY += height;
+                        } else {
+                            startY += height;
+                        }
+                        break;
+                    default:
+                        switch (yDeltaSign) {
+                            case 0:
+                                startY += halfHeight;
+                                endY += halfHeight;
+                                if (xDeltaSign > 0) {
+                                    endX += width;
+                                } else {
+                                    startX += width;
+                                }
+                                break;
+                            case 1:  // sloping down
+                                if (xDeltaSign === 1) {
+                                    endX += width;
+                                    endY += height;
+                                } else {
+                                    startX += width;
+                                    endY += height;
+                                }
+                                break;
+                            case -1: // sloping up
+                                if (xDeltaSign === 1) {
+                                    startY += height;
+                                    endX += width;
+                                } else {
+                                    startX += width;
+                                    startY += height;
+                                }
+                                break;
+                        }
+                        break;
+                }
+                context.lineWidth = (halfHeight + halfWidth) / 2;
                 context.strokeStyle = color;
                 context.moveTo(startX, startY);
                 context.lineTo(endX, endY);
