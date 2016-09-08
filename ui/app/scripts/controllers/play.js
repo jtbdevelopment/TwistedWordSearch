@@ -15,6 +15,13 @@ angular.module('twsUI').controller('PlayCtrl',
             var CURRENT_SELECTION = 'current-selection ';
             var PART_OF_FOUND_WORD = 'found-word ';
 
+            function computeFontSize() {
+                controller.fontSize = {'font-size': controller.internalFontSize};
+            }
+
+            //  TODO - save default zoom
+            controller.internalFontSize = 11;
+            computeFontSize();
             controller.actions = jtbBootstrapGameActions;
             controller.grid = [];
             controller.forwardIsWord = false;
@@ -165,6 +172,16 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             updateControllerFromGame();
+
+            controller.zoomIn = function (amount) {
+                controller.internalFontSize += amount;
+                computeFontSize();
+            };
+
+            controller.zoomOut = function (amount) {
+                controller.internalFontSize -= amount;
+                computeFontSize();
+            };
 
             controller.shiftLeft = function (amount) {
                 controller.columnOffset -= amount;

@@ -1,5 +1,4 @@
 <div class="play-game" ng-cloak>
-    <!--  TODO - offer bigger/smaller text -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-8">
@@ -7,6 +6,11 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="btn-group btn-group-justified">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" ng-click="play.zoomIn(3)">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>x3
+                                    </button>
+                                </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" ng-click="play.shiftLeft(5)">
                                         <span class="glyphicon glyphicon-chevron-left"></span>x5
@@ -27,12 +31,22 @@
                                         <span class="glyphicon glyphicon-chevron-right"></span>x5
                                     </button>
                                 </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" ng-click="play.zoomOut(3)">
+                                        <span class="glyphicon glyphicon-zoom-out"></span>x3
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="btn-group btn-group-justified">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" ng-click="play.zoomIn(1)">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                    </button>
+                                </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" ng-click="play.shiftLeft(1)">
                                         <span class="glyphicon glyphicon-chevron-left"></span>
@@ -53,6 +67,11 @@
                                         <span class="glyphicon glyphicon-chevron-right"></span>
                                     </button>
                                 </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" ng-click="play.zoomOut(1)">
+                                        <span class="glyphicon glyphicon-zoom-out"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,7 +87,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div grid-master class="col-xs-12 player-grid">
+                    <div grid-master class="col-xs-12 player-grid" ng-style="play.fontSize">
                         <table class="table table-condensed"
                                id="word-grid"
                                ng-mouseleave="play.onMouseExit($event)"
