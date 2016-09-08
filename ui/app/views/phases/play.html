@@ -106,8 +106,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-default quit-button" ng-click="play.quit()">
+                    <button class="btn btn-default btn-quit-game"
+                            ng-click="play.actions.quit(play.game)"
+                            ng-show="play.showQuit">
                         <span class="glyphicon glyphicon-flag"></span>I Quit!
+                    </button>
+                    <button class="btn btn-default btn-rematch-game"
+                            ng-click="play.actions.rematch(play.game)"
+                            ng-show="play.showRematch">
+                        <span class="glyphicon glyphicon-repeat"></span>Rematch!
+                    </button>
+                    <button class="btn btn-default btn-end-rematch-game"
+                            ng-click="play.actions.declineRematch(play.game)"
+                            ng-show="play.showRematch">
+                        <span class="glyphicon glyphicon-stop"></span>No More Rematches
                     </button>
                 </div>
                 <!--  TODO - show color for player here?  -->

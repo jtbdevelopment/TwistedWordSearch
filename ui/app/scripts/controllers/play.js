@@ -15,6 +15,7 @@ angular.module('twsUI').controller('PlayCtrl',
             var CURRENT_SELECTION = 'current-selection ';
             var PART_OF_FOUND_WORD = 'found-word ';
 
+            controller.actions = jtbBootstrapGameActions;
             controller.grid = [];
             controller.forwardIsWord = false;
             controller.backwardIsWord = false;
@@ -23,9 +24,12 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.columnOffset = 0;
             controller.rows = 0;
             controller.columns = 0;
+            controller.showQuit = false;
+            controller.showRematch = false;
+            controller.acceptClicks = false;
 
             function computeOriginalRow(row) {
-                var originalRow = row + controller.rowOffset;
+                var originalRow = row - controller.rowOffset;
                 if (originalRow < 0) {
                     originalRow += controller.rows;
                 }
@@ -154,6 +158,9 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.grid = [];
                 controller.rows = controller.game.grid.length;
                 controller.columns = controller.game.grid[0].length;
+                controller.showQuit = (controller.game.gamePhase === 'Playing');
+                controller.showRematch = (controller.game.gamePhase === 'RoundOver');
+                controller.acceptClicks = controller.showQuit;
                 recomputeDisplayedGrid();
             }
 
@@ -191,10 +198,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 recomputeDisplayedGrid();
             };
 
-            controller.quit = function () {
-                jtbBootstrapGameActions.quit(controller.game);
-            };
-
             controller.tracking = false;
             controller.trackingPaused = false;
             controller.selectedCells = [];
@@ -202,6 +205,7 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.selectEnd = undefined;
             controller.currentWordForward = '';
             controller.currentWordBackward = '';
+
             controller.onMouseEnter = function () {
                 controller.tracking = controller.trackingPaused;
             };
@@ -224,6 +228,9 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             controller.onMouseClick = function (event) {
+                if (!controller.acceptClicks) {
+                    return;
+                }
                 controller.selectCanvas = angular.element('#select-canvas')[0];
                 controller.selectContext = controller.selectCanvas.getContext('2d');
                 controller.tracking = !controller.tracking;

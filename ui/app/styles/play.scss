@@ -63,7 +63,22 @@
     }
   }
 
-  .quit-button {
+  .btn-quit-game {
+    width: 100%;
+    margin-bottom: 10px;
+    //  TODO - set colors via styles
+    background-color: red;
+    color: white;
+  }
+
+  .btn-rematch-game {
+    width: 100%;
+    //  TODO - set colors via styles
+    background-color: green;
+    color: white;
+  }
+
+  .btn-end-rematch-game {
     width: 100%;
     margin-bottom: 10px;
     //  TODO - set colors via styles

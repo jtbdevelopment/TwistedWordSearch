@@ -85,14 +85,14 @@ angular
             })
             //  TODO - review
             .when('/game/roundover/:gameID', {
-                templateUrl: 'views/phases/playerList.html',
-                controller: 'PlayerListCtrl',
-                controllerAs: 'list'
+                templateUrl: 'views/phases/play.html',
+                controller: 'PlayCtrl',
+                controllerAs: 'play'
             })
             .when('/game/nextroundstarted/:gameID', {
-                templateUrl: 'views/phases/playerList.html',
-                controller: 'PlayerListCtrl',
-                controllerAs: 'list'
+                templateUrl: 'views/phases/play.html',
+                controller: 'PlayCtrl',
+                controllerAs: 'play'
             })
             .when('/game/playing/:gameID', {
                 templateUrl: 'views/phases/play.html',
