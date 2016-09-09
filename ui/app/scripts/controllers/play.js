@@ -397,7 +397,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 var endY = ((endCell.row - startCell.row) * height) + startY;
                 context.lineWidth = (halfHeight + halfWidth) / 2;
                 context.strokeStyle = color;
-                context.lineCap = "round";
+                context.lineCap = 'round';
                 context.moveTo(startX, startY);
                 context.lineTo(endX, endY);
                 context.stroke();

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twsUI').controller('MenuCtrl',
-    ['$scope', 'jtbGameCache', 'jtbGamePhaseService',
-        function ($scope, jtbGameCache, jtbGamePhaseService) {
+    ['$scope', 'jtbGameCache', 'jtbGameClassifier',
+        function ($scope, jtbGameCache, jtbGameClassifier) {
             var controller = this;
 
             controller.phases = [];
@@ -15,30 +15,15 @@ angular.module('twsUI').controller('MenuCtrl',
             };
 
             //  TODO - customize if using custom classifier
-            controller.phaseGlyphicons = {
-                Playing: 'play',
-                Setup: 'comment',
-                Challenged: 'inbox',
-                RoundOver: 'repeat',
-                Declined: 'remove',
-                NextRoundStarted: 'ok-sign',
-                Quit: 'flag'
-            };
-
-            jtbGamePhaseService.phases().then(
-                function (phases) {
-                    controller.phases = [];
-                    angular.forEach(phases, function (value, key) {
-                        controller.phases.push(key);
-                        controller.phaseLabels[key] = value[1];
-                        controller.phaseDescriptions[key] = value[0];
-                        controller.games[key] = [];
-                        controller.phaseCollapsed[key] = false;
-                    });
-                },
-                function () {
-                    //  TODO
-                });
+            controller.phaseGlyphicons = jtbGameClassifier.getIcons();
+            controller.phases = [];
+            angular.forEach(jtbGameClassifier.getClassifications(), function (value) {
+                controller.phases.push(value);
+                controller.phaseLabels[value] = value;
+                controller.phaseDescriptions[value] = value;
+                controller.games[value] = [];
+                controller.phaseCollapsed[value] = false;
+            });
 
             function updateGames() {
                 angular.forEach(controller.phases, function (phase) {

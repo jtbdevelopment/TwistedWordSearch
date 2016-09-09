@@ -31,7 +31,8 @@ angular
         'ui.bootstrap',
         'ui.select',
         'coreGamesUi',
-        'coreGamesBootstrapUi'
+        'coreGamesBootstrapUi',
+        'twsUI.services'
     ])
     .config(function ($routeProvider) {
         $routeProvider
