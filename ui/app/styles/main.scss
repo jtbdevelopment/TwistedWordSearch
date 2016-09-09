@@ -19,7 +19,7 @@ body {
     padding-left: 5px;
     padding-right: 5px;
     background-color: $mediumSpringBud;
-    border: 0;
+    border-width: 0;
   }
 
 }
@@ -33,3 +33,31 @@ body {
   padding-left: 5px;
 }
 
+.btn-quit-game {
+  background-color: $puceRed;
+}
+
+.btn-quit-game:hover {
+  background-color: $puceRed;
+  color: $cambridgeBlue;
+}
+
+.btn-end-rematch-game {
+  background-color: $puceRed;
+  color: white;
+}
+
+.btn-end-rematch-game:hover {
+  background-color: $puceRed;
+  color: $cambridgeBlue;
+}
+
+.btn-rematch-game {
+  background-color: $mediumSpringBud;
+  color: white;
+}
+
+.btn-rematch-game:hover {
+  background-color: $mediumSpringBud;
+  color: $cambridgeBlue;
+}

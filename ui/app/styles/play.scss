@@ -1,11 +1,24 @@
+@import "colors";
+
 .play-game {
+
+  .btn-group-grid-manipulation {
+    .btn {
+      background-color: $mediumChampagne;
+      border-width: 1px;
+      border-color: $cambridgeBlue;
+      border-radius: 8px;
+      color: dimgray;
+    }
+    margin-bottom: 2px;
+  }
+
   .current-word {
     margin-top: 20px;
   }
 
   .found-a-word {
-    //  TODO - set color via style
-    background-color: lightblue;
+    background-color: $mediumSpringBud;
     font-weight: bold;
   }
 
@@ -17,7 +30,6 @@
   .found-canvas {
     z-index: -2;
     position: absolute;
-    //border: 1px solid red;
   }
 
   .player-grid {
@@ -65,23 +77,16 @@
   .btn-quit-game {
     width: 100%;
     margin-bottom: 10px;
-    //  TODO - set colors via styles
-    background-color: red;
     color: white;
+    border-width: 0;
   }
 
   .btn-rematch-game {
     width: 100%;
-    //  TODO - set colors via styles
-    background-color: green;
-    color: white;
   }
 
   .btn-end-rematch-game {
     width: 100%;
     margin-bottom: 10px;
-    //  TODO - set colors via styles
-    background-color: red;
-    color: white;
   }
 }
