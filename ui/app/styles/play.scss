@@ -2,6 +2,16 @@
 
 .play-game {
 
+  .select-canvas {
+    z-index: -1;
+    position: absolute;
+  }
+
+  .found-canvas {
+    z-index: -2;
+    position: absolute;
+  }
+
   .btn-group-grid-manipulation {
     .btn {
       background-color: $mediumChampagne;
@@ -20,16 +30,6 @@
   .found-a-word {
     background-color: $mediumSpringBud;
     font-weight: bold;
-  }
-
-  .select-canvas {
-    z-index: -1;
-    position: absolute;
-  }
-
-  .found-canvas {
-    z-index: -2;
-    position: absolute;
   }
 
   .player-grid {
@@ -68,6 +68,10 @@
     }
     .panel-heading {
       padding: 2px 15px;
+      background-color: $mediumSpringBud;
+    }
+    .panel-body {
+      background-color: $mediumChampagne;
     }
     span {
       padding-right: 10px;
