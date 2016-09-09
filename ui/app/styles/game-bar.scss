@@ -1,3 +1,5 @@
+@import "colors";
+
 .game-bar {
   padding-left: 5px;
 
@@ -19,7 +21,24 @@
       font-weight: bold;
       padding: 10px 10px;
       border: none;
+      color: black;
     }
+
+    .badge {
+      background-color: $puceRed;
+    }
+  }
+
+  .btn-group-older-games {
+    background-color: $mediumChampagne;
+  }
+
+  .btn-group-your-move {
+    background-color: $mediumSpringBud;
+  }
+
+  .btn-group-their-move {
+    background-color: $cambridgeBlue;
   }
 
   .btn-group-games {
@@ -31,6 +50,7 @@
     }
 
     .btn-group-game {
+      color: white;
       padding: 4px;
       alignment: left;
       text-align: left;
@@ -38,15 +58,29 @@
       word-wrap: break-word;
       white-space: normal;
       font-weight: bold;
+      border-color: white;
       span {
         span {
           font-weight: bold;
         }
       }
     }
+
+    .btn-group-game-older-games {
+      background-color: $mediumChampagne;
+    }
+
+    .btn-group-game-your-move {
+      background-color: $mediumSpringBud;
+    }
+
+    .btn-group-game-their-move {
+      background-color: $cambridgeBlue;
+    }
   }
 
   .list-group-hidden {
     display: none;
   }
+
 }

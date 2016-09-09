@@ -6,6 +6,7 @@ angular.module('twsUI').controller('MenuCtrl',
             var controller = this;
 
             controller.phases = [];
+            controller.phaseStyles = {};
             controller.phaseLabels = {};
             controller.phaseDescriptions = {};
             controller.phaseCollapsed = {};
@@ -14,7 +15,6 @@ angular.module('twsUI').controller('MenuCtrl',
                 return '';
             };
 
-            //  TODO - customize if using custom classifier
             controller.phaseGlyphicons = jtbGameClassifier.getIcons();
             controller.phases = [];
             angular.forEach(jtbGameClassifier.getClassifications(), function (value) {
@@ -23,6 +23,8 @@ angular.module('twsUI').controller('MenuCtrl',
                 controller.phaseDescriptions[value] = value;
                 controller.games[value] = [];
                 controller.phaseCollapsed[value] = false;
+                //  TODO - why multiple replace
+                controller.phaseStyles[value] = value.toLowerCase().replace(' ', '-').replace(' ', '-').replace('.', '');
             });
 
             function updateGames() {

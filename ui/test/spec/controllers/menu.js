@@ -15,7 +15,7 @@ describe('Controller: MenuCtrl', function () {
     };
     var testPhasesAndIcons = {
         'Phase 1 Description': 'icon1',
-        'Aha!': 'icon3',
+        'Aha.': 'icon3',
         'Description Phase 2': 'icon2'
     };
 
@@ -45,30 +45,36 @@ describe('Controller: MenuCtrl', function () {
     }));
 
     it('initializes', function () {
-        expect(MenuCtrl.phases).toEqual(['Phase 1 Description', 'Aha!', 'Description Phase 2']);
+        expect(MenuCtrl.phases).toEqual(['Phase 1 Description', 'Aha.', 'Description Phase 2']);
         expect(MenuCtrl.phaseLabels).toEqual({
             'Phase 1 Description': 'Phase 1 Description',
-            'Aha!': 'Aha!',
+            'Aha.': 'Aha.',
             'Description Phase 2': 'Description Phase 2'
         });
         expect(MenuCtrl.phaseDescriptions).toEqual({
             'Phase 1 Description': 'Phase 1 Description',
-            'Aha!': 'Aha!',
+            'Aha.': 'Aha.',
             'Description Phase 2': 'Description Phase 2'
+        });
+
+        expect(MenuCtrl.phaseStyles).toEqual({
+            'Phase 1 Description': 'phase-1-description',
+            'Aha.': 'aha',
+            'Description Phase 2': 'description-phase-2'
         });
         expect(MenuCtrl.phaseCollapsed).toEqual({
             'Phase 1 Description': false,
-            'Aha!': false,
+            'Aha.': false,
             'Description Phase 2': false
         });
         expect(MenuCtrl.games).toEqual({
             'Phase 1 Description': [],
-            'Aha!': [],
+            'Aha.': [],
             'Description Phase 2': []
         });
         expect(MenuCtrl.phaseGlyphicons).toEqual({
             'Phase 1 Description': 'icon1',
-            'Aha!': 'icon3',
+            'Aha.': 'icon3',
             'Description Phase 2': 'icon2'
         });
     });

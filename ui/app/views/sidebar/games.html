@@ -1,8 +1,8 @@
 <div class="game-bar" ng-controller="MenuCtrl as menu">
     <div ng-repeat="phase in menu.phases">
-        <div class="list-group list-group-games list-group-{{phase}}"
+        <div class="list-group list-group-games list-group-{{menu.phaseStyles[phase]}}"
              ng-hide="menu.games[phase].length == 0">
-            <button class="list-group-item btn-group-{{phase}}"
+            <button class="list-group-item btn-group-{{menu.phaseStyles[phase]}}"
                     ng-click="menu.phaseCollapsed[phase] = !menu.phaseCollapsed[phase]">
                 <span class="glyphicon glyphicon-{{menu.phaseGlyphicons[phase]}}"></span>
                 {{menu.phaseLabels[phase]}}
@@ -14,7 +14,7 @@
             <div class="btn-group-vertical btn-group-games">
                 <a ng-repeat="game in menu.games[phase] track by game.id"
                    ng-href="#/game/{{game.gamePhase.toLowerCase()}}/{{game.id}}"
-                   class="btn-group btn btn-default btn-group-game btn-group-game-{{phase}}">
+                   class="btn-group btn btn-default btn-group-game btn-group-game-{{menu.phaseStyles[phase]}}">
                     <img ng-src="{{game.playerImages[md5]}}" class="playerImage"
                          ng-repeat="(md5, name) in game.players">
                     {{menu.describeGame(game)}}
