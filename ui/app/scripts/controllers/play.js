@@ -6,6 +6,8 @@ angular.module('twsUI').controller('PlayCtrl',
         function ($scope, $timeout, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
+            var SELECT_COLOR = '#9DC4B5';
+            var FOUND_COLOR = '#C1D37F';
             $scope.gridCanvasStyle = {
                 top: 0,
                 left: 0,
@@ -115,12 +117,11 @@ angular.module('twsUI').controller('PlayCtrl',
                     clearGridCanvas(controller.foundCanvas, controller.foundContext);
                     controller.foundContext.beginPath();
                     angular.forEach(linesToDraw, function (lineToDraw) {
-                        //  TODO - customize color
                         highlightWord(
                             controller.foundContext,
                             lineToDraw.from,
                             lineToDraw.to,
-                            '#89E894');
+                            FOUND_COLOR);
                     });
                     controller.foundContext.closePath();
                 }, controller.timeout);  //  bit buggy depends on how fast it renders
@@ -130,13 +131,10 @@ angular.module('twsUI').controller('PlayCtrl',
             function recomputeDisplayedGrid() {
                 controller.grid = [];
                 controller.cellStyles = [];
-                console.log(controller.game.grid.length);
-                console.log(controller.grid.length);
                 angular.forEach(controller.game.grid, function () {
                     controller.grid.push(new Array(controller.columns));
                     controller.cellStyles.push(new Array(controller.columns));
                 });
-                console.log(controller.grid.length);
                 angular.forEach(controller.game.grid, function (row, index) {
                     var offSetRow = computeOffsetRow(index);
                     angular.forEach(row, function (column, index) {
@@ -458,7 +456,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.selectContext,
                     controller.selectedCells[0],
                     controller.selectedCells[controller.selectedCells.length - 1],
-                    '#FFFF99');  //  TODO - parameterize
+                    SELECT_COLOR);
                 controller.selectContext.closePath();
             };
 
