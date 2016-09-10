@@ -23,7 +23,7 @@ class TWSPlayerServicesTest extends GroovyTestCase {
     void testCreateNewGame() {
         def APLAYER = new ObjectId()
         playerServices.playerID.set(APLAYER)
-        def features = [GameFeature.Grid40X40, GameFeature.HideWordLetters] as Set
+        def features = [GameFeature.Grid40X40, GameFeature.WordWrapYes] as Set
         def players = ["1", "2", "3"]
         FeaturesAndPlayers input = new FeaturesAndPlayers(features: features, players: players)
         MaskedGame game = new MaskedGame()

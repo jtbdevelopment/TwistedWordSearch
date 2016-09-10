@@ -24,15 +24,17 @@ enum GameFeature {
     Diamond50x50(14, 'Diamond x50', '50x50 diamond.', Grid),  // 1300 squares
 
     WordWrap(2, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
-    WordWrapYes(1, 'Yes', 'Allows words to wrap around edges.', WordWrap),
-    WordWrapNo(2, 'No', 'Prevents words from wrapping around edges.', WordWrap),
+    WordWrapNo(1, 'No', 'Prevents words from wrapping around edges.', WordWrap),
+    WordWrapYes(2, 'Yes', 'Allows words to wrap around edges.', WordWrap),
 
     //  TODO - implement
+            /*
     JumbleOnFind(3, GameFeatureGroupType.Difficulty, 'Jumble', 'Finding a word causes the puzzle to re-jumble remaining letters.'),
     JumbleOnFindNo(1, 'No', 'Puzzle not rearranged after finding a word.', JumbleOnFind),
     JumbleOnFindYes(2, 'Yes', 'Puzzle is re-jumbled after each word find.', JumbleOnFind),
+    */
 
-    WordDifficulty(4, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
+            WordDifficulty(4, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
     BeginnerDifficulty(1, 'Beginner', 'Easiest - Fewer and longer words.', WordDifficulty),
     ExperiencedDifficulty(2, 'Experienced', 'Easier - More words that are a little shorter on average.', WordDifficulty),
     ExpertDifficulty(3, 'Expert', 'Harder - Even more words that are a little shorter on average.', WordDifficulty),
@@ -45,10 +47,12 @@ enum GameFeature {
     WordChunks(4, 'Word Chunks', 'Fill with chunks of words.', FillDifficulty),
 
     //  TODO - implement
-    HideWordLetters(6, GameFeatureGroupType.Difficulty, 'Partial words.', 'Hide some of the letters in the words to find.'),
-    HideWordLettersNone(1, 'None', 'Words to find are shown completely.', HideWordLetters),
-    HideWordLettersSome(2, 'Some', 'Words to find show more than 75% of their letters.', HideWordLetters),
-    HideWordLettersMany(3, 'Many', 'Words to find show less than 75% of their letters.', HideWordLetters),
+    /*
+HideWordLetters(6, GameFeatureGroupType.Difficulty, 'Partial words.', 'Hide some of the letters in the words to find.'),
+HideWordLettersNone(1, 'None', 'Words to find are shown completely.', HideWordLetters),
+HideWordLettersSome(2, 'Some', 'Words to find show more than 75% of their letters.', HideWordLetters),
+HideWordLettersMany(3, 'Many', 'Words to find show less than 75% of their letters.', HideWordLetters),
+*/
 
     //  TODO - multi player options
     /*

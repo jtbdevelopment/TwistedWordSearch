@@ -32,10 +32,11 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                 new GameFeatureInfo(
                         GameFeature.WordWrap,
                         [
-                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
                                 new GameFeatureInfo.Detail(GameFeature.WordWrapNo),
+                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
                         ]
                 ),
+                /*
                 new GameFeatureInfo(
                         GameFeature.JumbleOnFind,
                         [
@@ -43,6 +44,7 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.JumbleOnFindYes),
                         ]
                 ),
+                */
                 new GameFeatureInfo(
                         GameFeature.WordDifficulty,
                         [
@@ -61,6 +63,7 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.WordChunks)
                         ]
                 ),
+                /*
                 new GameFeatureInfo(
                         GameFeature.HideWordLetters,
                         [
@@ -69,6 +72,7 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.HideWordLettersMany),
                         ]
                 ),
+                */
         ] == service.featuresAndDescriptions()
     }
 }

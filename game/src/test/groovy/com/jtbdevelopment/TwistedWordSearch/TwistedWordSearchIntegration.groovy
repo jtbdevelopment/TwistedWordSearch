@@ -75,10 +75,11 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new GameFeatureInfo(
                         GameFeature.WordWrap,
                         [
-                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
                                 new GameFeatureInfo.Detail(GameFeature.WordWrapNo),
+                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
                         ]
                 ),
+                /*
                 new GameFeatureInfo(
                         GameFeature.JumbleOnFind,
                         [
@@ -86,6 +87,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                                 new GameFeatureInfo.Detail(GameFeature.JumbleOnFindYes),
                         ]
                 ),
+                */
                 new GameFeatureInfo(
                         GameFeature.WordDifficulty,
                         [
@@ -104,6 +106,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                                 new GameFeatureInfo.Detail(GameFeature.WordChunks)
                         ]
                 ),
+                /*
                 new GameFeatureInfo(
                         GameFeature.HideWordLetters,
                         [
@@ -112,6 +115,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                                 new GameFeatureInfo.Detail(GameFeature.HideWordLettersMany),
                         ]
                 ),
+                */
         ]
     }
 
@@ -122,8 +126,6 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new FeaturesAndPlayers(
                         features: [
                                 GameFeature.Grid30X30,
-                                GameFeature.HideWordLettersNone,
-                                GameFeature.JumbleOnFindNo,
                                 GameFeature.ExpertDifficulty,
                                 GameFeature.StrongOverlap,
                                 GameFeature.WordWrapYes,
@@ -152,8 +154,6 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new FeaturesAndPlayers(
                         features: [
                                 GameFeature.Grid30X30,
-                                GameFeature.HideWordLettersNone,
-                                GameFeature.JumbleOnFindNo,
                                 GameFeature.ExpertDifficulty,
                                 GameFeature.StrongOverlap,
                                 GameFeature.WordWrapYes,
