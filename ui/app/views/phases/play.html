@@ -77,7 +77,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 text-center current-word">
+                    <div class="col-xs-2 text-left game-options">
+                        <span>Word Wrap? {{play.game.features.indexOf('WordWrapYes') < 0 ? 'No' : 'Yes'}}</span>
+                    </div>
+                    <div class="col-xs-10 text-center current-word">
                         <span ng-class="play.forwardIsWord ? 'found-a-word' : ''">
                             {{play.currentWordForward}}
                         </span> /
@@ -117,7 +120,7 @@
                 <div class="row">
                     <div class="panel panel-default words-left">
                         <div class="panel-heading">
-                            <h5>Words Left To Find - {{play.game.wordsToFind.length}}</h5>
+                            <h5>Left To Find - {{play.game.wordsToFind.length}}</h5>
                         </div>
                         <div class="panel-body">
                             <span ng-repeat="word in play.game.wordsToFind">{{word}} </span>
@@ -145,7 +148,7 @@
                 <div class="row">
                     <div class="panel panel-default words-found" ng-repeat="(id, name) in play.game.players">
                         <div class="panel-heading">
-                            <h5>Words Found By {{name}} - {{play.game.wordsFoundByPlayer[id].length}}</h5>
+                            <h5>{{name}} Found - {{play.game.wordsFoundByPlayer[id].length}}</h5>
                         </div>
                         <div class="panel-body">
                             <span ng-repeat="word in play.game.wordsFoundByPlayer[id]">{{word}} </span>
