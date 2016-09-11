@@ -2,8 +2,8 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService',
-        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService) {
+        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'gridClassifier',
+        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, gridClassifier) {
             var controller = this;
 
             controller.features = {};
@@ -24,11 +24,20 @@ angular.module('twsUI').controller('CreateGameCtrl',
                         };
 
                         angular.forEach(feature.options, function (option) {
-                            newFeature.options.push({
+                            var item = {
                                 feature: option.feature,
                                 label: option.label,
-                                description: option.description
-                            });
+                                description: option.description,
+                                icon: ''
+                            };
+                            var icon =gridClassifier.getIconForGrid(option.label);
+                            var size = gridClassifier.getSizeForGrid(option.label);
+                            if(angular.isDefined(icon) && angular.isDefined(size)) {
+                                item.icon = icon;
+                                item.label = size;
+                            }
+
+                            newFeature.options.push(item);
                         });
 
                         controller.features[group].push(newFeature);

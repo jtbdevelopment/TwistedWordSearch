@@ -19,14 +19,14 @@ class GridInitializer implements GameInitializer<TWSGame> {
             (GameFeature.Grid30X30)   : 30,
             (GameFeature.Grid40X40)   : 40,
             (GameFeature.Grid50X50)   : 50,
-            (GameFeature.CircleX30)   : 31,
-            (GameFeature.CircleX40)   : 41,
-            (GameFeature.CircleX50)   : 51,
+            (GameFeature.CircleX31)   : 31,
+            (GameFeature.CircleX41)   : 41,
+            (GameFeature.CircleX51)   : 51,
             (GameFeature.PyramidX40)  : 20,
             (GameFeature.PyramidX50)  : 25,
-            (GameFeature.Diamond30x30): 30,
-            (GameFeature.Diamond40x40): 40,
-            (GameFeature.Diamond50x50): 50,
+            (GameFeature.Diamond30X30): 30,
+            (GameFeature.Diamond40X40): 40,
+            (GameFeature.Diamond50X50): 50,
     ]
 
     private final static Map<GameFeature, Integer> GRID_COLS = [
@@ -34,14 +34,14 @@ class GridInitializer implements GameInitializer<TWSGame> {
             (GameFeature.Grid30X30)   : 30,
             (GameFeature.Grid40X40)   : 40,
             (GameFeature.Grid50X50)   : 50,
-            (GameFeature.CircleX30)   : 31,
-            (GameFeature.CircleX40)   : 41,
-            (GameFeature.CircleX50)   : 51,
+            (GameFeature.CircleX31)   : 31,
+            (GameFeature.CircleX41)   : 41,
+            (GameFeature.CircleX51)   : 51,
             (GameFeature.PyramidX40)  : 40,
             (GameFeature.PyramidX50)  : 50,
-            (GameFeature.Diamond30x30): 30,
-            (GameFeature.Diamond40x40): 40,
-            (GameFeature.Diamond50x50): 50,
+            (GameFeature.Diamond30X30): 30,
+            (GameFeature.Diamond40X40): 40,
+            (GameFeature.Diamond50X50): 50,
     ]
 
     void initializeGame(final TWSGame game) {

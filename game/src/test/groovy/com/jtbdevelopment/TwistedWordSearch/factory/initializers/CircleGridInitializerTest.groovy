@@ -15,7 +15,7 @@ class CircleGridInitializerTest extends GroovyTestCase {
     void testInitializeGame() {
         TWSGame game = new TWSGame()
         game.grid = new Grid(21, 21)
-        game.features = [GameFeature.CircleX50] as Set
+        game.features = [GameFeature.CircleX51] as Set
 
         initializer.initializeGame(game)
 

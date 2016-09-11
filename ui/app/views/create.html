@@ -8,7 +8,7 @@
                         <label ng-repeat="option in feature.options" uib-btn-radio="option.feature"
                                ng-model="create.choices[feature.feature]" class="btn btn-primary"
                                uib-tooltip="{{option.description}}" tooltip-append-to-body="true">
-                            {{option.label}}
+                            <span class="{{option.icon}}" ng-hide="option.icon === ''"></span>  {{option.label}}
                         </label>
                     </div>
                 </div>

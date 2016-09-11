@@ -10,18 +10,18 @@ import groovy.transform.CompileStatic
 enum GameFeature {
     //  TODO - more - random jumble on timer
     Grid(1, GameFeatureGroupType.Difficulty, 'Grid', 'Type of grid to play on.'),
-    Grid20X20(2, '20x20', '20 x 20 square grid.', Grid),  // 400 squares
-    Grid30X30(3, '30x30', '30 x 30 square grid.', Grid),  // 900 squares
-    Grid40X40(4, '40x40', '40 x 40 square grid.', Grid),  // 1600 squares
-    Grid50X50(5, '50x50', '50 x 50 square grid.', Grid),  // 2500 squares
-    CircleX30(7, 'Circle x30', '30 letter diameter circle.', Grid),  // really 31!
-    CircleX40(8, 'Circle x40', '40 letter diameter circle.', Grid),  // really 41!
-    CircleX50(9, 'Circle x50', '50 letter diameter circle.', Grid),  // really 51!
+    Grid20X20(2, 'Square x20', '20 x 20 square grid.', Grid),  // 400 squares
+    Grid30X30(3, 'Square x30', '30 x 30 square grid.', Grid),  // 900 squares
+    Grid40X40(4, 'Square x40', '40 x 40 square grid.', Grid),  // 1600 squares
+    Grid50X50(5, 'Square x50', '50 x 50 square grid.', Grid),  // 2500 squares
+    CircleX31(7, 'Circle x31', '31 letter diameter circle.', Grid),
+    CircleX41(8, 'Circle x41', '41 letter diameter circle.', Grid),
+    CircleX51(9, 'Circle x51', '51 letter diameter circle.', Grid),
     PyramidX40(10, 'Pyramid x40', 'Pyramid with 40 letter wide base.', Grid),  // 420 squares
     PyramidX50(11, 'Pyramid x50', 'Pyramid with 50 letter wide base.', Grid),  // 650 squares
-    Diamond30x30(12, 'Diamond x30', '30x30 diamond.', Grid),
-    Diamond40x40(13, 'Diamond x40', '40x40 diamond.', Grid),  // 840
-    Diamond50x50(14, 'Diamond x50', '50x50 diamond.', Grid),  // 1300 squares
+    Diamond30X30(12, 'Diamond x30', '30x30 diamond.', Grid),
+    Diamond40X40(13, 'Diamond x40', '40x40 diamond.', Grid),  // 840
+    Diamond50X50(14, 'Diamond x50', '50x50 diamond.', Grid),  // 1300 squares
 
     WordWrap(2, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
     WordWrapNo(1, 'No', 'Prevents words from wrapping around edges.', WordWrap),

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('twsUI.services', []).factory('jtbGameClassifier',
+angular.module('twsUI.services').factory('jtbGameClassifier',
     [
         function () {
             var YOUR_TURN = 'Your move.';

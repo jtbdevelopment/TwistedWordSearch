@@ -14,7 +14,7 @@ class DiamondGridInitializerTest extends GroovyTestCase {
 
     void testInitializeGame() {
         TWSGame game = new TWSGame()
-        game.features = [GameFeature.Diamond50x50] as Set
+        game.features = [GameFeature.Diamond50X50] as Set
         game.grid = new Grid(20, 20)
         initializer.initializeGame(game)
 

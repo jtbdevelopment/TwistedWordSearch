@@ -38,17 +38,17 @@ class GridInitializerTest extends GroovyTestCase {
     void testInitializeGameForDiamonds() {
         TWSGame game = new TWSGame()
 
-        game.features = [GameFeature.Diamond30x30] as Set
+        game.features = [GameFeature.Diamond30X30] as Set
         initializer.initializeGame(game)
         assert 30 == game.grid.rows
         assert 30 == game.grid.columns
 
-        game.features = [GameFeature.Diamond40x40] as Set
+        game.features = [GameFeature.Diamond40X40] as Set
         initializer.initializeGame(game)
         assert 40 == game.grid.rows
         assert 40 == game.grid.columns
 
-        game.features = [GameFeature.Diamond50x50] as Set
+        game.features = [GameFeature.Diamond50X50] as Set
         initializer.initializeGame(game)
         assert 50 == game.grid.rows
         assert 50 == game.grid.columns
@@ -57,17 +57,17 @@ class GridInitializerTest extends GroovyTestCase {
     void testInitializeGameForCircles() {
         TWSGame game = new TWSGame()
 
-        game.features = [GameFeature.CircleX30] as Set
+        game.features = [GameFeature.CircleX31] as Set
         initializer.initializeGame(game)
         assert 31 == game.grid.rows
         assert 31 == game.grid.columns
 
-        game.features = [GameFeature.CircleX40] as Set
+        game.features = [GameFeature.CircleX41] as Set
         initializer.initializeGame(game)
         assert 41 == game.grid.rows
         assert 41 == game.grid.columns
 
-        game.features = [GameFeature.CircleX50] as Set
+        game.features = [GameFeature.CircleX51] as Set
         initializer.initializeGame(game)
         assert 51 == game.grid.rows
         assert 51 == game.grid.columns
