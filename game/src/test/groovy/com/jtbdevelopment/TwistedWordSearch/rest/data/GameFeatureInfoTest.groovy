@@ -44,6 +44,12 @@ class GameFeatureInfoTest extends GroovyTestCase {
         ] == test.options
     }
 
+    void testGetOptionsGroup() {
+        assert [GameFeature.Grid40X40.group, GameFeature.SomeOverlap.group] == test.options.collect {
+            it.group
+        }
+    }
+
     void testGetOptionDetailOfOption() {
         GameFeatureInfo.Detail detail = test.options[0]
         assert GameFeature.Grid40X40 == detail.feature

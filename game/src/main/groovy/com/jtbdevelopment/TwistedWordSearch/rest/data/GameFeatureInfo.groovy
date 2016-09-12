@@ -20,6 +20,7 @@ class GameFeatureInfo {
             this.description = feature.description
             this.label = feature.label
             this.groupType = feature.groupType
+            this.group = feature.group
         }
 
         boolean equals(final o) {
@@ -39,6 +40,7 @@ class GameFeatureInfo {
 
         GameFeatureGroupType groupType
         GameFeature feature
+        GameFeature group
         String label
         String description
     }
