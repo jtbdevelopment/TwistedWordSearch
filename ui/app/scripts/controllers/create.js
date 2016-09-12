@@ -2,8 +2,8 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'gridClassifier',
-        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, gridClassifier) {
+        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber',
+        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber) {
             var controller = this;
 
             controller.features = {};
@@ -30,11 +30,13 @@ angular.module('twsUI').controller('CreateGameCtrl',
                                 description: option.description,
                                 icon: ''
                             };
-                            var icon =gridClassifier.getIconForGrid(option.label);
-                            var size = gridClassifier.getSizeForGrid(option.label);
-                            if(angular.isDefined(icon) && angular.isDefined(size)) {
+                            var icon = featureDescriber.getIconForFeature(option);
+                            if (angular.isDefined(icon)) {
                                 item.icon = icon;
-                                item.label = size;
+                            }
+                            var text = featureDescriber.getTextForFeature(option);
+                            if (angular.isDefined(text)) {
+                                item.label = text;
                             }
 
                             newFeature.options.push(item);
@@ -52,6 +54,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
             controller.createGame = function () {
                 //  TODO - ads
                 //  TODO - multi-player
+                //  TODO - invite friends
                 var featureSet = [];
                 angular.forEach(controller.choices, function (value) {
                     featureSet.push(value);
