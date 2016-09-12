@@ -57,6 +57,7 @@ class GameFeatureInfoTest extends GroovyTestCase {
         assert GameFeature.Grid40X40.groupType == detail.groupType
         assert GameFeature.Grid40X40.groupType == detail.groupType
         assert GameFeature.Grid40X40.label == detail.label
+        assert GameFeature.Grid40X40.group == detail.group
     }
 
     void testGetDetailHashCode() {
