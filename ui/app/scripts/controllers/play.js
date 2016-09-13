@@ -2,8 +2,8 @@
 
 //  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$timeout', '$http', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
-        function ($scope, $timeout, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
+    ['$scope', '$timeout', '$http', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber',
+        function ($scope, $timeout, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
@@ -26,6 +26,7 @@ angular.module('twsUI').controller('PlayCtrl',
             computeFontSize();
             controller.actions = jtbBootstrapGameActions;
             controller.grid = [];
+            controller.description = [];
             controller.forwardIsWord = false;
             controller.backwardIsWord = false;
             controller.cellStyles = [];
@@ -160,6 +161,10 @@ angular.module('twsUI').controller('PlayCtrl',
             function updateControllerFromGame() {
                 controller.tracking = false;
                 controller.game = jtbGameCache.getGameForID($routeParams.gameID);
+                featureDescriber.getShortDescriptionForGame(controller.game).then(function (data) {
+                    controller.description = data;
+                });
+                console.log(JSON.stringify(controller.description));
                 controller.grid = [];
                 controller.rows = controller.game.grid.length;
                 controller.columns = controller.game.grid[0].length;

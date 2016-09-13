@@ -77,16 +77,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-2 text-left game-options">
-                        <span>Word Wrap? {{play.game.features.indexOf('WordWrapYes') < 0 ? 'No' : 'Yes'}}</span>
-                    </div>
-                    <div class="col-xs-10 text-center current-word">
+                    <div class="col-xs-10 text-left current-word">
                         <span ng-class="play.forwardIsWord ? 'found-a-word' : ''">
                             {{play.currentWordForward}}
                         </span> /
                         <span ng-class="play.backwardIsWord ? 'found-a-word' : ''">
                             {{play.currentWordBackward}}
                         </span>
+                    </div>
+                    <div class="col-xs-2 text-right game-options">
+                        <div ng-repeat="feature in play.description">
+                            <span class="{{feature.icon}}" ng-hide="feature.icon === undefined"></span>
+                            <span ng-hide="feature.text === undefined">{{feature.text}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
