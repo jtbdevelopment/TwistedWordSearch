@@ -66,7 +66,7 @@ angular.module('twsUI.services').factory('featureDescriber',
                         case 'Grid':
                             return getTextForGrid(feature.label);
                         default:
-                            return undefined;
+                            return feature.label;
                     }
                 },
 

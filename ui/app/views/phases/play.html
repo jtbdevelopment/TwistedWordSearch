@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-10 text-left current-word">
+                    <div class="col-xs-8 text-left current-word">
                         <span ng-class="play.forwardIsWord ? 'found-a-word' : ''">
                             {{play.currentWordForward}}
                         </span> /
@@ -85,8 +85,8 @@
                             {{play.currentWordBackward}}
                         </span>
                     </div>
-                    <div class="col-xs-2 text-right game-options">
-                        <div ng-repeat="feature in play.description">
+                    <div class="col-xs-4 text-right game-options">
+                        <div ng-repeat="feature in play.description" class="game-option">
                             <span class="{{feature.icon}}" ng-hide="feature.icon === undefined"></span>
                             <span ng-hide="feature.text === undefined">{{feature.text}}</span>
                         </div>

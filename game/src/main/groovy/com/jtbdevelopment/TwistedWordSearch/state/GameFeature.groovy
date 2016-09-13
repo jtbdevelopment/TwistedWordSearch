@@ -23,7 +23,13 @@ enum GameFeature {
     Diamond40X40(13, 'Diamond x40', '40x40 diamond.', Grid),  // 840
     Diamond50X50(14, 'Diamond x50', '50x50 diamond.', Grid),  // 1300 squares
 
-    WordWrap(2, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
+    WordDifficulty(2, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
+    BeginnerDifficulty(1, 'Beginner', 'Easiest - Fewer and longer words.', WordDifficulty),
+    ExperiencedDifficulty(2, 'Experienced', 'Easier - More words that are a little shorter on average.', WordDifficulty),
+    ExpertDifficulty(3, 'Expert', 'Harder - Even more words that are a little shorter on average.', WordDifficulty),
+    ProfessionalDifficulty(4, 'Professional', 'Hardest - Most and shortest words.', WordDifficulty),
+
+    WordWrap(3, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
     WordWrapNo(1, 'No', 'Prevents words from wrapping around edges.', WordWrap),
     WordWrapYes(2, 'Yes', 'Allows words to wrap around edges.', WordWrap),
 
@@ -34,13 +40,7 @@ enum GameFeature {
     JumbleOnFindYes(2, 'Yes', 'Puzzle is re-jumbled after each word find.', JumbleOnFind),
     */
 
-            WordDifficulty(4, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
-    BeginnerDifficulty(1, 'Beginner', 'Easiest - Fewer and longer words.', WordDifficulty),
-    ExperiencedDifficulty(2, 'Experienced', 'Easier - More words that are a little shorter on average.', WordDifficulty),
-    ExpertDifficulty(3, 'Expert', 'Harder - Even more words that are a little shorter on average.', WordDifficulty),
-    ProfessionalDifficulty(4, 'Professional', 'Hardest - Most and shortest words.', WordDifficulty),
-
-    FillDifficulty(5, GameFeatureGroupType.Difficulty, 'Fill Difficulty', 'How random are fill letters vs words?'),
+            FillDifficulty(4, GameFeatureGroupType.Difficulty, 'Fill Difficulty', 'How random are fill letters vs words?'),
     RandomFill(1, 'Random', 'Fill letters are random', FillDifficulty),
     SomeOverlap(2, 'Less random', 'Fill letters will use word letters some what more often than randomly', FillDifficulty),
     StrongOverlap(3, 'Word Letters', 'Fill letters will fill mostly with letters from words', FillDifficulty),

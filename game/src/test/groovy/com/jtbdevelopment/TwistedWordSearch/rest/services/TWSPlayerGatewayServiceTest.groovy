@@ -29,13 +29,6 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.Diamond50X50),
                         ]
                 ),
-                new GameFeatureInfo(
-                        GameFeature.WordWrap,
-                        [
-                                new GameFeatureInfo.Detail(GameFeature.WordWrapNo),
-                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
-                        ]
-                ),
                 /*
                 new GameFeatureInfo(
                         GameFeature.JumbleOnFind,
@@ -52,6 +45,13 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.ExperiencedDifficulty),
                                 new GameFeatureInfo.Detail(GameFeature.ExpertDifficulty),
                                 new GameFeatureInfo.Detail(GameFeature.ProfessionalDifficulty),
+                        ]
+                ),
+                new GameFeatureInfo(
+                        GameFeature.WordWrap,
+                        [
+                                new GameFeatureInfo.Detail(GameFeature.WordWrapNo),
+                                new GameFeatureInfo.Detail(GameFeature.WordWrapYes),
                         ]
                 ),
                 new GameFeatureInfo(

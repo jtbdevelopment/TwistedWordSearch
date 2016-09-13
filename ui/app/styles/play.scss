@@ -30,7 +30,12 @@
 
   .game-options {
     margin-top: 20px;
-    padding-right: 25px;
+    padding-right: 20px;
+    .game-option {
+      width: auto;
+      display: inline-block;
+      padding-right: 5px;
+    }
   }
 
   .found-a-word {
