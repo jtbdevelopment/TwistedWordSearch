@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twsUI').controller('MenuCtrl',
-    ['$scope', 'jtbGameCache', 'jtbGameClassifier',
-        function ($scope, jtbGameCache, jtbGameClassifier) {
+    ['$scope', 'jtbGameCache', 'jtbGameClassifier', 'featureDescriber',
+        function ($scope, jtbGameCache, jtbGameClassifier, featureDescriber) {
             var controller = this;
 
             controller.phases = [];
@@ -11,6 +11,7 @@ angular.module('twsUI').controller('MenuCtrl',
             controller.phaseDescriptions = {};
             controller.phaseCollapsed = {};
             controller.games = {};
+            controller.descriptions = {};
             controller.describeGame = function () {
                 return '';
             };
@@ -30,6 +31,11 @@ angular.module('twsUI').controller('MenuCtrl',
             function updateGames() {
                 angular.forEach(controller.phases, function (phase) {
                     controller.games[phase] = jtbGameCache.getGamesForPhase(phase);
+                    angular.forEach(controller.games[phase], function (game) {
+                        featureDescriber.getShortDescriptionForGame(game).then(function (info) {
+                            controller.descriptions[game.id] = info;
+                        });
+                    });
                 });
             }
 

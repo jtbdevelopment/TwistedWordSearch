@@ -50,7 +50,7 @@
     }
 
     .btn-group-game {
-      color: white;
+      color: black;
       padding: 4px;
       alignment: left;
       text-align: left;
@@ -63,6 +63,10 @@
         span {
           font-weight: bold;
         }
+      }
+      .game-feature {
+        width: auto;
+        display: inline-block;
       }
     }
 

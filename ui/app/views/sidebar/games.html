@@ -17,7 +17,10 @@
                    class="btn-group btn btn-default btn-group-game btn-group-game-{{menu.phaseStyles[phase]}}">
                     <img ng-src="{{game.playerImages[md5]}}" class="playerImage"
                          ng-repeat="(md5, name) in game.players">
-                    {{menu.describeGame(game)}}
+                    <div ng-repeat="feature in menu.descriptions[game.id]" class="game-feature">
+                        <span class="{{feature.icon}}" ng-hide="feature.icon === undefined"></span>
+                        <span ng-hide="feature.text === undefined">{{feature.text}}</span>
+                    </div>
                 </a>
             </div>
         </div>
