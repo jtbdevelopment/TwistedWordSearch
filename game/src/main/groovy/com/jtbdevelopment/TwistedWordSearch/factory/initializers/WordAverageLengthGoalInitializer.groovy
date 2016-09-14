@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class WordAverageLengthGoalInitializer implements GameInitializer<TWSGame> {
     private static final Map<GameFeature, Integer> WORD_LENGTHS = [
-            (GameFeature.BeginnerDifficulty)    : 10,
-            (GameFeature.ExperiencedDifficulty) : 8,
-            (GameFeature.ExpertDifficulty)      : 7,
-            (GameFeature.ProfessionalDifficulty): 6,
+            (GameFeature.EasiestDifficulty) : 10,
+            (GameFeature.StandardDifficulty): 8,
+            (GameFeature.HarderDifficulty)  : 7,
+            (GameFeature.FiendishDifficulty): 6,
     ]
 
     void initializeGame(final TWSGame game) {

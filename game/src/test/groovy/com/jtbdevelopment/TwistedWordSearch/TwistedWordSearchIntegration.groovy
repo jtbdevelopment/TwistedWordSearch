@@ -84,10 +84,10 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new GameFeatureInfo(
                         GameFeature.WordDifficulty,
                         [
-                                new GameFeatureInfo.Detail(GameFeature.BeginnerDifficulty),
-                                new GameFeatureInfo.Detail(GameFeature.ExperiencedDifficulty),
-                                new GameFeatureInfo.Detail(GameFeature.ExpertDifficulty),
-                                new GameFeatureInfo.Detail(GameFeature.ProfessionalDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.EasiestDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.StandardDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.HarderDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.FiendishDifficulty),
                         ]
                 ),
                 new GameFeatureInfo(
@@ -126,7 +126,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new FeaturesAndPlayers(
                         features: [
                                 GameFeature.Grid30X30,
-                                GameFeature.ExpertDifficulty,
+                                GameFeature.HarderDifficulty,
                                 GameFeature.StrongOverlap,
                                 GameFeature.WordWrapYes,
                         ] as Set,
@@ -154,7 +154,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 new FeaturesAndPlayers(
                         features: [
                                 GameFeature.Grid30X30,
-                                GameFeature.ExpertDifficulty,
+                                GameFeature.HarderDifficulty,
                                 GameFeature.StrongOverlap,
                                 GameFeature.WordWrapYes,
                         ] as Set,

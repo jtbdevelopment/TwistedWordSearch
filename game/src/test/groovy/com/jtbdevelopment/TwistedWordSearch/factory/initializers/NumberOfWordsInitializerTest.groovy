@@ -25,7 +25,7 @@ class NumberOfWordsInitializerTest extends GroovyTestCase {
     }
 
     void testInitializeBeginnerGame() {
-        game.features = [GameFeature.BeginnerDifficulty] as Set
+        game.features = [GameFeature.EasiestDifficulty] as Set
         game.wordAverageLengthGoal = 5
         initializer.initializeGame(game)
 
@@ -33,7 +33,7 @@ class NumberOfWordsInitializerTest extends GroovyTestCase {
     }
 
     void testInitializeExperiencedGame() {
-        game.features = [GameFeature.ExperiencedDifficulty] as Set
+        game.features = [GameFeature.StandardDifficulty] as Set
         game.wordAverageLengthGoal = 5
         initializer.initializeGame(game)
 
@@ -41,7 +41,7 @@ class NumberOfWordsInitializerTest extends GroovyTestCase {
     }
 
     void testInitializeExpertGame() {
-        game.features = [GameFeature.ExpertDifficulty] as Set
+        game.features = [GameFeature.HarderDifficulty] as Set
         game.wordAverageLengthGoal = 5
         initializer.initializeGame(game)
 
@@ -49,7 +49,7 @@ class NumberOfWordsInitializerTest extends GroovyTestCase {
     }
 
     void testInitializeProfessionalGame() {
-        game.features = [GameFeature.ProfessionalDifficulty] as Set
+        game.features = [GameFeature.FiendishDifficulty] as Set
         game.wordAverageLengthGoal = 5
         initializer.initializeGame(game)
 

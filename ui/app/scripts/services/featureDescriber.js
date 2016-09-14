@@ -4,31 +4,43 @@ angular.module('twsUI.services').factory('featureDescriber',
     ['jtbGameFeatureService', '$q',
         function (jtbGameFeatureService, $q) {
 
-            function getTextForGrid(feature) {
-                var start = feature.indexOf(' x');
+
+            function getTextForGrid(label) {
+                var start = label.indexOf(' x');
                 if (start >= 0) {
-                    return feature.substring(start + 1);
+                    return label.substring(start + 1);
                 }
                 return undefined;
             }
 
-            function getIconForGrid(feature) {
-                if (feature.startsWith('Pyramid')) {
+            function getIconForGrid(label) {
+                if (label.startsWith('Pyramid')) {
                     return 'icon-pyramid';
                 }
 
-                if (feature.startsWith('Circle')) {
+                if (label.startsWith('Circle')) {
                     return 'icon-circle';
                 }
 
-                if (feature.startsWith('Diamond')) {
+                if (label.startsWith('Diamond')) {
                     return 'icon-diamond';
                 }
 
-                if (feature.startsWith('Square')) {
+                if (label.startsWith('Square')) {
                     return 'icon-square';
                 }
                 return undefined;
+            }
+
+            function getIconForWordWrap(label) {
+                if (label === 'Yes') {
+                    return 'icon-wrap';
+                }
+                return 'icon-nowrap';
+            }
+
+            function getIconForWordDifficulty(label) {
+                return 'icon-' + label.toLowerCase();
             }
 
             var map = {};
@@ -65,8 +77,10 @@ angular.module('twsUI.services').factory('featureDescriber',
                     switch (feature.group) {
                         case 'Grid':
                             return getTextForGrid(feature.label);
-                        default:
+                        case 'FillDifficulty':
                             return feature.label;
+                        default:
+                            return undefined;
                     }
                 },
 
@@ -74,6 +88,10 @@ angular.module('twsUI.services').factory('featureDescriber',
                     switch (feature.group) {
                         case 'Grid':
                             return getIconForGrid(feature.label);
+                        case 'WordWrap':
+                            return getIconForWordWrap(feature.label);
+                        case 'WordDifficulty':
+                            return getIconForWordDifficulty(feature.label);
                         default:
                             return undefined;
                     }
@@ -83,7 +101,6 @@ angular.module('twsUI.services').factory('featureDescriber',
                     var defer = $q.defer();
                     initialize().then(function () {
                         var features = angular.copy(game.features);
-                        console.log(JSON.stringify(features));
                         features.sort(function (a, b) {
                             var ai = sortedFeatures.indexOf(a);
                             var bi = sortedFeatures.indexOf(b);
@@ -95,7 +112,6 @@ angular.module('twsUI.services').factory('featureDescriber',
                             }
                             return 0;
                         });
-                        console.log(JSON.stringify(features));
 
                         var describe = [];
                         angular.forEach(features, function (feature) {
@@ -104,7 +120,6 @@ angular.module('twsUI.services').factory('featureDescriber',
                                 text: service.getTextForFeature(map[feature])
                             });
                         });
-                        console.log(JSON.stringify(describe));
                         defer.resolve(describe);
                     });
                     return defer.promise;

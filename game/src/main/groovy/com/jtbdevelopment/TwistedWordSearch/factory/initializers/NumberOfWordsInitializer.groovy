@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class NumberOfWordsInitializer implements GameInitializer<TWSGame> {
     private static final Map<GameFeature, Integer> FILL_PERCENTAGE = [
-            (GameFeature.BeginnerDifficulty)    : 20,
-            (GameFeature.ExperiencedDifficulty) : 25,
-            (GameFeature.ExpertDifficulty)      : 30,
-            (GameFeature.ProfessionalDifficulty): 35,
+            (GameFeature.EasiestDifficulty) : 20,
+            (GameFeature.StandardDifficulty): 25,
+            (GameFeature.HarderDifficulty)  : 30,
+            (GameFeature.FiendishDifficulty): 35,
     ]
 
     void initializeGame(final TWSGame game) {

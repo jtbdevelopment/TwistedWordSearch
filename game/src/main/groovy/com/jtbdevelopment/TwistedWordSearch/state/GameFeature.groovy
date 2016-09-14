@@ -24,10 +24,10 @@ enum GameFeature {
     Diamond50X50(14, 'Diamond x50', '50x50 diamond.', Grid),  // 1300 squares
 
     WordDifficulty(2, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
-    BeginnerDifficulty(1, 'Beginner', 'Easiest - Fewer and longer words.', WordDifficulty),
-    ExperiencedDifficulty(2, 'Experienced', 'Easier - More words that are a little shorter on average.', WordDifficulty),
-    ExpertDifficulty(3, 'Expert', 'Harder - Even more words that are a little shorter on average.', WordDifficulty),
-    ProfessionalDifficulty(4, 'Professional', 'Hardest - Most and shortest words.', WordDifficulty),
+    EasiestDifficulty(1, 'Easiest', 'Fewer and longer words.', WordDifficulty),
+    StandardDifficulty(2, 'Standard', 'More words that are a little shorter than easy.', WordDifficulty),
+    HarderDifficulty(3, 'Harder', 'Words get shorter while there are more to find.', WordDifficulty),
+    FiendishDifficulty(4, 'Fiendish', 'Many short words.', WordDifficulty),
 
     WordWrap(3, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
     WordWrapNo(1, 'No', 'Prevents words from wrapping around edges.', WordWrap),

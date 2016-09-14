@@ -16,25 +16,25 @@ class WordAverageLengthGoalInitializerTest extends GroovyTestCase {
     }
 
     void testBeginnerWordLength() {
-        TWSGame game = new TWSGame(features: [GameFeature.BeginnerDifficulty] as Set)
+        TWSGame game = new TWSGame(features: [GameFeature.EasiestDifficulty] as Set)
         initializer.initializeGame(game)
         assert 10 == game.wordAverageLengthGoal
     }
 
     void testExperiencedWordLength() {
-        TWSGame game = new TWSGame(features: [GameFeature.ExperiencedDifficulty] as Set)
+        TWSGame game = new TWSGame(features: [GameFeature.StandardDifficulty] as Set)
         initializer.initializeGame(game)
         assert 8 == game.wordAverageLengthGoal
     }
 
     void testExpertWordLength() {
-        TWSGame game = new TWSGame(features: [GameFeature.ExpertDifficulty] as Set)
+        TWSGame game = new TWSGame(features: [GameFeature.HarderDifficulty] as Set)
         initializer.initializeGame(game)
         assert 7 == game.wordAverageLengthGoal
     }
 
     void testProfessionalWordLength() {
-        TWSGame game = new TWSGame(features: [GameFeature.ProfessionalDifficulty] as Set)
+        TWSGame game = new TWSGame(features: [GameFeature.FiendishDifficulty] as Set)
         initializer.initializeGame(game)
         assert 6 == game.wordAverageLengthGoal
     }

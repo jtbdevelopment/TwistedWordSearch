@@ -41,10 +41,10 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                 new GameFeatureInfo(
                         GameFeature.WordDifficulty,
                         [
-                                new GameFeatureInfo.Detail(GameFeature.BeginnerDifficulty),
-                                new GameFeatureInfo.Detail(GameFeature.ExperiencedDifficulty),
-                                new GameFeatureInfo.Detail(GameFeature.ExpertDifficulty),
-                                new GameFeatureInfo.Detail(GameFeature.ProfessionalDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.EasiestDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.StandardDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.HarderDifficulty),
+                                new GameFeatureInfo.Detail(GameFeature.FiendishDifficulty),
                         ]
                 ),
                 new GameFeatureInfo(
