@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?pmq38z');
-  src:  url('fonts/icomoon.eot?pmq38z#iefix') format('embedded-opentype'),
-  url('fonts/icomoon.ttf?pmq38z') format('truetype'),
-  url('fonts/icomoon.woff?pmq38z') format('woff'),
-  url('fonts/icomoon.svg?pmq38z#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?pckm3');
+  src:  url('fonts/icomoon.eot?pckm3#iefix') format('embedded-opentype'),
+  url('fonts/icomoon.ttf?pckm3') format('truetype'),
+  url('fonts/icomoon.woff?pckm3') format('woff'),
+  url('fonts/icomoon.svg?pckm3#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-nowrap:before {
+  content: "\e904";
+}
+.icon-wrap:before {
+  content: "\e905";
+}
 .icon-circle:before {
   content: "\e900";
 }
@@ -35,5 +41,17 @@
 }
 .icon-square:before {
   content: "\e903";
+}
+.icon-beginner:before {
+  content: "\e9e1";
+}
+.icon-experienced:before {
+  content: "\e9f1";
+}
+.icon-expert:before {
+  content: "\e9f3";
+}
+.icon-professional:before {
+  content: "\ea01";
 }
 
