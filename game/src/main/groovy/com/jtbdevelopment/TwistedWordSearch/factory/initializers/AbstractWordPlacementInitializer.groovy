@@ -33,13 +33,14 @@ abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGa
         boolean allowWordWrap = game.features.contains(GameFeature.WordWrapYes)
 
         int attempt = 0
+        char[][] gridBackup = game.grid.backupGridLetters()
         while (true) {
             attempt++
             try {
                 layoutWordsOnGrid(game, allowWordWrap)
             } catch (NoPossibleLayoutsForWordException ignored) {
                 logger.debug('failed to layout on attempt %d', attempt)
-                game.grid.resetGridLetters()
+                game.grid.restoreGridLetters(gridBackup)
                 continue
             }
             break

@@ -34,10 +34,11 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
                 '?? ',
         ] == getGridAsStrings(game)
 
-        Set<List<String>> used = new HashSet<>()
-        (1..500).each {
 
-            game.grid.resetGridLetters()
+        Set<List<String>> used = new HashSet<>()
+        char[][] initialGrid = game.grid.backupGridLetters()
+        (1..500).each {
+            game.grid.restoreGridLetters(initialGrid)
             initializer.initializeGame(game)
 
             List<String> strings = getGridAsStrings(game)
@@ -64,10 +65,11 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
         ] == getGridAsStrings(game)
 
         int wrapCount = 0
+        char[][] initialGrid = game.grid.backupGridLetters()
         Set<List<String>> used = new HashSet<>()
         (1..500).each {
 
-            game.grid.resetGridLetters()
+            game.grid.restoreGridLetters(initialGrid)
             initializer.initializeGame(game)
 
             List<String> strings = getGridAsStrings(game)

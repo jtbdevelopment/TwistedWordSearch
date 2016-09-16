@@ -40,10 +40,12 @@ class GridTest extends GroovyTestCase {
         assert (10 * 12) - 3 == grid.usableSquaresCount
     }
 
-    void testResetGridLetters() {
+    void testRestoreGridLetters() {
         Grid grid = new Grid(10, 12)
         grid.setGridCell(7, 0, Grid.SPACE)
         grid.setGridCell(0, 1, Grid.SPACE)
+
+        char[][] backup = grid.backupGridLetters()
         grid.setGridCell(3, 3, 'X' as char)
         grid.setGridCell(4, 4, 'X' as char)
 
@@ -52,7 +54,8 @@ class GridTest extends GroovyTestCase {
         assert 'X' as char == grid.getGridCell(3, 3)
         assert 'X' as char == grid.getGridCell(4, 4)
 
-        grid.resetGridLetters()
+        grid.restoreGridLetters(backup)
+
         assert Grid.SPACE == grid.getGridCell(0, 1)
         assert Grid.SPACE == grid.getGridCell(7, 0)
         assert Grid.QUESTION_MARK == grid.getGridCell(3, 3)

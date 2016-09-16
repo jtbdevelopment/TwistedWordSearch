@@ -36,14 +36,24 @@ class Grid implements Serializable {
         return columns - 1
     }
 
-    public void resetGridLetters() {
+    public char[][] backupGridLetters() {
+        def backup = new char[rows][columns]
         (0..rowUpperBound).each {
             int row ->
                 (0..columnUpperBound).each {
                     int col ->
-                        if (gridCells[row][col] != SPACE) {
-                            gridCells[row][col] = QUESTION_MARK
-                        }
+                        backup[row][col] = gridCells[row][col]
+                }
+        }
+        return backup;
+    }
+
+    public void restoreGridLetters(char[][] original) {
+        (0..rowUpperBound).each {
+            int row ->
+                (0..columnUpperBound).each {
+                    int col ->
+                        gridCells[row][col] = original[row][col]
                 }
         }
     }
