@@ -10,7 +10,7 @@
  */
 
 
-angular.module('twsUIBackground', ['twsUI'])
+angular.module('twsUIBackground', ['twsUI.services', 'twsUI'])
 //  Separate module to avoid interfering with tests
     .run(function ($rootScope, $location) {
         $rootScope.$on('gameUpdated', function (message, oldGame, newGame) {
@@ -31,8 +31,7 @@ angular
         'ui.bootstrap',
         'ui.select',
         'coreGamesUi',
-        'coreGamesBootstrapUi',
-        'twsUI.services'
+        'coreGamesBootstrapUi'
     ])
     .config(function ($routeProvider) {
         $routeProvider

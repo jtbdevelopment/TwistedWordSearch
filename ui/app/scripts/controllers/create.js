@@ -2,8 +2,8 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber',
-        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber) {
+        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber', 'jtbBootstrapGameActions',
+        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber, jtbBootstrapGameActions) {
             var controller = this;
 
             controller.features = {};
@@ -28,12 +28,9 @@ angular.module('twsUI').controller('CreateGameCtrl',
                                 feature: option.feature,
                                 label: option.label,
                                 description: option.description,
-                                icon: ''
+                                icon: undefined
                             };
-                            var icon = featureDescriber.getIconForFeature(option);
-                            if (angular.isDefined(icon)) {
-                                item.icon = icon;
-                            }
+                            item.icon = featureDescriber.getIconForFeature(option);
                             var text = featureDescriber.getTextForFeature(option);
                             if (angular.isDefined(text)) {
                                 item.label = text;
@@ -60,17 +57,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
                     featureSet.push(value);
                 });
                 var playersAndFeatures = {'players': [], 'features': featureSet};
-                $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).then(
-                    function (response) {
-                        var game = response.data;
-                        jtbGameCache.putUpdatedGame(game);
-                        $location.path('/game/' + game.gamePhase.toLowerCase() + '/' + game.id);
-                    },
-                    function (error) {
-                        console.log(JSON.stringify(error));
-                        //  TODO
-                    }
-                );
+                jtbBootstrapGameActions.new(playersAndFeatures);
             };
         }
     ]

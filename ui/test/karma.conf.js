@@ -36,6 +36,9 @@ module.exports = function (config) {
             'bower_components/angular-ui-select/dist/select.js',
             'bower_components/angular-mocks/angular-mocks.js',
             // endbower
+            'app/scripts/services/services.js',
+            //'app/scripts/controllers/*.js',
+            '//app/scripts/services/*.js',
             'app/scripts/**/*.js',
             'test/mock/**/*.js',
             'test/spec/**/*.js'

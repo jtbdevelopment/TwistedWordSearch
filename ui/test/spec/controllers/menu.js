@@ -32,6 +32,14 @@ describe('Controller: MenuCtrl', function () {
         }
     };
 
+    var featureDescriberPromise;
+    var featureDescriber = {
+        getShortDescriptionForGame: function () {
+            featureDescriberPromise = $q.defer();
+            return featureDescriberPromise.promise;
+        }
+    };
+
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, _$rootScope_, _$q_) {
         $scope = _$rootScope_.$new();
@@ -40,6 +48,7 @@ describe('Controller: MenuCtrl', function () {
         MenuCtrl = $controller('MenuCtrl', {
             $scope: $scope,
             jtbGameClassifier: jtbGameClassifier,
+            featureDescriber: featureDescriber,
             jtbGameCache: gameCache
         });
     }));
