@@ -13,6 +13,9 @@
 angular.module('twsUIBackground', ['twsUI.services', 'twsUI'])
 //  Separate module to avoid interfering with tests
     .run(function ($rootScope, $location) {
+        $rootScope.$on('InvalidSession', function () {
+            $location.path('/signin');
+        });
         $rootScope.$on('gameUpdated', function (message, oldGame, newGame) {
             if ($location.path().endsWith(oldGame.id) && oldGame.gamePhase !== newGame.gamePhase) {
                 $location.path('/game/' + newGame.gamePhase.toLowerCase() + '/' + newGame.id);
