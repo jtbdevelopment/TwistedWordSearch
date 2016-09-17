@@ -2,22 +2,23 @@
 
 //  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$timeout', '$http', '$routeParams', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber',
-        function ($scope, $timeout, $http, $routeParams, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber) {
+    ['$scope', '$timeout', '$http', '$routeParams', 'gridOffsetTracker', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber',
+        function ($scope, $timeout, $http, $routeParams, gridOffsetTracker, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
             var FOUND_COLOR = '#C1D37F';
+            var CURRENT_SELECTION = 'current-selection ';
+            var PART_OF_FOUND_WORD = 'found-word ';
+
+            //  controlled by gridMaster directive
             $scope.gridCanvasStyle = {
                 top: 0,
                 left: 0,
                 height: 0,
                 width: 0
             };
-            var CURRENT_SELECTION = 'current-selection ';
-            var PART_OF_FOUND_WORD = 'found-word ';
-
-            function computeFontSize() {
+            function computeFontSizeCSS() {
                 controller.fontSize = {'font-size': controller.internalFontSize};
             }
 
@@ -33,55 +34,12 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.columnOffset = 0;
             controller.rows = 0;
             controller.columns = 0;
+            gridOffsetTracker.reset();
             controller.showQuit = false;
             controller.showRematch = false;
             controller.acceptClicks = false;
 
-            computeFontSize();
-
-            function computeOriginalRow(row) {
-                var originalRow = row - controller.rowOffset;
-                if (originalRow < 0) {
-                    originalRow += controller.rows;
-                }
-                if (originalRow >= controller.rows) {
-                    originalRow -= controller.rows;
-                }
-                return originalRow;
-            }
-
-            function computeOffsetRow(row) {
-                var offSetRow = row + controller.rowOffset;
-                if (offSetRow < 0) {
-                    offSetRow += controller.rows;
-                }
-                if (offSetRow >= controller.rows) {
-                    offSetRow -= controller.rows;
-                }
-                return offSetRow;
-            }
-
-            function computeOriginalColumn(column) {
-                var originalColumn = column - controller.columnOffset;
-                if (originalColumn < 0) {
-                    originalColumn += controller.columns;
-                }
-                if (originalColumn >= controller.columns) {
-                    originalColumn -= controller.columns;
-                }
-                return originalColumn;
-            }
-
-            function computeOffsetColumn(column) {
-                var offSetColumn = column + controller.columnOffset;
-                if (offSetColumn < 0) {
-                    offSetColumn += controller.columns;
-                }
-                if (offSetColumn >= controller.columns) {
-                    offSetColumn -= controller.columns;
-                }
-                return offSetColumn;
-            }
+            computeFontSizeCSS();
 
             //  TODO - this is crappy
             controller.timeout = 1000;
@@ -97,8 +55,8 @@ angular.module('twsUI').controller('PlayCtrl',
                         var lastCoordinate;
                         angular.forEach(cells, function (cell, index) {
                             var thisCoordinate = {
-                                row: computeOffsetRow(cell.row),
-                                column: computeOffsetColumn(cell.column)
+                                row: gridOffsetTracker.getOffsetRow(cell.row),
+                                column: gridOffsetTracker.getOffsetColumn(cell.column)
                             };
                             if (index === 0) {
                                 lastCoordinate = thisCoordinate;
@@ -139,9 +97,9 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.cellStyles.push(new Array(controller.columns));
                 });
                 angular.forEach(controller.game.grid, function (row, index) {
-                    var offSetRow = computeOffsetRow(index);
+                    var offSetRow = gridOffsetTracker.getOffsetRow(index);
                     angular.forEach(row, function (column, index) {
-                        var offSetColumn = computeOffsetColumn(index);
+                        var offSetColumn = gridOffsetTracker.getOffsetColumn(index);
 
                         controller.grid[offSetRow][offSetColumn] = column;
                         controller.cellStyles[offSetRow][offSetColumn] = '';
@@ -150,8 +108,8 @@ angular.module('twsUI').controller('PlayCtrl',
 
                 angular.forEach(controller.game.foundWordLocations, function (cells) {
                     angular.forEach(cells, function (cell) {
-                        var offSetRow = computeOffsetRow(cell.row);
-                        var offSetColumn = computeOffsetColumn(cell.column);
+                        var offSetRow = gridOffsetTracker.getOffsetRow(cell.row);
+                        var offSetColumn = gridOffsetTracker.getOffsetColumn(cell.column);
                         controller.cellStyles[offSetRow][offSetColumn] += PART_OF_FOUND_WORD;
                     });
                 });
@@ -169,6 +127,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.grid = [];
                 controller.rows = controller.game.grid.length;
                 controller.columns = controller.game.grid[0].length;
+                gridOffsetTracker.gridSize(controller.game.grid.length, controller.game.grid[0].length);
                 controller.showQuit = (controller.game.gamePhase === 'Playing');
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 controller.acceptClicks = controller.showQuit;
@@ -179,15 +138,16 @@ angular.module('twsUI').controller('PlayCtrl',
 
             controller.zoomIn = function (amount) {
                 controller.internalFontSize += amount;
-                computeFontSize();
+                computeFontSizeCSS();
             };
 
             controller.zoomOut = function (amount) {
                 controller.internalFontSize -= amount;
-                computeFontSize();
+                computeFontSizeCSS();
             };
 
             controller.shiftLeft = function (amount) {
+                gridOffsetTracker.shiftLeft(amount);
                 controller.columnOffset -= amount;
                 if (controller.columnOffset === -controller.columns) {
                     controller.columnOffset = 0;
@@ -196,6 +156,7 @@ angular.module('twsUI').controller('PlayCtrl',
             };
 
             controller.shiftRight = function (amount) {
+                gridOffsetTracker.shiftRight(amount);
                 controller.columnOffset += amount;
                 if (controller.columnOffset === controller.columns) {
                     controller.columnOffset = 0;
@@ -204,6 +165,7 @@ angular.module('twsUI').controller('PlayCtrl',
             };
 
             controller.shiftUp = function (amount) {
+                gridOffsetTracker.shiftUp(amount);
                 controller.rowOffset -= amount;
                 if (controller.rowOffset === -controller.rows) {
                     controller.rowOffset = 0;
@@ -212,6 +174,7 @@ angular.module('twsUI').controller('PlayCtrl',
             };
 
             controller.shiftDown = function (amount) {
+                gridOffsetTracker.shiftDown(amount);
                 controller.rowOffset += amount;
                 if (controller.rowOffset === controller.rows) {
                     controller.rowOffset = 0;
@@ -285,8 +248,8 @@ angular.module('twsUI').controller('PlayCtrl',
                         angular.forEach(controller.selectedCells, function (cell, index) {
                             if (index === 0) {
                                 cells.push({
-                                    row: computeOriginalRow(cell.row),
-                                    column: computeOriginalColumn(cell.column)
+                                    row: gridOffsetTracker.getOriginalRow(cell.row),
+                                    column: gridOffsetTracker.getOriginalColumn(cell.column)
                                 });
                                 last = cell;
                             }
