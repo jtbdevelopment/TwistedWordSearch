@@ -30,8 +30,6 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.forwardIsWord = false;
             controller.backwardIsWord = false;
             controller.cellStyles = [];
-            controller.rowOffset = 0;
-            controller.columnOffset = 0;
             controller.rows = 0;
             controller.columns = 0;
             gridOffsetTracker.reset();
@@ -148,37 +146,21 @@ angular.module('twsUI').controller('PlayCtrl',
 
             controller.shiftLeft = function (amount) {
                 gridOffsetTracker.shiftLeft(amount);
-                controller.columnOffset -= amount;
-                if (controller.columnOffset === -controller.columns) {
-                    controller.columnOffset = 0;
-                }
                 recomputeDisplayedGrid();
             };
 
             controller.shiftRight = function (amount) {
                 gridOffsetTracker.shiftRight(amount);
-                controller.columnOffset += amount;
-                if (controller.columnOffset === controller.columns) {
-                    controller.columnOffset = 0;
-                }
                 recomputeDisplayedGrid();
             };
 
             controller.shiftUp = function (amount) {
                 gridOffsetTracker.shiftUp(amount);
-                controller.rowOffset -= amount;
-                if (controller.rowOffset === -controller.rows) {
-                    controller.rowOffset = 0;
-                }
                 recomputeDisplayedGrid();
             };
 
             controller.shiftDown = function (amount) {
                 gridOffsetTracker.shiftDown(amount);
-                controller.rowOffset += amount;
-                if (controller.rowOffset === controller.rows) {
-                    controller.rowOffset = 0;
-                }
                 recomputeDisplayedGrid();
             };
 
