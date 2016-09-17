@@ -3,7 +3,7 @@
 describe('Service: featureDescriber', function () {
     beforeEach(module('twsUI.services'));
 
-    var $q, featurePromise;
+    var $q, featurePromise, $rootScope;
     var jtbGameFeatureService = {
         features: function () {
             featurePromise = $q.defer();
@@ -118,12 +118,13 @@ describe('Service: featureDescriber', function () {
     ];
 
     var service;
-    beforeEach(inject(function ($injector, _$q_) {
+    beforeEach(inject(function ($injector, _$q_, _$rootScope_) {
         $q = _$q_;
+        $rootScope = _$rootScope_;
         service = $injector.get('featureDescriber');
     }));
 
-    it('get icon for grid', function() {
+    it('get icon for grid', function () {
         expect(service.getIconForFeature(standardFeatures[0].options[0])).toEqual('icon-square');
         expect(service.getIconForFeature(standardFeatures[0].options[1])).toEqual('icon-circle');
         expect(service.getIconForFeature(standardFeatures[0].options[2])).toEqual('icon-pyramid');
@@ -132,7 +133,7 @@ describe('Service: featureDescriber', function () {
         expect(service.getIconForFeature({group: 'Grid', label: 'space x30'})).toBeUndefined();
     });
 
-    it('get text for grid', function() {
+    it('get text for grid', function () {
         expect(service.getTextForFeature(standardFeatures[0].options[0])).toEqual('x10');
         expect(service.getTextForFeature(standardFeatures[0].options[1])).toEqual('x11');
         expect(service.getTextForFeature(standardFeatures[0].options[2])).toEqual('x11');
@@ -175,5 +176,48 @@ describe('Service: featureDescriber', function () {
         angular.forEach(standardFeatures[1].options, function (option) {
             expect(service.getIconForFeature(option)).toEqual('icon-' + option.label.toLowerCase());
         });
+    });
+
+    it('test describing a game orders the features to come out with consistent description', function () {
+        var promise = service.getShortDescriptionForGame({features: ['WWYes', 'FDO2', 'Circlex11', 'WDO1']});
+        var answer = [];
+        promise.then(function (desc) {
+            answer = desc;
+        });
+        featurePromise.resolve(standardFeatures);
+        $rootScope.$apply();
+        expect(answer).toEqual([
+            {icon: 'icon-circle', text: 'x11'},
+            {icon: 'icon-option1', text: undefined},
+            {icon: undefined, text: 'FD Label 2'},
+            {icon: 'icon-wrap', text: undefined}
+        ]);
+    });
+
+    it('test describing only initializes features once', function () {
+        var promise = service.getShortDescriptionForGame({features: ['Circlex11', 'WDO1']});
+        var answer = [];
+        promise.then(function (desc) {
+            answer = desc;
+        });
+        featurePromise.resolve(standardFeatures);
+        $rootScope.$apply();
+        expect(answer).toEqual([
+            {icon: 'icon-circle', text: 'x11'},
+            {icon: 'icon-option1', text: undefined}
+        ]);
+
+        promise = service.getShortDescriptionForGame({features: ['WWYes', 'FDO2', 'Circlex11', 'WDO1']});
+        answer = [];
+        promise.then(function (desc) {
+            answer = desc;
+        });
+        $rootScope.$apply();
+        expect(answer).toEqual([
+            {icon: 'icon-circle', text: 'x11'},
+            {icon: 'icon-option1', text: undefined},
+            {icon: undefined, text: 'FD Label 2'},
+            {icon: 'icon-wrap', text: undefined}
+        ]);
     });
 });
