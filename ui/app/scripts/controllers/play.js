@@ -23,7 +23,6 @@ angular.module('twsUI').controller('PlayCtrl',
 
             //  TODO - save default zoom
             controller.internalFontSize = 11;
-            computeFontSize();
             controller.actions = jtbBootstrapGameActions;
             controller.grid = [];
             controller.description = [];
@@ -37,6 +36,8 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.showQuit = false;
             controller.showRematch = false;
             controller.acceptClicks = false;
+
+            computeFontSize();
 
             function computeOriginalRow(row) {
                 var originalRow = row - controller.rowOffset;
@@ -119,6 +120,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.foundContext.beginPath();
                     angular.forEach(linesToDraw, function (lineToDraw) {
                         highlightWord(
+                            controller.foundCanvas,
                             controller.foundContext,
                             lineToDraw.from,
                             lineToDraw.to,
@@ -164,7 +166,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 featureDescriber.getShortDescriptionForGame(controller.game).then(function (data) {
                     controller.description = data;
                 });
-                console.log(JSON.stringify(controller.description));
                 controller.grid = [];
                 controller.rows = controller.game.grid.length;
                 controller.columns = controller.game.grid[0].length;
@@ -390,11 +391,10 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
             }
 
-            function highlightWord(context, startCell, endCell, color) {
-                var table = angular.element('#word-grid')[0];
-                var width = table.offsetWidth / controller.columns;
+            function highlightWord(canvas, context, startCell, endCell, color) {
+                var width = canvas.width / controller.columns;
                 var halfWidth = width / 2;
-                var height = table.offsetHeight / controller.rows;
+                var height = canvas.height / controller.rows;
                 var halfHeight = height / 2;
                 var startX = (startCell.column * width) + halfWidth;
                 var startY = (startCell.row * height) + halfHeight;
@@ -415,6 +415,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 clearGridCanvas(controller.selectCanvas, controller.selectContext);
                 controller.selectContext.beginPath();
                 highlightWord(
+                    controller.selectCanvas,
                     controller.selectContext,
                     controller.selectedCells[0],
                     controller.selectedCells[controller.selectedCells.length - 1],

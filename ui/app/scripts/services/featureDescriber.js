@@ -60,8 +60,6 @@ angular.module('twsUI.services').factory('featureDescriber',
                                     map[option.feature] = option;
                                 });
                             });
-                            console.log(JSON.stringify(sortedFeatures));
-                            console.log(JSON.stringify(map));
                             loaded.resolve();
                         },
                         function () {
