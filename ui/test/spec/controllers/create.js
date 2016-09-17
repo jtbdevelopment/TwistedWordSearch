@@ -108,7 +108,7 @@ describe('Controller: CreateGameCtrl', function () {
         },
         getTextForFeature: function (option) {
             if (option.feature === 'Feature3Option2') {
-                return 'F3O2'
+                return 'F3O2';
             }
         }
 

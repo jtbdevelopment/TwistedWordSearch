@@ -6,28 +6,32 @@ angular.module('twsUI.services').factory('featureDescriber',
 
 
             function getTextForGrid(label) {
-                var start = label.indexOf(' x');
-                if (start >= 0) {
-                    return label.substring(start + 1);
+                if(angular.isDefined(label)) {
+                    var start = label.indexOf(' x');
+                    if (start >= 0) {
+                        return label.substring(start + 1);
+                    }
                 }
                 return undefined;
             }
 
             function getIconForGrid(label) {
-                if (label.startsWith('Pyramid')) {
-                    return 'icon-pyramid';
-                }
+                if(angular.isDefined(label)) {
+                    if (label.indexOf('Pyramid') === 0) {
+                        return 'icon-pyramid';
+                    }
 
-                if (label.startsWith('Circle')) {
-                    return 'icon-circle';
-                }
+                    if (label.indexOf('Circle') === 0) {
+                        return 'icon-circle';
+                    }
 
-                if (label.startsWith('Diamond')) {
-                    return 'icon-diamond';
-                }
+                    if (label.indexOf('Diamond') === 0) {
+                        return 'icon-diamond';
+                    }
 
-                if (label.startsWith('Square')) {
-                    return 'icon-square';
+                    if (label.indexOf('Square') === 0) {
+                        return 'icon-square';
+                    }
                 }
                 return undefined;
             }
@@ -127,3 +131,4 @@ angular.module('twsUI.services').factory('featureDescriber',
         }
     ]
 );
+

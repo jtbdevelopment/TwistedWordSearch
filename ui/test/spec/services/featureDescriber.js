@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: featureDescriber', function () {
-    // load the controller's module
     beforeEach(module('twsUI.services'));
 
     var $q, featurePromise;
@@ -121,15 +120,30 @@ describe('Service: featureDescriber', function () {
     var service;
     beforeEach(inject(function ($injector, _$q_) {
         $q = _$q_;
-//        mockCanPlay = false;
-//        mockSetupNeeded = false;
-//        mockRematchPossible = false;
-//        mockResponseNeeded = false;
         service = $injector.get('featureDescriber');
     }));
 
+    it('get icon for grid', function() {
+        expect(service.getIconForFeature(standardFeatures[0].options[0])).toEqual('icon-square');
+        expect(service.getIconForFeature(standardFeatures[0].options[1])).toEqual('icon-circle');
+        expect(service.getIconForFeature(standardFeatures[0].options[2])).toEqual('icon-pyramid');
+        expect(service.getIconForFeature(standardFeatures[0].options[3])).toEqual('icon-diamond');
+        expect(service.getIconForFeature({group: 'Grid'})).toBeUndefined();
+        expect(service.getIconForFeature({group: 'Grid', label: 'space x30'})).toBeUndefined();
+    });
+
+    it('get text for grid', function() {
+        expect(service.getTextForFeature(standardFeatures[0].options[0])).toEqual('x10');
+        expect(service.getTextForFeature(standardFeatures[0].options[1])).toEqual('x11');
+        expect(service.getTextForFeature(standardFeatures[0].options[2])).toEqual('x11');
+        expect(service.getTextForFeature(standardFeatures[0].options[3])).toEqual('x9');
+        expect(service.getTextForFeature({group: 'Grid'})).toBeUndefined();
+        expect(service.getTextForFeature({group: 'Grid', label: 'space x30'})).toEqual('x30');
+        expect(service.getTextForFeature({group: 'Grid', label: 'spacex30'})).toBeUndefined();
+    });
+
     it('get text for word wrap is undefined', function () {
-        angular.forEach(standardFeatures[3], function (option) {
+        angular.forEach(standardFeatures[3].options, function (option) {
             expect(service.getTextForFeature(option)).toBeUndefined();
         });
     });
@@ -137,5 +151,29 @@ describe('Service: featureDescriber', function () {
     it('get icon for word wrap', function () {
         expect(service.getIconForFeature(standardFeatures[3].options[0])).toEqual('icon-wrap');
         expect(service.getIconForFeature(standardFeatures[3].options[1])).toEqual('icon-nowrap');
+    });
+
+    it('get icon for fill difficulty wrap is undefined', function () {
+        angular.forEach(standardFeatures[2].options, function (option) {
+            expect(service.getIconForFeature(option)).toBeUndefined();
+        });
+    });
+
+    it('get text for fill difficulty wrap is label', function () {
+        angular.forEach(standardFeatures[2].options, function (option) {
+            expect(service.getTextForFeature(option)).toEqual(option.label);
+        });
+    });
+
+    it('get text for word difficulty is undefined', function () {
+        angular.forEach(standardFeatures[1].options, function (option) {
+            expect(service.getTextForFeature(option)).toBeUndefined();
+        });
+    });
+
+    it('get icon for word difficulty is icon-labellowercase', function () {
+        angular.forEach(standardFeatures[1].options, function (option) {
+            expect(service.getIconForFeature(option)).toEqual('icon-' + option.label.toLowerCase());
+        });
     });
 });
