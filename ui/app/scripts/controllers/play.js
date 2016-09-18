@@ -4,8 +4,8 @@
 //  TODO - shifting while in selecting mode - odd
 //  TODO - initial select should highlight first cell
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$timeout', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
-        function ($scope, $timeout, $http, $routeParams, gridOffsetTracker, gridTableManager, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
+    ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
+        function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
@@ -36,14 +36,9 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.fontSize = fontSizeManager.fontSizeStyle();
             gridOffsetTracker.reset();
 
-            //  TODO - this is crappy
-            controller.timeout = 1000;
             controller.highlightFoundWords = function () {
-                $timeout(function () {
                     controller.foundCanvas = angular.element('#found-canvas')[0];
                     controller.foundContext = controller.foundCanvas.getContext('2d');
-                    controller.foundCanvas.height = $scope.gridCanvasStyle.height;
-                    controller.foundCanvas.width = $scope.gridCanvasStyle.width;
                     var linesToDraw = [];
                     //noinspection JSUnresolvedVariable
                     angular.forEach(controller.game.foundWordLocations, function (cells) {
@@ -81,8 +76,6 @@ angular.module('twsUI').controller('PlayCtrl',
                             FOUND_COLOR);
                     });
                     controller.foundContext.closePath();
-                }, controller.timeout);  //  bit buggy depends on how fast it renders
-                controller.timeout = 0;
             };
 
             function updateControllerFromGame() {
@@ -158,8 +151,6 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
                     gridTableManager.markCoordinatesAsSelected(controller.selectedCells);
-                    controller.selectCanvas.height = $scope.gridCanvasStyle.height;
-                    controller.selectCanvas.width = $scope.gridCanvasStyle.width;
                 } else {
                     gridTableManager.unmarkCoordinatesAsSelected(controller.selectedCells);
                     if (controller.forwardIsWord || controller.backwardIsWord) {
