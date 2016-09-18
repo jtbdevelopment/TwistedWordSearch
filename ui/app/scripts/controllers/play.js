@@ -2,8 +2,8 @@
 
 //  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$timeout', '$http', '$routeParams', 'gridOffsetTracker', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber',
-        function ($scope, $timeout, $http, $routeParams, gridOffsetTracker, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber) {
+    ['$scope', '$timeout', '$http', '$routeParams', 'gridOffsetTracker', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
+        function ($scope, $timeout, $http, $routeParams, gridOffsetTracker, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
@@ -18,12 +18,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 height: 0,
                 width: 0
             };
-            function computeFontSizeCSS() {
-                controller.fontSize = {'font-size': controller.internalFontSize};
-            }
-
-            //  TODO - save default zoom
-            controller.internalFontSize = 11;
             controller.actions = jtbBootstrapGameActions;
             controller.grid = [];
             controller.description = [];
@@ -36,8 +30,7 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.showQuit = false;
             controller.showRematch = false;
             controller.acceptClicks = false;
-
-            computeFontSizeCSS();
+            controller.fontSize = fontSizeManager.fontSizeStyle();
 
             //  TODO - this is crappy
             controller.timeout = 1000;
@@ -135,13 +128,11 @@ angular.module('twsUI').controller('PlayCtrl',
             updateControllerFromGame();
 
             controller.zoomIn = function (amount) {
-                controller.internalFontSize += amount;
-                computeFontSizeCSS();
+                controller.fontSize = fontSizeManager.increaseFontSize(amount);
             };
 
             controller.zoomOut = function (amount) {
-                controller.internalFontSize -= amount;
-                computeFontSizeCSS();
+                controller.fontSize = fontSizeManager.decreaseFontSize(amount);
             };
 
             controller.shiftLeft = function (amount) {
