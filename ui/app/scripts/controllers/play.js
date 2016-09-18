@@ -82,28 +82,27 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.tracking = false;
             };
 
+            function getCoordinateFromEventTarget(event) {
+                return {
+                    row: parseInt(event.currentTarget.getAttribute('data-ws-row')),
+                    column: parseInt(event.currentTarget.getAttribute('data-ws-column'))
+                };
+            }
+
             controller.onMouseClick = function (event) {
                 if (!controller.acceptClicks) {
                     return;
                 }
                 controller.tracking = !controller.tracking;
                 if (controller.tracking) {
-                    var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
-                    var column = parseInt(event.currentTarget.getAttribute('data-ws-column'));
-                    if (controller.grid[row][column] === ' ') {
+                    var coordinate = getCoordinateFromEventTarget(event);
+                    if (controller.grid[coordinate.row][coordinate.column] === ' ') {
                         controller.tracking = false;
                         return;
                     }
-                    var coordinate = {
-                        row: row,
-                        column: column
-                    };
                     controller.selectStart = coordinate;
                     controller.selectEnd = coordinate;
-                    controller.selectedCells = [coordinate];
-                    controller.currentWordBackward = '';
-                    controller.currentWordForward = '';
-                    gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
+                    controller.updateSelection();
                 } else {
                     gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
                     if (controller.forwardIsWord || controller.backwardIsWord) {
@@ -140,10 +139,9 @@ angular.module('twsUI').controller('PlayCtrl',
             };
 
             function computeTargetEndPoint(event) {
-                var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
-                var column = parseInt(event.currentTarget.getAttribute('data-ws-column'));
-                var dRow = controller.selectStart.row - row;
-                var dCol = column - controller.selectStart.column;
+                var coordinate = getCoordinateFromEventTarget(event);
+                var dRow = controller.selectStart.row - coordinate.row;
+                var dCol = coordinate.column - controller.selectStart.column;
                 // up = 0, down = 180
                 // left to right = 90, right to left = -90
                 // left to right up = 45, down = 135
@@ -154,13 +152,13 @@ angular.module('twsUI').controller('PlayCtrl',
                 switch (roundedAngle) {
                     case 0:
                     case 4:
-                        targetRow = row;
+                        targetRow = coordinate.row;
                         targetColumn = controller.selectStart.column;
                         break;
                     case 2:
                     case -2:
                         targetRow = controller.selectStart.row;
-                        targetColumn = column;
+                        targetColumn = coordinate.column;
                         break;
                     default:
                         if (Math.abs(dRow) > Math.abs(dCol)) {
@@ -174,44 +172,16 @@ angular.module('twsUI').controller('PlayCtrl',
                 return {row: targetRow, column: targetColumn};
             }
 
-            function computeSelectedCells(target) {
-                controller.selectedCells = [controller.selectStart];
-                var coordinate = {
-                    row: controller.selectStart.row,
-                    column: controller.selectStart.column
-                };
-                while (coordinate.row !== target.row || coordinate.column !== target.column) {
-                    coordinate.row += Math.sign(target.row - coordinate.row);
-                    coordinate.column += Math.sign(target.column - coordinate.column);
-                    if (controller.grid[coordinate.row][coordinate.column] === ' ' ||
-                        coordinate.row < 0 ||
-                        coordinate.column < 0 ||
-                        coordinate.column >= controller.columns ||
-                        coordinate.row >= controller.rows) {
-                        break;
-                    }
-                    controller.selectedCells.push({row: coordinate.row, column: coordinate.column});
-                }
-            }
-
-            function computeSelectedWord() {
-                controller.currentWordForward = '';
-                controller.currentWordBackward = '';
-                angular.forEach(controller.selectedCells, function (coordinate) {
-                    controller.currentWordForward += controller.grid[coordinate.row][coordinate.column];
-                    controller.currentWordBackward =
-                        controller.grid[coordinate.row][coordinate.column] +
-                        controller.currentWordBackward;
-                });
+            controller.updateSelection = function () {
+                gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
+                var selectedData = gridTableManager.calculateSelected(controller.selectStart, controller.selectEnd);
+                controller.selectedCells = selectedData.selectedCoordinates;
+                controller.currentWordForward = selectedData.wordForward;
+                controller.currentWordBackward = selectedData.wordReversed;
                 //noinspection JSUnresolvedVariable
                 controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
                 //noinspection JSUnresolvedVariable
                 controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
-            }
-
-            controller.highlightSelectedLetters = function () {
-                gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
-                computeSelectedCells(controller.selectEnd);
                 gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
                 controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
                 controller.selectContext.beginPath();
@@ -226,7 +196,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.selectContext.closePath();
             };
 
-
             controller.onMouseMove = function (event) {
                 if (!controller.tracking) {
                     return;
@@ -234,8 +203,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 var target = computeTargetEndPoint(event);
                 if (controller.selectEnd.row !== target.row || controller.selectEnd.column !== target.column) {
                     controller.selectEnd = target;
-                    controller.highlightSelectedLetters();
-                    computeSelectedWord();
+                    controller.updateSelection();
                 }
             };
 
