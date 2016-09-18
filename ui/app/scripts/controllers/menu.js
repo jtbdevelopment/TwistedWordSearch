@@ -12,9 +12,6 @@ angular.module('twsUI').controller('MenuCtrl',
             controller.phaseCollapsed = {};
             controller.games = {};
             controller.descriptions = {};
-            controller.describeGame = function () {
-                return '';
-            };
 
             controller.phaseGlyphicons = jtbGameClassifier.getIcons();
             controller.phases = [];

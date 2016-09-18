@@ -32,11 +32,11 @@ describe('Controller: MenuCtrl', function () {
         }
     };
 
-    var featureDescriberPromise;
+    var featureDescriberPromises = {};
     var featureDescriber = {
-        getShortDescriptionForGame: function () {
-            featureDescriberPromise = $q.defer();
-            return featureDescriberPromise.promise;
+        getShortDescriptionForGame: function (game) {
+            featureDescriberPromises[game.id] = $q.defer();
+            return featureDescriberPromises[game.id].promise;
         }
     };
 
@@ -98,19 +98,22 @@ describe('Controller: MenuCtrl', function () {
                     games[key].push({id: Math.floor(Math.random() * 10000)});
                 }
             });
+            featureDescriberPromises = {};
 
             it('refreshes games on ' + message, function () {
                 $rootScope.$broadcast(message);
                 $rootScope.$apply();
                 expect(MenuCtrl.games).toEqual(games);
+                angular.forEach(games, function (phase) {
+                    angular.forEach(phase, function(game) {
+                        expect(MenuCtrl.descriptions[game.id]).toBeUndefined();
+                        var resolve = {x: 'X', random: Math.random() * 50};
+                        featureDescriberPromises[game.id].resolve(resolve);
+                        $scope.$apply();
+                        expect(MenuCtrl.descriptions[game.id]).toEqual(resolve);
+                    });
+                });
             });
-        });
-    });
-
-    describe('can describe games', function () {
-        //  TODO
-        it('placeholder test', function () {
-            expect(MenuCtrl.describeGame()).toEqual('');
         });
     });
 });
