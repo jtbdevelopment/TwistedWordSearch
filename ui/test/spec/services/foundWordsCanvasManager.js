@@ -241,7 +241,7 @@ describe('Service: foundWordsCanvasManager', function () {
      $gridOffsetTracker.shiftUp(2);
      $gridOffsetTracker.shiftRight(2);
      var data = service.updateForGame(game);
-     service.markCoordinatesAsSelected([{row: 0, column: 0}, {row: 1, column: 1}]);
+     service.addSelectedStyleToCoordinates([{row: 0, column: 0}, {row: 1, column: 1}]);
      expect(data.cells).toEqual([
      [' ', 'M', 'J', 'K', 'L'],
      ['Q', 'R', 'N', 'O', 'P'],
@@ -260,8 +260,8 @@ describe('Service: foundWordsCanvasManager', function () {
      $gridOffsetTracker.shiftUp(2);
      $gridOffsetTracker.shiftRight(2);
      var data = service.updateForGame(game);
-     service.markCoordinatesAsSelected([{row: 0, column: 0}, {row: 1, column: 1}, {row: 3, column: 4}]);
-     service.unmarkCoordinatesAsSelected([{row: 1, column: 1}]);
+     service.addSelectedStyleToCoordinates([{row: 0, column: 0}, {row: 1, column: 1}, {row: 3, column: 4}]);
+     service.removeSelectedStyleFromCoordinates([{row: 1, column: 1}]);
      expect(data.cells).toEqual([
      [' ', 'M', 'J', 'K', 'L'],
      ['Q', 'R', 'N', 'O', 'P'],

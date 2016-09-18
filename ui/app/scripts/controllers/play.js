@@ -51,6 +51,8 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.showQuit = (controller.game.gamePhase === 'Playing');
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 controller.acceptClicks = controller.showQuit;
+                controller.selectCanvas = angular.element('#select-canvas')[0];
+                controller.selectContext = controller.selectCanvas.getContext('2d');
             }
 
             updateControllerFromGame();
@@ -84,8 +86,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 if (!controller.acceptClicks) {
                     return;
                 }
-                controller.selectCanvas = angular.element('#select-canvas')[0];
-                controller.selectContext = controller.selectCanvas.getContext('2d');
                 controller.tracking = !controller.tracking;
                 if (controller.tracking) {
                     var row = parseInt(event.currentTarget.getAttribute('data-ws-row'));
@@ -103,9 +103,9 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.selectedCells = [coordinate];
                     controller.currentWordBackward = '';
                     controller.currentWordForward = '';
-                    gridTableManager.markCoordinatesAsSelected(controller.selectedCells);
+                    gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
                 } else {
-                    gridTableManager.unmarkCoordinatesAsSelected(controller.selectedCells);
+                    gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
                     if (controller.forwardIsWord || controller.backwardIsWord) {
                         var cells = [];
                         if (controller.backwardIsWord) {
@@ -181,18 +181,8 @@ angular.module('twsUI').controller('PlayCtrl',
                     column: controller.selectStart.column
                 };
                 while (coordinate.row !== target.row || coordinate.column !== target.column) {
-                    if (coordinate.row > target.row) {
-                        coordinate.row -= 1;
-                    }
-                    if (coordinate.row < target.row) {
-                        coordinate.row += 1;
-                    }
-                    if (coordinate.column > target.column) {
-                        coordinate.column -= 1;
-                    }
-                    if (coordinate.column < target.column) {
-                        coordinate.column += 1;
-                    }
+                    coordinate.row += Math.sign(target.row - coordinate.row);
+                    coordinate.column += Math.sign(target.column - coordinate.column);
                     if (controller.grid[coordinate.row][coordinate.column] === ' ' ||
                         coordinate.row < 0 ||
                         coordinate.column < 0 ||
@@ -220,9 +210,9 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             controller.highlightSelectedLetters = function () {
-                gridTableManager.unmarkCoordinatesAsSelected(controller.selectedCells);
+                gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
                 computeSelectedCells(controller.selectEnd);
-                gridTableManager.markCoordinatesAsSelected(controller.selectedCells);
+                gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
                 controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
                 controller.selectContext.beginPath();
                 canvasLineDrawer.drawLine(

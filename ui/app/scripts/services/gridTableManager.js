@@ -76,13 +76,13 @@ angular.module('twsUI.services').factory('gridTableManager',
                     return updateForGame();
                 },
 
-                markCoordinatesAsSelected: function(offsetCoordinates) {
+                addSelectedStyleToCoordinates: function(offsetCoordinates) {
                     angular.forEach(offsetCoordinates, function (offsetCoordinate) {
                         addStyleToCell(offsetCoordinate.row, offsetCoordinate.column, CURRENT_SELECTION);
                     });
                 },
 
-                unmarkCoordinatesAsSelected: function(offsetCoordinates) {
+                removeSelectedStyleFromCoordinates: function(offsetCoordinates) {
                     angular.forEach(offsetCoordinates, function (offsetCoordinate) {
                         removeStyleFromCell(offsetCoordinate.row, offsetCoordinate.column, CURRENT_SELECTION);
                     });
