@@ -41,9 +41,10 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.foundCanvas.height = $scope.gridCanvasStyle.height;
                     controller.foundCanvas.width = $scope.gridCanvasStyle.width;
                     var linesToDraw = [];
+                    //noinspection JSUnresolvedVariable
                     angular.forEach(controller.game.foundWordLocations, function (cells) {
                         var currentLine = {};
-                        var lastCoordinate;
+                        var lastCoordinate = null;
                         angular.forEach(cells, function (cell, index) {
                             var thisCoordinate = {
                                 row: gridOffsetTracker.getOffsetRow(cell.row),
@@ -97,6 +98,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     });
                 });
 
+                //noinspection JSUnresolvedVariable
                 angular.forEach(controller.game.foundWordLocations, function (cells) {
                     angular.forEach(cells, function (cell) {
                         var offSetRow = gridOffsetTracker.getOffsetRow(cell.row);
@@ -323,7 +325,9 @@ angular.module('twsUI').controller('PlayCtrl',
                         controller.grid[coordinate.row][coordinate.column] +
                         controller.currentWordBackward;
                 });
+                //noinspection JSUnresolvedVariable
                 controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
+                //noinspection JSUnresolvedVariable
                 controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
             }
 
@@ -373,6 +377,7 @@ angular.module('twsUI').controller('PlayCtrl',
             };
 
             $scope.$on('gameUpdated', function (message, oldGame) {
+                //noinspection JSUnresolvedVariable
                 if (oldGame.id === controller.game.id) {
                     updateControllerFromGame();
                 }
