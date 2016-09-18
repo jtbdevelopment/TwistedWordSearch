@@ -4,8 +4,10 @@ describe('Service: gridOffsetTracker', function () {
     // load the controller's module
     beforeEach(module('twsUI.services'));
 
-    var service;
-    beforeEach(inject(function ($injector) {
+    var service, $rootScope;
+    beforeEach(inject(function ($injector, _$rootScope_) {
+        $rootScope = _$rootScope_;
+        spyOn($rootScope, '$broadcast');
         service = $injector.get('gridOffsetTracker');
     }));
 
@@ -22,7 +24,11 @@ describe('Service: gridOffsetTracker', function () {
 
     it('simple adjustments', function() {
         service.shiftUp(2);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftRight(5);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
 
         expect(service.getOriginalRow(5)).toEqual(7);
         expect(service.getOffsetRow(2)).toEqual(0);
@@ -33,7 +39,11 @@ describe('Service: gridOffsetTracker', function () {
 
     it('boundary crossing adjustments', function() {
         service.shiftUp(2);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftRight(5);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
 
         expect(service.getOriginalRow(18)).toEqual(0);
         expect(service.getOffsetRow(1)).toEqual(19);
@@ -43,7 +53,11 @@ describe('Service: gridOffsetTracker', function () {
 
     it('more boundary crossing adjustments', function() {
         service.shiftDown(2);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftLeft(5);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
 
         expect(service.getOriginalRow(0)).toEqual(18);
         expect(service.getOffsetRow(19)).toEqual(1);
@@ -53,11 +67,23 @@ describe('Service: gridOffsetTracker', function () {
 
     it('boundary crossing adjustments after many shifts', function() {
         service.shiftUp(2);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftDown(1);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftUp(21);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftRight(5);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftLeft(3);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftRight(33);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
 
         expect(service.getOriginalRow(18)).toEqual(0);
         expect(service.getOffsetRow(1)).toEqual(19);
@@ -68,9 +94,17 @@ describe('Service: gridOffsetTracker', function () {
 
     it('boundary crossing additional boundary crossing adjustments', function() {
         service.shiftUp(2);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftDown(22);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftRight(5);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftLeft(35);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
 
         expect(service.getOriginalRow(18)).toEqual(18);
         expect(service.getOffsetRow(1)).toEqual(1);
@@ -81,7 +115,11 @@ describe('Service: gridOffsetTracker', function () {
 
     it('adjustments after a reset', function() {
         service.shiftUp(2);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
         service.shiftRight(5);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('GridOffsetsChanged');
+        $rootScope.$broadcast.calls.reset();
 
         expect(service.getOriginalRow(18)).toEqual(0);
         expect(service.getOffsetRow(1)).toEqual(19);

@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('twsUI.services').factory('gridOffsetTracker',
-    [
-        function () {
+    ['$rootScope',
+        function ($rootScope) {
+            var BROADCAST = 'GridOffsetsChanged';
             var columnOffset = 0;
             var rowOffset = 0;
             var rows = 0;
@@ -21,27 +22,31 @@ angular.module('twsUI.services').factory('gridOffsetTracker',
                     if (columnOffset <= -columns) {
                         columnOffset += columns;
                     }
+                    $rootScope.$broadcast(BROADCAST);
                 },
                 shiftRight: function (amount) {
                     columnOffset += amount;
                     if (columnOffset >= columns) {
                         columnOffset -= columns;
                     }
+                    $rootScope.$broadcast(BROADCAST);
                 },
                 shiftUp: function (amount) {
                     rowOffset -= amount;
                     if (rowOffset <= -rows) {
                         rowOffset += rows;
                     }
+                    $rootScope.$broadcast(BROADCAST);
                 },
                 shiftDown: function (amount) {
                     rowOffset += amount;
                     if (rowOffset >= rows) {
                         rowOffset -= rows;
                     }
+                    $rootScope.$broadcast(BROADCAST);
                 },
 
-                getOriginalRow: function(offsetRow) {
+                getOriginalRow: function (offsetRow) {
                     var originalRow = offsetRow - rowOffset;
                     if (originalRow < 0) {
                         originalRow += rows;
@@ -52,7 +57,7 @@ angular.module('twsUI.services').factory('gridOffsetTracker',
                     return originalRow;
                 },
 
-                getOriginalColumn: function(offsetColumn) {
+                getOriginalColumn: function (offsetColumn) {
                     var originalColumn = offsetColumn - columnOffset;
                     if (originalColumn < 0) {
                         originalColumn += columns;
@@ -63,7 +68,7 @@ angular.module('twsUI.services').factory('gridOffsetTracker',
                     return originalColumn;
                 },
 
-                getOffsetRow: function(originalRow) {
+                getOffsetRow: function (originalRow) {
                     var offSetRow = originalRow + rowOffset;
                     if (offSetRow < 0) {
                         offSetRow += rows;
@@ -74,7 +79,7 @@ angular.module('twsUI.services').factory('gridOffsetTracker',
                     return offSetRow;
                 },
 
-                getOffsetColumn: function(originalColumn) {
+                getOffsetColumn: function (originalColumn) {
                     var offSetColumn = originalColumn + columnOffset;
                     if (offSetColumn < 0) {
                         offSetColumn += columns;
