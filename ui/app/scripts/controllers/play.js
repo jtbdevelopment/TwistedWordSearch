@@ -4,12 +4,11 @@
 //  TODO - shifting while in selecting mode - odd
 //  TODO - initial select should highlight first cell
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
-        function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
+    ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'foundWordsCanvasManager', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
+        function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, foundWordsCanvasManager, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
-            var FOUND_COLOR = '#C1D37F';
 
             //  controlled by gridMaster directive
             $scope.gridCanvasStyle = {
@@ -36,48 +35,6 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.fontSize = fontSizeManager.fontSizeStyle();
             gridOffsetTracker.reset();
 
-            controller.highlightFoundWords = function () {
-                    controller.foundCanvas = angular.element('#found-canvas')[0];
-                    controller.foundContext = controller.foundCanvas.getContext('2d');
-                    var linesToDraw = [];
-                    //noinspection JSUnresolvedVariable
-                    angular.forEach(controller.game.foundWordLocations, function (cells) {
-                        var currentLine = {};
-                        var lastCoordinate = null;
-                        angular.forEach(cells, function (cell, index) {
-                            var thisCoordinate = {
-                                row: gridOffsetTracker.getOffsetRow(cell.row),
-                                column: gridOffsetTracker.getOffsetColumn(cell.column)
-                            };
-                            if (index === 0) {
-                                lastCoordinate = thisCoordinate;
-                                currentLine.from = lastCoordinate;
-                            } else {
-                                if (Math.abs(lastCoordinate.row - thisCoordinate.row) > 1 || Math.abs(lastCoordinate.column - thisCoordinate.column) > 1) {
-                                    currentLine.to = lastCoordinate;
-                                    linesToDraw.push(currentLine);
-                                    currentLine = {};
-                                    currentLine.from = thisCoordinate;
-                                }
-                                lastCoordinate = thisCoordinate;
-                            }
-                        });
-                        currentLine.to = lastCoordinate;
-                        linesToDraw.push(currentLine);
-                    });
-                    clearGridCanvas(controller.foundCanvas, controller.foundContext);
-                    controller.foundContext.beginPath();
-                    angular.forEach(linesToDraw, function (lineToDraw) {
-                        highlightWord(
-                            controller.foundCanvas,
-                            controller.foundContext,
-                            lineToDraw.from,
-                            lineToDraw.to,
-                            FOUND_COLOR);
-                    });
-                    controller.foundContext.closePath();
-            };
-
             function updateControllerFromGame() {
                 controller.tracking = false;
                 controller.game = jtbGameCache.getGameForID($routeParams.gameID);
@@ -90,10 +47,10 @@ angular.module('twsUI').controller('PlayCtrl',
                 var grid = gridTableManager.updateForGame(controller.game);
                 controller.grid = grid.cells;
                 controller.cellStyles = grid.styles;
+                foundWordsCanvasManager.updateForGame(controller.game, controller.rows, controller.columns);
                 controller.showQuit = (controller.game.gamePhase === 'Playing');
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 controller.acceptClicks = controller.showQuit;
-                controller.highlightFoundWords();
             }
 
             updateControllerFromGame();
@@ -105,10 +62,6 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.zoomOut = function (amount) {
                 controller.fontSize = fontSizeManager.decreaseFontSize(amount);
             };
-
-            $scope.$on('GridOffsetsChanged', function() {
-                controller.highlightFoundWords();
-            });
 
             controller.tracking = false;
             controller.trackingPaused = false;

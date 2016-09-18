@@ -64,7 +64,7 @@ angular.module('twsUI.services').factory('gridTableManager',
 
             $rootScope.$on('GridOffsetsChanged', function() {
                 if(angular.isDefined(currentGame)) {
-                    updateForGame(currentGame);
+                    updateForGame();
                 }
             });
 
