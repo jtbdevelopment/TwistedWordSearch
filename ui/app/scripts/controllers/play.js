@@ -4,8 +4,8 @@
 //  TODO - shifting while in selecting mode - odd
 //  TODO - initial select should highlight first cell
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'foundWordsCanvasManager', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
-        function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, foundWordsCanvasManager, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
+    ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'foundWordsCanvasManager', 'canvasLineDrawer', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
+        function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, foundWordsCanvasManager, canvasLineDrawer, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
@@ -223,35 +223,20 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
             }
 
-            function highlightWord(canvas, context, startCell, endCell, color) {
-                var width = canvas.width / controller.columns;
-                var halfWidth = width / 2;
-                var height = canvas.height / controller.rows;
-                var halfHeight = height / 2;
-                var startX = (startCell.column * width) + halfWidth;
-                var startY = (startCell.row * height) + halfHeight;
-                var endX = ((endCell.column - startCell.column) * width) + startX;
-                var endY = ((endCell.row - startCell.row) * height) + startY;
-                context.lineWidth = (halfHeight + halfWidth) / 2;
-                context.strokeStyle = color;
-                context.lineCap = 'round';
-                context.moveTo(startX, startY);
-                context.lineTo(endX, endY);
-                context.stroke();
-            }
-
             controller.highlightSelectedLetters = function () {
                 gridTableManager.unmarkCoordinatesAsSelected(controller.selectedCells);
                 computeSelectedCells(controller.selectEnd);
                 gridTableManager.markCoordinatesAsSelected(controller.selectedCells);
                 clearGridCanvas(controller.selectCanvas, controller.selectContext);
                 controller.selectContext.beginPath();
-                highlightWord(
-                    controller.selectCanvas,
+                canvasLineDrawer.drawLine(
                     controller.selectContext,
                     controller.selectedCells[0],
                     controller.selectedCells[controller.selectedCells.length - 1],
-                    SELECT_COLOR);
+                    controller.selectCanvas.height / controller.rows,
+                    controller.selectCanvas.width / controller.columns,
+                    SELECT_COLOR
+                );
                 controller.selectContext.closePath();
             };
 
