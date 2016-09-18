@@ -43,7 +43,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 });
                 controller.rows = controller.game.grid.length;
                 controller.columns = controller.game.grid[0].length;
-                gridOffsetTracker.gridSize(controller.game.grid.length, controller.game.grid[0].length);
+                gridOffsetTracker.gridSize(controller.rows, controller.columns);
                 var grid = gridTableManager.updateForGame(controller.game);
                 controller.grid = grid.cells;
                 controller.cellStyles = grid.styles;
@@ -135,7 +135,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.currentWordForward = '';
                     controller.forwardIsWord = false;
                     controller.backwardIsWord = false;
-                    clearGridCanvas(controller.selectCanvas, controller.selectContext);
+                    controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
                 }
             };
 
@@ -172,10 +172,6 @@ angular.module('twsUI').controller('PlayCtrl',
                         }
                 }
                 return {row: targetRow, column: targetColumn};
-            }
-
-            function clearGridCanvas(canvas, canvasContext) {
-                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
             }
 
             function computeSelectedCells(target) {
@@ -227,7 +223,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 gridTableManager.unmarkCoordinatesAsSelected(controller.selectedCells);
                 computeSelectedCells(controller.selectEnd);
                 gridTableManager.markCoordinatesAsSelected(controller.selectedCells);
-                clearGridCanvas(controller.selectCanvas, controller.selectContext);
+                controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
                 controller.selectContext.beginPath();
                 canvasLineDrawer.drawLine(
                     controller.selectContext,
