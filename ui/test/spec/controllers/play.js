@@ -202,6 +202,19 @@ describe('Controller: PlayCtrl',
          ['G', 'H', 'Z']
          ]
          */
+        function resetExpectations(nextReturnValueFromCalculateSelected) {
+            gridTableManager.calculateSelected.calls.reset();
+            gridTableManager.calculateSelected.and.returnValue(nextReturnValueFromCalculateSelected);
+            gridTableManager.removeSelectedStyleFromCoordinates.calls.reset();
+            gridTableManager.addSelectedStyleToCoordinates.calls.reset();
+            canvasLineDrawer.drawLine.calls.reset();
+            context.clearRect.calls.reset();
+            context.beginPath.calls.reset();
+            context.closePath.calls.reset();
+            gridTableManager.calculateSelected.calls.reset();
+        }
+
+
         it('clicking on game starts selection', function () {
             var selectedCoordinates = [{row: 1, column: 0}];
             var selectedReturnValue = {
@@ -210,7 +223,7 @@ describe('Controller: PlayCtrl',
                 wordForward: 'D',
                 wordReversed: 'D'
             };
-            gridTableManager.calculateSelected.and.returnValue(selectedReturnValue);
+            resetExpectations(selectedReturnValue);
             PlayCtrl.onMouseClick({
                 currentTarget: {
                     getAttribute: function (name) {
@@ -242,6 +255,138 @@ describe('Controller: PlayCtrl',
                 '#9DC4B5'
             );
             expect(context.closePath).toHaveBeenCalled();
+        });
+
+        it('moving after initial click updates word', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DA',
+                wordReversed: 'AD'
+            };
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(clickCoordinates);
+            expect(gridTableManager.addSelectedStyleToCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(true);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+            expect(context.beginPath).toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
+                context,
+                moveCoordinates[0],
+                moveCoordinates[1],
+                canvas.height / 4,
+                canvas.width / 3,
+                '#9DC4B5'
+            );
+            expect(context.closePath).toHaveBeenCalled();
+        });
+
+        it('clicking after not highlighting word clears selection', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 0}, {row: 2, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DG',
+                wordReversed: 'DG'
+            };
+            resetExpectations(moveReturnValue);
+
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 2;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            resetExpectations(undefined);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 2;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         });
 
         describe('game that is over, but rematch available', function () {
