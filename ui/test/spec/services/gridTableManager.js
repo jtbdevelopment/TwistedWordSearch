@@ -4,10 +4,10 @@ describe('Service: gridTableManager', function () {
     // load the controller's module
     beforeEach(module('twsUI.services'));
 
-    var service, $gridOffsetTracker;
+    var service, gridOffsetTracker;
     beforeEach(inject(function ($injector) {
         //  not mocking, functionality is straight foward enough while dealing with edge cases
-        $gridOffsetTracker = $injector.get('gridOffsetTracker');
+        gridOffsetTracker = $injector.get('gridOffsetTracker');
         service = $injector.get('gridTableManager');
     }));
 
@@ -25,8 +25,8 @@ describe('Service: gridTableManager', function () {
     };
 
     beforeEach(function () {
-        $gridOffsetTracker.reset();
-        $gridOffsetTracker.gridSize(4, 5);
+        gridOffsetTracker.reset();
+        gridOffsetTracker.gridSize(4, 5);
     });
 
     it('simple compute grid', function () {
@@ -41,8 +41,8 @@ describe('Service: gridTableManager', function () {
     });
 
     it('simple compute grid with offsets', function () {
-        $gridOffsetTracker.shiftUp(1);
-        $gridOffsetTracker.shiftRight(2);
+        gridOffsetTracker.shiftUp(1);
+        gridOffsetTracker.shiftRight(2);
         var data = service.updateForGame(game, 4, 5);
         expect(data.cells).toEqual([
             [' ', 'I', 'F', 'G', 'H'],
@@ -67,8 +67,8 @@ describe('Service: gridTableManager', function () {
             ['', '', '', '', ''],
             ['found-word ', 'found-word ', '', '', 'found-word ']
         ]);
-        $gridOffsetTracker.shiftUp(1);
-        $gridOffsetTracker.shiftRight(2);
+        gridOffsetTracker.shiftUp(1);
+        gridOffsetTracker.shiftRight(2);
         expect(data.cells).toEqual([
             [' ', 'I', 'F', 'G', 'H'],
             [' ', 'M', 'J', 'K', 'L'],
@@ -84,8 +84,8 @@ describe('Service: gridTableManager', function () {
     });
 
     it('add found word style to shifted grid', function () {
-        $gridOffsetTracker.shiftUp(2);
-        $gridOffsetTracker.shiftRight(2);
+        gridOffsetTracker.shiftUp(2);
+        gridOffsetTracker.shiftRight(2);
         var data = service.updateForGame(game, 4, 5);
         service.addSelectedStyleToCoordinates([{row: 0, column: 0}, {row: 1, column: 1}]);
         expect(data.cells).toEqual([
@@ -103,8 +103,8 @@ describe('Service: gridTableManager', function () {
     });
 
     it('remove found word style to shifted grid', function () {
-        $gridOffsetTracker.shiftUp(2);
-        $gridOffsetTracker.shiftRight(2);
+        gridOffsetTracker.shiftUp(2);
+        gridOffsetTracker.shiftRight(2);
         var data = service.updateForGame(game, 4, 5);
         service.addSelectedStyleToCoordinates([{row: 0, column: 0}, {row: 1, column: 1}, {row: 3, column: 4}]);
         service.removeSelectedStyleFromCoordinates([{row: 1, column: 1}]);
@@ -126,14 +126,27 @@ describe('Service: gridTableManager', function () {
         service.updateForGame(game, 4, 5);
         var data = service.calculateSelected({row: 3, column: 2}, {row: 1, column: 0});
         expect(data.selectedCoordinates).toEqual([{row: 3, column: 2}, {row: 2, column: 1}, {row: 1, column: 0}]);
+        expect(data.originalCoordinates).toEqual([{row: 3, column: 2}, {row: 2, column: 1}, {row: 1, column: 0}]);
         expect(data.wordForward).toEqual('PKF');
         expect(data.wordReversed).toEqual('FKP');
+    });
+    it('can calculate selected word with shift', function () {
+        service.updateForGame(game, 4, 5);
+        gridOffsetTracker.shiftRight(1);
+        gridOffsetTracker.shiftUp(1);
+        var data = service.calculateSelected({row: 3, column: 2}, {row: 1, column: 0});
+        expect(data.selectedCoordinates).toEqual([{row: 3, column: 2}, {row: 2, column: 1}, {row: 1, column: 0}]);
+        expect(data.originalCoordinates).toEqual([{row: 0, column: 1}, {row: 3, column: 0}, {row: 2, column: 4}]);
+        expect(data.wordForward).toEqual('BNM');
+        expect(data.wordReversed).toEqual('MNB');
+
     });
 
     it('calculate selected word stops at space', function () {
         service.updateForGame(game, 4, 5);
         var data = service.calculateSelected({row: 1, column: 1}, {row: 1, column: 4});
         expect(data.selectedCoordinates).toEqual([{row: 1, column: 1}, {row: 1, column: 2}]);
+        expect(data.originalCoordinates).toEqual([{row: 1, column: 1}, {row: 1, column: 2}]);
         expect(data.wordForward).toEqual('GH');
         expect(data.wordReversed).toEqual('HG');
     });

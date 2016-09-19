@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twsUI.services').factory('foundWordsCanvasManager',
-    ['gridOffsetTracker', '$rootScope', 'canvasLineDrawer',
-        function (gridOffsetTracker, $rootScope, canvasLineDrawer) {
+    ['gridOffsetTracker', '$rootScope', 'canvasLineDrawer', '$timeout',
+        function (gridOffsetTracker, $rootScope, canvasLineDrawer, $timeout) {
 
             var FOUND_COLOR = '#C1D37F';
             var currentGame;
@@ -36,6 +36,7 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                     currentLine.to = lastCoordinate;
                     linesToDraw.push(currentLine);
                 });
+                console.log(JSON.stringify(linesToDraw));
                 return linesToDraw;
             }
 
@@ -50,8 +51,15 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                 context.closePath();
             }
 
+            //  Timeout exists for slower browsers - sometimes canvas not ready right away
+            var timeout = 1000;
             function highlightFoundWords() {
-                drawLines(calculateLinesToDraw());
+                $timeout(function() {
+                    canvas = angular.element('#found-canvas')[0];
+                    context = canvas.getContext('2d');
+                    drawLines(calculateLinesToDraw());
+                    timeout = 0;
+                }, timeout);
             }
 
             $rootScope.$on('GridOffsetsChanged', function () {
@@ -65,8 +73,7 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                     currentGame = game;
                     rows = gameRows;
                     columns = gameColumns;
-                    canvas = angular.element('#found-canvas')[0];
-                    context = canvas.getContext('2d');
+                    timeout = 1000;
                     highlightFoundWords();
                 }
             };

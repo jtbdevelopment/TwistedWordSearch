@@ -1,8 +1,6 @@
 'use strict';
 
 //  TODO - cleanup/breakup
-//  TODO - shifting while in selecting mode - odd
-//  TODO - initial select should highlight first cell
 angular.module('twsUI').controller('PlayCtrl',
     ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'foundWordsCanvasManager', 'canvasLineDrawer', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
         function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, foundWordsCanvasManager, canvasLineDrawer, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
@@ -51,8 +49,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.showQuit = (controller.game.gamePhase === 'Playing');
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 controller.acceptClicks = controller.showQuit;
-                controller.selectCanvas = angular.element('#select-canvas')[0];
-                controller.selectContext = controller.selectCanvas.getContext('2d');
             }
 
             updateControllerFromGame();
@@ -89,6 +85,40 @@ angular.module('twsUI').controller('PlayCtrl',
                 };
             }
 
+            function clearSelectedWord() {
+                gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
+                controller.selectedCells = [];
+                controller.currentWordBackward = '';
+                controller.currentWordForward = '';
+                controller.forwardIsWord = false;
+                controller.backwardIsWord = false;
+                controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
+            }
+
+            function submitSelectedWord() {
+                if (controller.forwardIsWord || controller.backwardIsWord) {
+                    var cells = [];
+                    if (controller.backwardIsWord) {
+                        controller.selectedCells.reverse();
+                    }
+                    var last;
+                    angular.forEach(controller.originalSelectedCells, function (cell, index) {
+                        if (index === 0) {
+                            cells.push(cell);
+                            last = cell;
+                        }
+                        else {
+                            cells.push({
+                                row: cell.row - last.row,
+                                column: cell.column - last.column
+                            });
+                            last = cell;
+                        }
+                    });
+                    jtbBootstrapGameActions.wrapActionOnGame($http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find', cells));
+                }
+            }
+
             controller.onMouseClick = function (event) {
                 if (!controller.acceptClicks) {
                     return;
@@ -104,37 +134,8 @@ angular.module('twsUI').controller('PlayCtrl',
                     controller.selectEnd = coordinate;
                     controller.updateSelection();
                 } else {
-                    gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
-                    if (controller.forwardIsWord || controller.backwardIsWord) {
-                        var cells = [];
-                        if (controller.backwardIsWord) {
-                            controller.selectedCells.reverse();
-                        }
-                        var last;
-                        angular.forEach(controller.selectedCells, function (cell, index) {
-                            if (index === 0) {
-                                cells.push({
-                                    row: gridOffsetTracker.getOriginalRow(cell.row),
-                                    column: gridOffsetTracker.getOriginalColumn(cell.column)
-                                });
-                                last = cell;
-                            }
-                            else {
-                                cells.push({
-                                    row: cell.row - last.row,
-                                    column: cell.column - last.column
-                                });
-                                last = cell;
-                            }
-                        });
-                        jtbBootstrapGameActions.wrapActionOnGame($http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find', cells));
-                    }
-                    controller.selectedCells = [];
-                    controller.currentWordBackward = '';
-                    controller.currentWordForward = '';
-                    controller.forwardIsWord = false;
-                    controller.backwardIsWord = false;
-                    controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
+                    submitSelectedWord();
+                    clearSelectedWord();
                 }
             };
 
@@ -176,6 +177,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
                 var selectedData = gridTableManager.calculateSelected(controller.selectStart, controller.selectEnd);
                 controller.selectedCells = selectedData.selectedCoordinates;
+                controller.originalSelectedCells = selectedData.originalCoordinates;
                 controller.currentWordForward = selectedData.wordForward;
                 controller.currentWordBackward = selectedData.wordReversed;
                 //noinspection JSUnresolvedVariable
@@ -183,6 +185,9 @@ angular.module('twsUI').controller('PlayCtrl',
                 //noinspection JSUnresolvedVariable
                 controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
                 gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
+
+                controller.selectCanvas = angular.element('#select-canvas')[0];
+                controller.selectContext = controller.selectCanvas.getContext('2d');
                 controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
                 controller.selectContext.beginPath();
                 canvasLineDrawer.drawLine(
@@ -212,6 +217,12 @@ angular.module('twsUI').controller('PlayCtrl',
                 if (oldGame.id === controller.game.id) {
                     updateControllerFromGame();
                 }
+            });
+
+            $scope.$on('GridOffsetsChanged', function () {
+                clearSelectedWord();
+                controller.tracking = false;
+                controller.trackingPaused = false;
             });
         }
     ]

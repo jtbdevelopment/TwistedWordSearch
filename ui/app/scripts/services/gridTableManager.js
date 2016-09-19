@@ -54,6 +54,13 @@ angular.module('twsUI.services').factory('gridTableManager',
                 });
             }
 
+            function getOriginalCoordinate(offsetCoordinate) {
+                return {
+                    row: gridOffsetTracker.getOriginalRow(offsetCoordinate.row),
+                    column: gridOffsetTracker.getOriginalColumn(offsetCoordinate.column)
+                };
+            }
+
             function updateForGame() {
                 placeLettersWithEmptyStyle(currentGame.grid);
                 markFoundWordLocations(currentGame);
@@ -93,6 +100,7 @@ angular.module('twsUI.services').factory('gridTableManager',
 
                 calculateSelected: function (startCoordinate, targetCoordinate) {
                     var selectedCoordinates = [startCoordinate];
+                    var originalSelectedCoordinates = [getOriginalCoordinate(startCoordinate)];
 
                     var coordinate = {row: startCoordinate.row, column: startCoordinate.column};
                     var workingWordForward = tableCells[coordinate.row][coordinate.column];
@@ -109,11 +117,13 @@ angular.module('twsUI.services').factory('gridTableManager',
                             break;
                         }
                         selectedCoordinates.push({row: coordinate.row, column: coordinate.column});
+                        originalSelectedCoordinates.push(getOriginalCoordinate(coordinate));
                         workingWordForward += tableCells[coordinate.row][coordinate.column];
                         workingWordReversed = tableCells[coordinate.row][coordinate.column] + workingWordReversed;
                     }
                     return {
                         selectedCoordinates: selectedCoordinates,
+                        originalCoordinates: originalSelectedCoordinates,
                         wordForward: workingWordForward,
                         wordReversed: workingWordReversed
                     };

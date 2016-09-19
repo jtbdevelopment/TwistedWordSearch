@@ -9,6 +9,7 @@
  * Main module of the application.
  */
 
+//  Polyfill
 Math.sign = Math.sign || function (x) {
         x = +x; // convert to a number
         if (x === 0 || isNaN(x)) {
