@@ -96,8 +96,8 @@
                     <div grid-master class="col-xs-12 player-grid" ng-style="play.fontSize">
                         <table class="table table-condensed"
                                id="word-grid"
-                               ng-mouseleave="play.onMouseExit($event)"
-                               ng-mouseenter="play.onMouseEnter($event)">
+                               ng-mouseleave="play.onMouseExitsTable($event)"
+                               ng-mouseenter="play.onMouseEntersTable($event)">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"
                                 ng-init="gridRow = $index">
                                 <td ng-repeat="cell in row track by $index" data-ws-row="{{gridRow}}"

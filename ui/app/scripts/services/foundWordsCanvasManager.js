@@ -36,7 +36,6 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                     currentLine.to = lastCoordinate;
                     linesToDraw.push(currentLine);
                 });
-                console.log(JSON.stringify(linesToDraw));
                 return linesToDraw;
             }
 

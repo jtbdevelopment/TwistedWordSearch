@@ -1,9 +1,14 @@
 'use strict';
 
-//  TODO - cleanup/breakup
 angular.module('twsUI').controller('PlayCtrl',
-    ['$scope', '$http', '$routeParams', 'gridOffsetTracker', 'gridTableManager', 'foundWordsCanvasManager', 'canvasLineDrawer', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions', 'featureDescriber', 'fontSizeManager',
-        function ($scope, $http, $routeParams, gridOffsetTracker, gridTableManager, foundWordsCanvasManager, canvasLineDrawer, jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, featureDescriber, fontSizeManager) {
+    ['$scope', '$http', '$routeParams',
+        'gridOffsetTracker', 'gridTableManager', 'fontSizeManager',
+        'foundWordsCanvasManager', 'canvasLineDrawer', 'featureDescriber',
+        'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
+        function ($scope, $http, $routeParams,
+                  gridOffsetTracker, gridTableManager, fontSizeManager,
+                  foundWordsCanvasManager, canvasLineDrawer, featureDescriber,
+                  jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
             var SELECT_COLOR = '#9DC4B5';
@@ -31,7 +36,13 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.showRematch = false;
             controller.acceptClicks = false;
             controller.fontSize = fontSizeManager.fontSizeStyle();
-            gridOffsetTracker.reset();
+            controller.tracking = false;
+            controller.trackingPaused = false;
+            controller.selectedCells = [];
+            controller.selectStart = undefined;
+            controller.selectEnd = undefined;
+            controller.currentWordForward = '';
+            controller.currentWordBackward = '';
 
             function updateControllerFromGame() {
                 controller.tracking = false;
@@ -50,33 +61,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 controller.acceptClicks = controller.showQuit;
             }
-
-            updateControllerFromGame();
-
-            controller.zoomIn = function (amount) {
-                controller.fontSize = fontSizeManager.increaseFontSize(amount);
-            };
-
-            controller.zoomOut = function (amount) {
-                controller.fontSize = fontSizeManager.decreaseFontSize(amount);
-            };
-
-            controller.tracking = false;
-            controller.trackingPaused = false;
-            controller.selectedCells = [];
-            controller.selectStart = undefined;
-            controller.selectEnd = undefined;
-            controller.currentWordForward = '';
-            controller.currentWordBackward = '';
-
-            controller.onMouseEnter = function () {
-                controller.tracking = controller.trackingPaused;
-            };
-
-            controller.onMouseExit = function () {
-                controller.trackingPaused = controller.tracking;
-                controller.tracking = false;
-            };
 
             function getCoordinateFromEventTarget(event) {
                 return {
@@ -115,29 +99,14 @@ angular.module('twsUI').controller('PlayCtrl',
                             last = cell;
                         }
                     });
-                    jtbBootstrapGameActions.wrapActionOnGame($http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find', cells));
+                    jtbBootstrapGameActions.wrapActionOnGame(
+                        $http.put(
+                            jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find',
+                            cells
+                        )
+                    );
                 }
             }
-
-            controller.onMouseClick = function (event) {
-                if (!controller.acceptClicks) {
-                    return;
-                }
-                controller.tracking = !controller.tracking;
-                if (controller.tracking) {
-                    var coordinate = getCoordinateFromEventTarget(event);
-                    if (controller.grid[coordinate.row][coordinate.column] === ' ') {
-                        controller.tracking = false;
-                        return;
-                    }
-                    controller.selectStart = coordinate;
-                    controller.selectEnd = coordinate;
-                    controller.updateSelection();
-                } else {
-                    submitSelectedWord();
-                    clearSelectedWord();
-                }
-            };
 
             function computeTargetEndPoint(event) {
                 var coordinate = getCoordinateFromEventTarget(event);
@@ -173,19 +142,44 @@ angular.module('twsUI').controller('PlayCtrl',
                 return {row: targetRow, column: targetColumn};
             }
 
-            controller.updateSelection = function () {
-                gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
-                var selectedData = gridTableManager.calculateSelected(controller.selectStart, controller.selectEnd);
-                controller.selectedCells = selectedData.selectedCoordinates;
-                controller.originalSelectedCells = selectedData.originalCoordinates;
-                controller.currentWordForward = selectedData.wordForward;
-                controller.currentWordBackward = selectedData.wordReversed;
-                //noinspection JSUnresolvedVariable
-                controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
-                //noinspection JSUnresolvedVariable
-                controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
-                gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
+            controller.zoomIn = function (amount) {
+                controller.fontSize = fontSizeManager.increaseFontSize(amount);
+            };
 
+            controller.zoomOut = function (amount) {
+                controller.fontSize = fontSizeManager.decreaseFontSize(amount);
+            };
+
+            controller.onMouseEntersTable = function () {
+                controller.tracking = controller.trackingPaused;
+            };
+
+            controller.onMouseExitsTable = function () {
+                controller.trackingPaused = controller.tracking;
+                controller.tracking = false;
+            };
+
+            controller.onMouseClick = function (event) {
+                if (!controller.acceptClicks) {
+                    return;
+                }
+                controller.tracking = !controller.tracking;
+                if (controller.tracking) {
+                    var coordinate = getCoordinateFromEventTarget(event);
+                    if (controller.grid[coordinate.row][coordinate.column] === ' ') {
+                        controller.tracking = false;
+                        return;
+                    }
+                    controller.selectStart = coordinate;
+                    controller.selectEnd = coordinate;
+                    controller.updateSelection();
+                } else {
+                    submitSelectedWord();
+                    clearSelectedWord();
+                }
+            };
+
+            function drawSelectionHighlight() {
                 controller.selectCanvas = angular.element('#select-canvas')[0];
                 controller.selectContext = controller.selectCanvas.getContext('2d');
                 controller.selectContext.clearRect(0, 0, controller.selectCanvas.width, controller.selectCanvas.height);
@@ -199,6 +193,21 @@ angular.module('twsUI').controller('PlayCtrl',
                     SELECT_COLOR
                 );
                 controller.selectContext.closePath();
+            }
+
+            controller.updateSelection = function () {
+                gridTableManager.removeSelectedStyleFromCoordinates(controller.selectedCells);
+                var selectedData = gridTableManager.calculateSelected(controller.selectStart, controller.selectEnd);
+                controller.selectedCells = selectedData.selectedCoordinates;
+                controller.originalSelectedCells = selectedData.originalCoordinates;
+                controller.currentWordForward = selectedData.wordForward;
+                controller.currentWordBackward = selectedData.wordReversed;
+                gridTableManager.addSelectedStyleToCoordinates(controller.selectedCells);
+                //noinspection JSUnresolvedVariable
+                controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
+                //noinspection JSUnresolvedVariable
+                controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
+                drawSelectionHighlight();
             };
 
             controller.onMouseMove = function (event) {
@@ -224,6 +233,10 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.tracking = false;
                 controller.trackingPaused = false;
             });
+
+            gridOffsetTracker.reset();
+            updateControllerFromGame();
+
         }
     ]
 );
