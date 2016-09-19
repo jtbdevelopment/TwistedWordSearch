@@ -13,6 +13,7 @@ describe('Controller: PlayCtrl',
             grid: [
                 ['A', 'B', 'C'],
                 ['D', 'E', 'F'],
+                ['D', 'E', 'F'],
                 ['G', 'H', 'Z']
             ]
         };
@@ -40,6 +41,7 @@ describe('Controller: PlayCtrl',
 
         var gtmCells = angular.copy(baseGame.grid);
         var gtmStyles = [
+            ['', '', ''],
             ['', '', ''],
             ['', '', ''],
             ['', '', '']
@@ -95,7 +97,7 @@ describe('Controller: PlayCtrl',
         };
 
         // Initialize the controller and a mock scope
-        var MainCtrl, $scope, $rootScope, $http, $q;
+        var PlayCtrl, $scope, $rootScope, $http, $q;
 
         beforeEach(function () {
             expectedGame = angular.copy(baseGame);
@@ -115,7 +117,7 @@ describe('Controller: PlayCtrl',
             spyOn($rootScope, '$broadcast').and.callThrough();
 
             $scope = $rootScope.$new();
-            MainCtrl = $controller('PlayCtrl', {
+            PlayCtrl = $controller('PlayCtrl', {
                 $scope: $scope,
                 $routeParams: $routeParams,
                 gridOffsetTracker: gridOffsetTracker,
@@ -130,8 +132,82 @@ describe('Controller: PlayCtrl',
             });
         }));
 
-        it('dummy test', function () {
+        it('initializes playing game', function () {
+            expect($scope.gridCanvasStyle).toEqual({top: 0, left: 0, height: 0, width: 0});
+            expect(PlayCtrl.actions).toEqual(jtbBootstrapActions);
+            expect(PlayCtrl.offsetTracker).toEqual(gridOffsetTracker);
+            expect(PlayCtrl.grid === gtmCells).toBeTruthy();
+            expect(PlayCtrl.cellStyles === gtmStyles).toBeTruthy();
+            expect(PlayCtrl.showQuit).toBeTruthy();
+            expect(PlayCtrl.showRematch).not.toBeTruthy();
+            expect(PlayCtrl.forwardIsWord).not.toBeTruthy();
+            expect(PlayCtrl.backwardIsWord).not.toBeTruthy();
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(gridOffsetTracker.reset).toHaveBeenCalled();
+            expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
+            expect(PlayCtrl.game).toEqual(expectedGame);
+            expect(PlayCtrl.fontSize).toEqual(originalStyle);
+            expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
 
+            expect(PlayCtrl.description).toEqual([]);
+
+            var expectedDescription = {a: 1, b: '32'};
+            featurePromise.resolve(expectedDescription);
+            $scope.$apply();
+            expect(PlayCtrl.description).toEqual(expectedDescription);
+        });
+
+        describe('game that is over, but rematch available', function () {
+            beforeEach(inject(function ($controller) {
+                expectedGame.gamePhase = 'RoundOver';
+                PlayCtrl = $controller('PlayCtrl', {
+                    $scope: $scope,
+                    $routeParams: $routeParams,
+                    gridOffsetTracker: gridOffsetTracker,
+                    gridTableManager: gridTableManager,
+                    fontSizeManager: fontSizeManager,
+                    foundWordsCanvasManager: foundWordsCanvasManager,
+                    canvasLineDrawer: canvasLineDrawer,
+                    featureDescriber: featureDescriber,
+                    jtbGameCache: jtbGameCache,
+                    jtbBootstrapGameActions: jtbBootstrapActions,
+                    jtbPlayerService: jtbPlayerService
+                });
+            }));
+            it('initializes round over game', function () {
+                expect(PlayCtrl.showQuit).toEqual(false);
+                expect(PlayCtrl.showRematch).toEqual(true);
+                expect(gridOffsetTracker.reset).toHaveBeenCalled();
+                expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
+                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
+            });
+        });
+
+        describe('game that is over, but rematch available', function () {
+            beforeEach(inject(function ($controller) {
+                expectedGame.gamePhase = 'VeryOld';
+                PlayCtrl = $controller('PlayCtrl', {
+                    $scope: $scope,
+                    $routeParams: $routeParams,
+                    gridOffsetTracker: gridOffsetTracker,
+                    gridTableManager: gridTableManager,
+                    fontSizeManager: fontSizeManager,
+                    foundWordsCanvasManager: foundWordsCanvasManager,
+                    canvasLineDrawer: canvasLineDrawer,
+                    featureDescriber: featureDescriber,
+                    jtbGameCache: jtbGameCache,
+                    jtbBootstrapGameActions: jtbBootstrapActions,
+                    jtbPlayerService: jtbPlayerService
+                });
+            }));
+            it('initializes older game', function () {
+                expect(PlayCtrl.showQuit).toEqual(false);
+                expect(PlayCtrl.showRematch).toEqual(false);
+                expect(gridOffsetTracker.reset).toHaveBeenCalled();
+                expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
+                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
+            });
         });
     }
 );
