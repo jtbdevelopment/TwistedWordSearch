@@ -42,6 +42,7 @@ angular.module('twsUI').controller('PlayCtrl',
             var tracking = false;
             var trackingPaused = false;
             var selectedCells = [];
+            var originalSelectedCells = [];
             var selectStart;
             var selectEnd;
             var selectCanvas;
@@ -89,7 +90,7 @@ angular.module('twsUI').controller('PlayCtrl',
                         selectedCells.reverse();
                     }
                     var last;
-                    angular.forEach(controller.originalSelectedCells, function (cell, index) {
+                    angular.forEach(originalSelectedCells, function (cell, index) {
                         if (index === 0) {
                             cells.push(cell);
                             last = cell;
@@ -202,7 +203,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 gridTableManager.removeSelectedStyleFromCoordinates(selectedCells);
                 var selectedData = gridTableManager.calculateSelected(selectStart, selectEnd);
                 selectedCells = selectedData.selectedCoordinates;
-                controller.originalSelectedCells = selectedData.originalCoordinates;
+                originalSelectedCells = selectedData.originalCoordinates;
                 controller.currentWordForward = selectedData.wordForward;
                 controller.currentWordBackward = selectedData.wordReversed;
                 gridTableManager.addSelectedStyleToCoordinates(selectedCells);

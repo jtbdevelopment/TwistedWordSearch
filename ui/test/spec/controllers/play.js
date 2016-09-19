@@ -15,7 +15,8 @@ describe('Controller: PlayCtrl',
                 ['D', 'E', 'F'],
                 ['D', ' ', 'F'],
                 ['G', 'H', 'Z']
-            ]
+            ],
+            wordsToFind: ['DA', 'DEF', 'DEC']
         };
         var expectedGame;
         var $routeParams = {
@@ -55,7 +56,7 @@ describe('Controller: PlayCtrl',
                 };
             },
             removeSelectedStyleFromCoordinates: jasmine.createSpy('gtm-removestyle'),
-            addSelectedStyleFromCoordinates: jasmine.createSpy('gtm-addstyle'),
+            addSelectedStyleToCoordinates: jasmine.createSpy('gtm-addstyle'),
             calculateSelected: jasmine.createSpy('gtm-calcSelected')
         };
 
@@ -104,7 +105,7 @@ describe('Controller: PlayCtrl',
             foundWordsCanvasManager.updateForGame.calls.reset();
             gridOffsetTracker.reset.calls.reset();
             gridOffsetTracker.gridSize.calls.reset();
-            gridTableManager.addSelectedStyleFromCoordinates.calls.reset();
+            gridTableManager.addSelectedStyleToCoordinates.calls.reset();
             gridTableManager.removeSelectedStyleFromCoordinates.calls.reset();
             gridTableManager.calculateSelected.calls.reset();
             canvasLineDrawer.drawLine.calls.reset();
@@ -181,6 +182,66 @@ describe('Controller: PlayCtrl',
 
         afterEach(function () {
             elementSpy.and.callThrough();
+        });
+
+        it('zoom in', function () {
+            PlayCtrl.zoomIn(4);
+            expect(PlayCtrl.fontSize).toEqual({original: 4});
+        });
+
+        it('zoom out', function () {
+            PlayCtrl.zoomOut(2);
+            expect(PlayCtrl.fontSize).toEqual({original: 2});
+        });
+
+        /*
+         grid: [
+         ['A', 'B', 'C'],
+         ['D', 'E', 'F'],
+         ['D', ' ', 'F'],
+         ['G', 'H', 'Z']
+         ]
+         */
+        it('clicking on game starts selection', function () {
+            var selectedCoordinates = [{row: 1, column: 0}];
+            var selectedReturnValue = {
+                selectedCoordinates: selectedCoordinates,
+                originalSelectedCells: selectedCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(selectedReturnValue);
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+
+            });
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith([]);
+            expect(gridTableManager.addSelectedStyleToCoordinates).toHaveBeenCalledWith(selectedCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual(selectedReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(selectedReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+            expect(context.beginPath).toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
+                context,
+                selectedCoordinates[0],
+                selectedCoordinates[0],
+                canvas.height / 4,
+                canvas.width / 3,
+                '#9DC4B5'
+            );
+            expect(context.closePath).toHaveBeenCalled();
         });
 
         describe('game that is over, but rematch available', function () {
