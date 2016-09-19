@@ -13,7 +13,7 @@ describe('Controller: PlayCtrl',
             grid: [
                 ['A', 'B', 'C'],
                 ['D', 'E', 'F'],
-                ['D', 'E', 'F'],
+                ['D', ' ', 'F'],
                 ['G', 'H', 'Z']
             ]
         };
@@ -97,7 +97,7 @@ describe('Controller: PlayCtrl',
         };
 
         // Initialize the controller and a mock scope
-        var PlayCtrl, $scope, $rootScope, $http, $q;
+        var PlayCtrl, $scope, $rootScope, $http, $q, elementSpy;
 
         beforeEach(function () {
             expectedGame = angular.copy(baseGame);
@@ -110,11 +110,32 @@ describe('Controller: PlayCtrl',
             canvasLineDrawer.drawLine.calls.reset();
         });
 
+        var context = {
+            clearRect: jasmine.createSpy('clearRect'),
+            beginPath: jasmine.createSpy('beginPath'),
+            closePath: jasmine.createSpy('closePath'),
+            aVariable: 'X'
+        };
+
+        var canvas = {
+            width: 322,
+            height: 408,
+            getContext: function (type) {
+                expect(type).toEqual('2d');
+                return context;
+            }
+        };
+        var ngElementFake = function (name) {
+            expect(name).toEqual('#select-canvas');
+            return [canvas];
+        };
+
         beforeEach(inject(function ($controller, _$rootScope_, $httpBackend, _$q_) {
             $rootScope = _$rootScope_;
             $http = $httpBackend;
             $q = _$q_;
             spyOn($rootScope, '$broadcast').and.callThrough();
+            elementSpy = spyOn(angular, 'element').and.callFake(ngElementFake);
 
             $scope = $rootScope.$new();
             PlayCtrl = $controller('PlayCtrl', {
@@ -156,6 +177,10 @@ describe('Controller: PlayCtrl',
             featurePromise.resolve(expectedDescription);
             $scope.$apply();
             expect(PlayCtrl.description).toEqual(expectedDescription);
+        });
+
+        afterEach(function () {
+            elementSpy.and.callThrough();
         });
 
         describe('game that is over, but rematch available', function () {
