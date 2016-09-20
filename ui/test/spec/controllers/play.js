@@ -194,6 +194,10 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.fontSize).toEqual({original: 2});
         });
 
+        it('mouse move when we are not tracking does nothing', function () {
+            PlayCtrl.onMouseMove(undefined);
+        });
+
         /*
          grid: [
          ['A', 'B', 'C'],
@@ -257,6 +261,41 @@ describe('Controller: PlayCtrl',
             expect(context.closePath).toHaveBeenCalled();
         });
 
+        it('clicking on space does not start selection', function () {
+            var selectedCoordinates = [{row: 2, column: 1}];
+            var selectedReturnValue = {
+                selectedCoordinates: selectedCoordinates,
+                originalSelectedCells: selectedCoordinates,
+                wordForward: ' ',
+                wordReversed: ' '
+            };
+            resetExpectations(selectedReturnValue);
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 2;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 1;
+                        }
+                        throw 'error';
+                    }
+                }
+
+            });
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalledWith();
+            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalledWith();
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(context.clearRect).not.toHaveBeenCalledWith();
+            expect(context.beginPath).not.toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalledWith();
+            expect(context.closePath).not.toHaveBeenCalled();
+        });
+
         it('moving after initial click updates word', function () {
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
@@ -318,6 +357,77 @@ describe('Controller: PlayCtrl',
                 '#9DC4B5'
             );
             expect(context.closePath).toHaveBeenCalled();
+        });
+
+        it('moving but without changing cell does nothing', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DA',
+                wordReversed: 'AD'
+            };
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalledWith();
+            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalledWith();
+            expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(true);
+            expect(context.clearRect).not.toHaveBeenCalledWith();
+            expect(context.beginPath).not.toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalledWith();
+            expect(context.closePath).not.toHaveBeenCalled();
         });
 
         it('clicking after not highlighting word clears selection', function () {
@@ -406,12 +516,17 @@ describe('Controller: PlayCtrl',
                     jtbPlayerService: jtbPlayerService
                 });
             }));
+
             it('initializes round over game', function () {
                 expect(PlayCtrl.showQuit).toEqual(false);
                 expect(PlayCtrl.showRematch).toEqual(true);
                 expect(gridOffsetTracker.reset).toHaveBeenCalled();
                 expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
                 expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
+            });
+
+            it('mouse click does nothing in this case', function () {
+                PlayCtrl.onMouseClick(undefined);
             });
         });
 
@@ -438,6 +553,10 @@ describe('Controller: PlayCtrl',
                 expect(gridOffsetTracker.reset).toHaveBeenCalled();
                 expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
                 expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
+            });
+
+            it('mouse click does nothing in this case', function () {
+                PlayCtrl.onMouseClick(undefined);
             });
         });
     }
