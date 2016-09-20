@@ -218,6 +218,14 @@ describe('Controller: PlayCtrl',
             gridTableManager.calculateSelected.calls.reset();
         }
 
+        function checkNoSelectionCalls() {
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalledWith();
+            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalledWith();
+            expect(context.clearRect).not.toHaveBeenCalledWith();
+            expect(context.beginPath).not.toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalledWith();
+            expect(context.closePath).not.toHaveBeenCalled();
+        }
 
         it('clicking on game starts selection', function () {
             var selectedCoordinates = [{row: 1, column: 0}];
@@ -284,16 +292,11 @@ describe('Controller: PlayCtrl',
                 }
 
             });
-            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalledWith();
-            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalledWith();
+            checkNoSelectionCalls();
             expect(PlayCtrl.currentWordBackward).toEqual('');
             expect(PlayCtrl.currentWordForward).toEqual('');
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(false);
-            expect(context.clearRect).not.toHaveBeenCalledWith();
-            expect(context.beginPath).not.toHaveBeenCalled();
-            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalledWith();
-            expect(context.closePath).not.toHaveBeenCalled();
         });
 
         it('moving after initial click updates word', function () {
@@ -359,6 +362,170 @@ describe('Controller: PlayCtrl',
             expect(context.closePath).toHaveBeenCalled();
         });
 
+        it('moving in and out of table temporarily disables and enables tracking', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            PlayCtrl.onMouseExitsTable();
+
+            var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DA',
+                wordReversed: 'AD'
+            };
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(PlayCtrl.currentWordBackward).toEqual(clickReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(clickReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            checkNoSelectionCalls();
+
+            PlayCtrl.onMouseEntersTable();
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(clickCoordinates);
+            expect(gridTableManager.addSelectedStyleToCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(true);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+            expect(context.beginPath).toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
+                context,
+                moveCoordinates[0],
+                moveCoordinates[1],
+                canvas.height / 4,
+                canvas.width / 3,
+                '#9DC4B5'
+            );
+            expect(context.closePath).toHaveBeenCalled();
+        });
+
+        it('grid offset change while word selected clears it', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DA',
+                wordReversed: 'AD'
+            };
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            resetExpectations(undefined);
+            $scope.$broadcast('GridOffsetsChanged');
+            $scope.$apply();
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+
+            resetExpectations(undefined);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            checkNoSelectionCalls();
+        });
+
         it('moving but without changing cell does nothing', function () {
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
@@ -418,16 +585,11 @@ describe('Controller: PlayCtrl',
                     }
                 }
             });
-            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalledWith();
-            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalledWith();
             expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
             expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(true);
-            expect(context.clearRect).not.toHaveBeenCalledWith();
-            expect(context.beginPath).not.toHaveBeenCalled();
-            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalledWith();
-            expect(context.closePath).not.toHaveBeenCalled();
+            checkNoSelectionCalls();
         });
 
         it('clicking after not highlighting word clears selection', function () {
@@ -547,6 +709,7 @@ describe('Controller: PlayCtrl',
                     jtbPlayerService: jtbPlayerService
                 });
             }));
+
             it('initializes older game', function () {
                 expect(PlayCtrl.showQuit).toEqual(false);
                 expect(PlayCtrl.showRematch).toEqual(false);

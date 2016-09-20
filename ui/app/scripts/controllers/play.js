@@ -48,8 +48,13 @@ angular.module('twsUI').controller('PlayCtrl',
             var selectCanvas;
             var selectContext;
 
-            function updateControllerFromGame() {
+            function disableExistingTracking() {
+                clearSelectedWord();
                 tracking = false;
+                trackingPaused = false;
+            }
+
+            function updateControllerFromGame() {
                 controller.game = jtbGameCache.getGameForID($routeParams.gameID);
                 featureDescriber.getShortDescriptionForGame(controller.game).then(function (data) {
                     controller.description = data;
@@ -64,6 +69,9 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.showQuit = (controller.game.gamePhase === 'Playing');
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 acceptClicks = controller.showQuit;
+                if (!acceptClicks && tracking) {
+                    disableExistingTracking();
+                }
             }
 
             function getCoordinateFromEventTarget(event) {
@@ -233,9 +241,7 @@ angular.module('twsUI').controller('PlayCtrl',
             });
 
             $scope.$on('GridOffsetsChanged', function () {
-                clearSelectedWord();
-                tracking = false;
-                trackingPaused = false;
+                disableExistingTracking();
             });
 
             gridOffsetTracker.reset();
