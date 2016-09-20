@@ -198,14 +198,24 @@ describe('Controller: PlayCtrl',
             PlayCtrl.onMouseMove(undefined);
         });
 
-        /*
-         grid: [
-         ['A', 'B', 'C'],
-         ['D', 'E', 'F'],
-         ['D', ' ', 'F'],
-         ['G', 'H', 'Z']
-         ]
-         */
+        it('game update on different game does nothing', function () {
+            var newGame = angular.copy(expectedGame);
+            newGame.id += '32';
+            newGame.gamePhase = 'NotPlaying';
+            $scope.$broadcast('gameUpdated', newGame);
+            $scope.$apply();
+            expect(PlayCtrl.showQuit).toBeTruthy();
+            expect(PlayCtrl.showRematch).not.toBeTruthy();
+        });
+
+        it('game update on same game updates', function () {
+            expectedGame.gamePhase = 'NotPlaying';
+            $scope.$broadcast('gameUpdated', expectedGame);
+            $scope.$apply();
+            expect(PlayCtrl.showQuit).not.toBeTruthy();
+            expect(PlayCtrl.showRematch).not.toBeTruthy();
+        });
+
         function resetExpectations(nextReturnValueFromCalculateSelected) {
             gridTableManager.calculateSelected.calls.reset();
             gridTableManager.calculateSelected.and.returnValue(nextReturnValueFromCalculateSelected);
@@ -360,6 +370,139 @@ describe('Controller: PlayCtrl',
                 '#9DC4B5'
             );
             expect(context.closePath).toHaveBeenCalled();
+        });
+
+        it('game update with current word selected being found unsets flags', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DA',
+                wordReversed: 'AD'
+            };
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(true);
+
+            resetExpectations(moveReturnValue);
+            expectedGame.wordsToFind = [];
+            $scope.$broadcast('gameUpdated', expectedGame);
+            $scope.$apply();
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(gridTableManager.addSelectedStyleToCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+            expect(context.beginPath).toHaveBeenCalled();
+            expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
+                context,
+                moveCoordinates[0],
+                moveCoordinates[1],
+                canvas.height / 4,
+                canvas.width / 3,
+                '#9DC4B5'
+            );
+            expect(context.closePath).toHaveBeenCalled();
+        });
+
+        it('game update to non playing phase clears selection and flags', function () {
+            var clickCoordinates = [{row: 1, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalSelectedCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalSelectedCells: moveCoordinates,
+                wordForward: 'DA',
+                wordReversed: 'AD'
+            };
+            resetExpectations(moveReturnValue);
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(PlayCtrl.currentWordBackward).toEqual(moveReturnValue.wordReversed);
+            expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(true);
+
+            resetExpectations(moveReturnValue);
+            expectedGame.gamePhase = 'RoundOver';
+            $scope.$broadcast('gameUpdated', expectedGame);
+            $scope.$apply();
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+            checkNoSelectionCalls();
         });
 
         it('moving in and out of table temporarily disables and enables tracking', function () {

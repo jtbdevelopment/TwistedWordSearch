@@ -72,6 +72,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 if (!acceptClicks && tracking) {
                     disableExistingTracking();
                 }
+                controller.updateSelection();
             }
 
             function getCoordinateFromEventTarget(event) {
@@ -208,18 +209,20 @@ angular.module('twsUI').controller('PlayCtrl',
             }
 
             controller.updateSelection = function () {
-                gridTableManager.removeSelectedStyleFromCoordinates(selectedCells);
-                var selectedData = gridTableManager.calculateSelected(selectStart, selectEnd);
-                selectedCells = selectedData.selectedCoordinates;
-                originalSelectedCells = selectedData.originalCoordinates;
-                controller.currentWordForward = selectedData.wordForward;
-                controller.currentWordBackward = selectedData.wordReversed;
-                gridTableManager.addSelectedStyleToCoordinates(selectedCells);
-                //noinspection JSUnresolvedVariable
-                controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
-                //noinspection JSUnresolvedVariable
-                controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
-                drawSelectionHighlight();
+                if (tracking) {
+                    gridTableManager.removeSelectedStyleFromCoordinates(selectedCells);
+                    var selectedData = gridTableManager.calculateSelected(selectStart, selectEnd);
+                    selectedCells = selectedData.selectedCoordinates;
+                    originalSelectedCells = selectedData.originalCoordinates;
+                    controller.currentWordForward = selectedData.wordForward;
+                    controller.currentWordBackward = selectedData.wordReversed;
+                    gridTableManager.addSelectedStyleToCoordinates(selectedCells);
+                    //noinspection JSUnresolvedVariable
+                    controller.backwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordBackward) > -1;
+                    //noinspection JSUnresolvedVariable
+                    controller.forwardIsWord = controller.game.wordsToFind.indexOf(controller.currentWordForward) > -1;
+                    drawSelectionHighlight();
+                }
             };
 
             controller.onMouseMove = function (event) {
