@@ -18,6 +18,10 @@ Math.sign = Math.sign || function (x) {
         return x > 0 ? 1 : -1;
     };
 
+function endsWith(str, suffix) {
+    return (str.substr(str.length - suffix.length, suffix.length) === suffix);
+}
+
 angular.module('twsUIBackground', ['twsUI.services', 'twsUI'])
 //  Separate module to avoid interfering with tests
     .run(function ($rootScope, $location) {
@@ -25,7 +29,9 @@ angular.module('twsUIBackground', ['twsUI.services', 'twsUI'])
             $location.path('/signin');
         });
         $rootScope.$on('gameUpdated', function (message, oldGame, newGame) {
-            if ($location.path().endsWith(oldGame.id) && oldGame.gamePhase !== newGame.gamePhase) {
+            console.log($location.path());
+            console.log(angular.isDefined($location.path.endsWith));
+            if (endsWith($location.path(), oldGame.id) && oldGame.gamePhase !== newGame.gamePhase) {
                 $location.path('/game/' + newGame.gamePhase.toLowerCase() + '/' + newGame.id);
             }
         });
