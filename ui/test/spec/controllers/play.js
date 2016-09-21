@@ -41,12 +41,12 @@ describe('Controller: PlayCtrl',
         };
 
         var gtmCells = angular.copy(baseGame.grid);
-        var gtmStyles = [
+        var gtmStyles = angular.copy([
             ['', '', ''],
             ['', '', ''],
             ['', '', ''],
             ['', '', '']
-        ];
+        ]);
         var gridTableManager = {
             updateForGame: function (game) {
                 expect(game).toEqual(expectedGame);
@@ -87,7 +87,8 @@ describe('Controller: PlayCtrl',
 
         var jtbBootstrapActions = {
             something: function () {
-            }
+            },
+            wrapActionOnGame: jasmine.createSpy('waog')
         };
 
         var jtbGameCache = {
@@ -103,6 +104,7 @@ describe('Controller: PlayCtrl',
         beforeEach(function () {
             expectedGame = angular.copy(baseGame);
             foundWordsCanvasManager.updateForGame.calls.reset();
+            jtbBootstrapActions.wrapActionOnGame.calls.reset();
             gridOffsetTracker.reset.calls.reset();
             gridOffsetTracker.gridSize.calls.reset();
             gridTableManager.addSelectedStyleToCoordinates.calls.reset();
@@ -154,6 +156,10 @@ describe('Controller: PlayCtrl',
             });
         }));
 
+        afterEach(function () {
+            elementSpy.and.callThrough();
+        });
+
         it('initializes playing game', function () {
             expect($scope.gridCanvasStyle).toEqual({top: 0, left: 0, height: 0, width: 0});
             expect(PlayCtrl.actions).toEqual(jtbBootstrapActions);
@@ -178,10 +184,6 @@ describe('Controller: PlayCtrl',
             featurePromise.resolve(expectedDescription);
             $scope.$apply();
             expect(PlayCtrl.description).toEqual(expectedDescription);
-        });
-
-        afterEach(function () {
-            elementSpy.and.callThrough();
         });
 
         it('zoom in', function () {
@@ -229,11 +231,12 @@ describe('Controller: PlayCtrl',
         }
 
         function checkNoSelectionCalls() {
-            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalledWith();
-            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalledWith();
-            expect(context.clearRect).not.toHaveBeenCalledWith();
+            expect(jtbBootstrapActions.wrapActionOnGame).not.toHaveBeenCalled();
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalled();
+            expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalled();
+            expect(context.clearRect).not.toHaveBeenCalled();
             expect(context.beginPath).not.toHaveBeenCalled();
-            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalledWith();
+            expect(canvasLineDrawer.drawLine).not.toHaveBeenCalled();
             expect(context.closePath).not.toHaveBeenCalled();
         }
 
@@ -241,7 +244,7 @@ describe('Controller: PlayCtrl',
             var selectedCoordinates = [{row: 1, column: 0}];
             var selectedReturnValue = {
                 selectedCoordinates: selectedCoordinates,
-                originalSelectedCells: selectedCoordinates,
+                originalCells: selectedCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -283,7 +286,7 @@ describe('Controller: PlayCtrl',
             var selectedCoordinates = [{row: 2, column: 1}];
             var selectedReturnValue = {
                 selectedCoordinates: selectedCoordinates,
-                originalSelectedCells: selectedCoordinates,
+                originalCells: selectedCoordinates,
                 wordForward: ' ',
                 wordReversed: ' '
             };
@@ -313,7 +316,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -335,7 +338,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DA',
                 wordReversed: 'AD'
             };
@@ -376,7 +379,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -398,7 +401,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DA',
                 wordReversed: 'AD'
             };
@@ -448,7 +451,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -470,7 +473,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DA',
                 wordReversed: 'AD'
             };
@@ -501,7 +504,12 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.forwardIsWord).toEqual(false);
             expect(PlayCtrl.currentWordBackward).toEqual('');
             expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
             expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+
+            //  checked above
+            gridTableManager.removeSelectedStyleFromCoordinates.calls.reset();
+            context.clearRect.calls.reset();
             checkNoSelectionCalls();
         });
 
@@ -509,7 +517,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -534,7 +542,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DA',
                 wordReversed: 'AD'
             };
@@ -597,7 +605,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -619,7 +627,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DA',
                 wordReversed: 'AD'
             };
@@ -673,7 +681,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -695,7 +703,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DA',
                 wordReversed: 'AD'
             };
@@ -739,7 +747,7 @@ describe('Controller: PlayCtrl',
             var clickCoordinates = [{row: 1, column: 0}];
             var clickReturnValue = {
                 selectedCoordinates: clickCoordinates,
-                originalSelectedCells: clickCoordinates,
+                originalCells: clickCoordinates,
                 wordForward: 'D',
                 wordReversed: 'D'
             };
@@ -761,7 +769,7 @@ describe('Controller: PlayCtrl',
             var moveCoordinates = [{row: 1, column: 0}, {row: 2, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
-                originalSelectedCells: moveCoordinates,
+                originalCells: moveCoordinates,
                 wordForward: 'DG',
                 wordReversed: 'DG'
             };
@@ -796,6 +804,164 @@ describe('Controller: PlayCtrl',
                     }
                 }
             });
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+        });
+
+        it('clicking after highlighting word submits selection', function () {
+            var clickCoordinates = [{row: 2, column: 0}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalCells: clickCoordinates,
+                wordForward: 'D',
+                wordReversed: 'D'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 2;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 2, column: 0}, {row: 1, column: 1}, {row: 0, column: 2}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalCoordinates: moveCoordinates,
+                wordForward: 'DEC',
+                wordReversed: 'CED'
+            };
+            resetExpectations(moveReturnValue);
+
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 2;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            resetExpectations(moveReturnValue);
+
+            var updatedGame = angular.copy(expectedGame);
+            updatedGame.wordsToFind = [];
+            $http.expectPUT(playerBaseURL + '/game/' + gameID + '/find', [
+                {row: 2, column: 0},
+                {row: -1, column: 1},
+                {row: -1, column: 1}
+            ]).respond(updatedGame);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 2;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(jtbBootstrapActions.wrapActionOnGame).toHaveBeenCalled();
+            $http.flush();
+            expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
+            expect(PlayCtrl.currentWordBackward).toEqual('');
+            expect(PlayCtrl.currentWordForward).toEqual('');
+            expect(PlayCtrl.backwardIsWord).toEqual(false);
+            expect(PlayCtrl.forwardIsWord).toEqual(false);
+            expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+        });
+
+        it('clicking after highlighting backward word submits selection, including offset adjustment', function () {
+            var clickCoordinates = [{row: 1, column: 2}];
+            var clickReturnValue = {
+                selectedCoordinates: clickCoordinates,
+                originalCells: clickCoordinates,
+                wordForward: 'F',
+                wordReversed: 'F'
+            };
+            gridTableManager.calculateSelected.and.returnValue(clickReturnValue);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 2;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            var moveCoordinates = [{row: 1, column: 2}, {row: 1, column: 1}, {row: 1, column: 0}];
+            var moveReturnValue = {
+                selectedCoordinates: moveCoordinates,
+                originalCoordinates: [{row: 2, column: 2}, {row: 2, column: 1}, {row: 2, column: 0}],
+                wordForward: 'FED',
+                wordReversed: 'DEF'
+            };
+            resetExpectations(moveReturnValue);
+
+            PlayCtrl.onMouseMove({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 1;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 0;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+
+            resetExpectations(moveReturnValue);
+
+            var updatedGame = angular.copy(expectedGame);
+            updatedGame.wordsToFind = [];
+            $http.expectPUT(playerBaseURL + '/game/' + gameID + '/find', [
+                {row: 2, column: 2},
+                {row: 0, column: -1},
+                {row: 0, column: -1}
+            ]).respond(updatedGame);
+
+            PlayCtrl.onMouseClick({
+                currentTarget: {
+                    getAttribute: function (name) {
+                        if (name === 'data-ws-row') {
+                            return 0;
+                        }
+                        if (name === 'data-ws-column') {
+                            return 2;
+                        }
+                        throw 'error';
+                    }
+                }
+            });
+            expect(jtbBootstrapActions.wrapActionOnGame).toHaveBeenCalled();
+            $http.flush();
             expect(gridTableManager.removeSelectedStyleFromCoordinates).toHaveBeenCalledWith(moveCoordinates);
             expect(PlayCtrl.currentWordBackward).toEqual('');
             expect(PlayCtrl.currentWordForward).toEqual('');
