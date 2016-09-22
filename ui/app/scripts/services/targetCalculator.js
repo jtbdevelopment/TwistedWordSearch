@@ -37,7 +37,7 @@ angular.module('twsUI.services').factory('targetCalculator',
                     }
                     return {row: targetRow, column: targetColumn};
                 }
-            }
+            };
         }
     ]
 );

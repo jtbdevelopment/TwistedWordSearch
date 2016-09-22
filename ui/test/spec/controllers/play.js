@@ -98,6 +98,10 @@ describe('Controller: PlayCtrl',
             }
         };
 
+        var targetCalculator = {
+            calculateTargetCell: jasmine.createSpy('calcTarget')
+        };
+
         // Initialize the controller and a mock scope
         var PlayCtrl, $scope, $rootScope, $http, $q, elementSpy;
 
@@ -111,6 +115,7 @@ describe('Controller: PlayCtrl',
             gridTableManager.removeSelectedStyleFromCoordinates.calls.reset();
             gridTableManager.calculateSelected.calls.reset();
             canvasLineDrawer.drawLine.calls.reset();
+            targetCalculator.calculateTargetCell.calls.reset();
         });
 
         var context = {
@@ -146,6 +151,7 @@ describe('Controller: PlayCtrl',
                 $routeParams: $routeParams,
                 gridOffsetTracker: gridOffsetTracker,
                 gridTableManager: gridTableManager,
+                targetCalculator: targetCalculator,
                 fontSizeManager: fontSizeManager,
                 foundWordsCanvasManager: foundWordsCanvasManager,
                 canvasLineDrawer: canvasLineDrawer,
@@ -228,6 +234,13 @@ describe('Controller: PlayCtrl',
             context.beginPath.calls.reset();
             context.closePath.calls.reset();
             gridTableManager.calculateSelected.calls.reset();
+            targetCalculator.calculateTargetCell.calls.reset();
+            if (angular.isDefined(nextReturnValueFromCalculateSelected)) {
+                targetCalculator.calculateTargetCell.and.returnValue(
+                    nextReturnValueFromCalculateSelected.selectedCoordinates[
+                    nextReturnValueFromCalculateSelected.selectedCoordinates.length - 1
+                        ]);
+            }
         }
 
         function checkNoSelectionCalls() {
@@ -238,6 +251,7 @@ describe('Controller: PlayCtrl',
             expect(context.beginPath).not.toHaveBeenCalled();
             expect(canvasLineDrawer.drawLine).not.toHaveBeenCalled();
             expect(context.closePath).not.toHaveBeenCalled();
+            expect(targetCalculator.calculateTargetCell).not.toHaveBeenCalled();
         }
 
         it('clicking on game starts selection', function () {
@@ -335,6 +349,7 @@ describe('Controller: PlayCtrl',
                     }
                 }
             });
+            expect(targetCalculator.calculateTargetCell).not.toHaveBeenCalled();
             var moveCoordinates = [{row: 1, column: 0}, {row: 0, column: 0}];
             var moveReturnValue = {
                 selectedCoordinates: moveCoordinates,
@@ -740,6 +755,7 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.currentWordForward).toEqual(moveReturnValue.wordForward);
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(true);
+            expect(targetCalculator.calculateTargetCell.calls.reset());
             checkNoSelectionCalls();
         });
 
@@ -978,6 +994,7 @@ describe('Controller: PlayCtrl',
                     $routeParams: $routeParams,
                     gridOffsetTracker: gridOffsetTracker,
                     gridTableManager: gridTableManager,
+                    targetCalculator: targetCalculator,
                     fontSizeManager: fontSizeManager,
                     foundWordsCanvasManager: foundWordsCanvasManager,
                     canvasLineDrawer: canvasLineDrawer,
@@ -1009,6 +1026,7 @@ describe('Controller: PlayCtrl',
                     $routeParams: $routeParams,
                     gridOffsetTracker: gridOffsetTracker,
                     gridTableManager: gridTableManager,
+                    targetCalculator: targetCalculator,
                     fontSizeManager: fontSizeManager,
                     foundWordsCanvasManager: foundWordsCanvasManager,
                     canvasLineDrawer: canvasLineDrawer,

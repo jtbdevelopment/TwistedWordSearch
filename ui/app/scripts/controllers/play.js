@@ -2,11 +2,11 @@
 
 angular.module('twsUI').controller('PlayCtrl',
     ['$scope', '$http', '$routeParams',
-        'gridOffsetTracker', 'gridTableManager', 'fontSizeManager',
+        'gridOffsetTracker', 'gridTableManager', 'targetCalculator', 'fontSizeManager',
         'foundWordsCanvasManager', 'canvasLineDrawer', 'featureDescriber',
         'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapGameActions',
         function ($scope, $http, $routeParams,
-                  gridOffsetTracker, gridTableManager, fontSizeManager,
+                  gridOffsetTracker, gridTableManager, targetCalculator, fontSizeManager,
                   foundWordsCanvasManager, canvasLineDrawer, featureDescriber,
                   jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
@@ -121,40 +121,6 @@ angular.module('twsUI').controller('PlayCtrl',
                 }
             }
 
-            function computeTargetEndPoint(event) {
-                var coordinate = getCoordinateFromEventTarget(event);
-                var dRow = selectStart.row - coordinate.row;
-                var dCol = coordinate.column - selectStart.column;
-                // up = 0, down = 180
-                // left to right = 90, right to left = -90
-                // left to right up = 45, down = 135
-                // right to left up = -45, down = -135
-                var angle = Math.atan2(dCol, dRow) * 180 / Math.PI;
-                var roundedAngle = Math.round(angle / 45);
-                var targetRow, targetColumn;
-                switch (roundedAngle) {
-                    case 0:
-                    case 4:
-                        targetRow = coordinate.row;
-                        targetColumn = selectStart.column;
-                        break;
-                    case 2:
-                    case -2:
-                        targetRow = selectStart.row;
-                        targetColumn = coordinate.column;
-                        break;
-                    default:
-                        if (Math.abs(dRow) > Math.abs(dCol)) {
-                            targetRow = selectStart.row - dRow;
-                            targetColumn = selectStart.column + (Math.abs(dRow) * Math.sign(dCol));
-                        } else {
-                            targetRow = selectStart.row - (Math.abs(dCol) * Math.sign(dRow));
-                            targetColumn = selectStart.column + dCol;
-                        }
-                }
-                return {row: targetRow, column: targetColumn};
-            }
-
             controller.zoomIn = function (amount) {
                 controller.fontSize = fontSizeManager.increaseFontSize(amount);
             };
@@ -229,7 +195,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 if (!tracking) {
                     return;
                 }
-                var target = computeTargetEndPoint(event);
+                var target = targetCalculator.calculateTargetCell(selectStart, getCoordinateFromEventTarget(event));
                 if (selectEnd.row !== target.row || selectEnd.column !== target.column) {
                     selectEnd = target;
                     controller.updateSelection();
