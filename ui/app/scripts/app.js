@@ -55,15 +55,25 @@ angular
             .when('/main', {
                 templateUrl: 'views/main.html'
             })
-            .when('/help', {
-                templateUrl: 'views/help.html',
-                controller: 'HelpCtrl',
-                controllerAs: 'help'
+            .when('/signin', {
+                templateUrl: 'views/signin.html',
+                controller: 'CoreBootstrapSignInCtrl',
+                controllerAs: 'signIn'
+            })
+            .when('/signedin', {
+                templateUrl: 'views/signedin.html',
+                controller: 'CoreBootstrapSignedInCtrl',
+                controllerAs: 'signedIn'
             })
             .when('/admin', {
                 templateUrl: 'views/admin/admin.html',
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
+            })
+            .when('/help', {
+                templateUrl: 'views/help.html',
+                controller: 'HelpCtrl',
+                controllerAs: 'help'
             })
             .when('/profile', {
                 templateUrl: 'views/profile.html',
@@ -74,16 +84,6 @@ angular
                 templateUrl: 'views/create.html',
                 controller: 'CreateGameCtrl',
                 controllerAs: 'create'
-            })
-            .when('/signin', {
-                templateUrl: 'views/signin.html',
-                controller: 'CoreBootstrapSignInCtrl',
-                controllerAs: 'signIn'
-            })
-            .when('/signedin', {
-                templateUrl: 'views/signedin.html',
-                controller: 'CoreBootstrapSignedInCtrl',
-                controllerAs: 'signedIn'
             })
             .when('/game/challenged/:gameID', {
                 templateUrl: 'views/phases/playerList.html',
@@ -100,7 +100,6 @@ angular
                 controller: 'PlayerListCtrl',
                 controllerAs: 'list'
             })
-            //  TODO - review
             .when('/game/roundover/:gameID', {
                 templateUrl: 'views/phases/play.html',
                 controller: 'PlayCtrl',
