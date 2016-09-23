@@ -70,18 +70,31 @@
   }
 
   .words {
+    .badge {
+      padding: 5px 8px;
+      //float: right;
+      background-color: $puceRed;
+      color: white;
+      margin-bottom: 10px;
+      margin-top: 6px;
+    }
     .panel {
       margin-bottom: 10px;
     }
     .panel-heading {
       padding: 2px 15px;
       background-color: $mediumSpringBud;
+      font-size: 12px;
+      h5 {
+        display: inline-block;
+      }
     }
     .panel-body {
       background-color: $mediumChampagne;
+      font-size: 12px;
     }
     span {
-      padding-right: 10px;
+      padding-right: 8px;
     }
   }
 
