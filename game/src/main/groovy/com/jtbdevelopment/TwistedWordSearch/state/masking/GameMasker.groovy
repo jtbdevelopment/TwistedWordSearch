@@ -3,10 +3,12 @@ package com.jtbdevelopment.TwistedWordSearch.state.masking
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.MultiPlayerGame
 import com.jtbdevelopment.games.state.masking.AbstractMultiPlayerGameMasker
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
+import groovyx.gpars.csp.plugAndPlay.GPairs
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
@@ -35,9 +37,11 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
 
         TWSGame twsGame = (TWSGame) game
         MaskedGame twsMaskedGame = (MaskedGame) playerMaskedGame
-        twsMaskedGame.grid = twsGame.grid.gridCells
-        twsMaskedGame.wordsToFind = new TreeSet<>(twsGame.wordsToFind)
-        twsMaskedGame.foundWordLocations = twsGame.foundWordLocations
+        if(twsGame.gamePhase != GamePhase.Challenged && twsGame.gamePhase != GamePhase.Setup) {
+            twsMaskedGame.grid = twsGame.grid.gridCells
+            twsMaskedGame.wordsToFind = new TreeSet<>(twsGame.wordsToFind)
+            twsMaskedGame.foundWordLocations = twsGame.foundWordLocations
+        }
     }
 
     @Override
@@ -50,11 +54,14 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
 
         TWSGame twsGame = (TWSGame) game
         MaskedGame twsMaskedGame = (MaskedGame) playerMaskedGame
-        twsMaskedGame.wordsFoundByPlayer = game.players.collectEntries {
-            [(it.md5): new TreeSet(twsGame.wordsFoundByPlayer[it.id])]
-        }
         twsMaskedGame.scores = twsGame.players.collectEntries {
             [(it.md5): twsGame.scores[it.id]]
+        }
+
+        if(twsGame.gamePhase != GamePhase.Challenged && twsGame.gamePhase != GamePhase.Setup) {
+            twsMaskedGame.wordsFoundByPlayer = game.players.collectEntries {
+                [(it.md5): new TreeSet(twsGame.wordsFoundByPlayer[it.id])]
+            }
         }
     }
 }
