@@ -40,4 +40,15 @@
     font-weight: bold;
     width: 100%;
   }
+
+  .friend-select {
+    .invite-friends-button {
+      margin-top: 10px;
+      background-color: $mediumChampagne;
+      border-color: $mediumChampagne;
+      color: black;
+      font-weight: bold;
+      width: 100%;
+    }
+  }
 }

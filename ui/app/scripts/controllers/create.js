@@ -1,19 +1,51 @@
 'use strict';
 
+//  TODO - check start base for change to features
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber', 'jtbBootstrapGameActions',
-        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber, jtbBootstrapGameActions) {
+        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
+        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber, jtbBootstrapGameActions, $uibModal) {
             var controller = this;
 
-            controller.features = {};
+            controller.features = [];
             controller.choices = {};
+
+            controller.chosenFriends = [];
+            controller.invitableFBFriends = [];
+            controller.friends = [];
+
+            //  TODO - should this be service?  moved to starter base
+            jtbPlayerService.currentPlayerFriends().then(function (data) {
+                angular.forEach(data.maskedFriends, function (displayName, hash) {
+                    var friend = {
+                        md5: hash,
+                        displayName: displayName
+                    };
+                    controller.friends.push(friend);
+                });
+                if (jtbPlayerService.currentPlayer().source === 'facebook') {
+                    angular.forEach(data.invitableFriends, function (friend) {
+                        var invite = {
+                            id: friend.id,
+                            name: friend.name
+                        };
+                        if (angular.isDefined(friend.picture) && angular.isDefined(friend.picture.url)) {
+                            invite.url = friend.picture.url;
+                        }
+                        controller.invitableFBFriends.push(invite);
+                    });
+                }
+            });
+
             jtbGameFeatureService.features().then(
                 function (features) {
+                    var trackingGroup = {};
                     angular.forEach(features, function (feature) {
                         var group = feature.feature.groupType;
-                        if (angular.isUndefined(controller.features[group])) {
-                            controller.features[group] = [];
+                        if (angular.isUndefined(trackingGroup[group])) {
+                            var groupDetails = {group: group, features: []};
+                            trackingGroup[group] = groupDetails;
+                            controller.features.push(groupDetails);
                         }
 
                         var newFeature = {
@@ -39,7 +71,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
                             newFeature.options.push(item);
                         });
 
-                        controller.features[group].push(newFeature);
+                        trackingGroup[group].features.push(newFeature);
                         controller.choices[newFeature.feature] = newFeature.options[0].feature;
                     });
                 },
@@ -48,15 +80,36 @@ angular.module('twsUI').controller('CreateGameCtrl',
                 }
             );
 
+            //  TODO - move to starter base?  create common
+            controller.inviteFriends = function () {
+                $uibModal.open({
+                    templateUrl: 'views/inviteDialog.html',
+                    controller: 'CoreBootstrapInviteCtrl',
+                    controllerAs: 'invite',
+                    size: 'lg',
+                    resolve: {
+                        invitableFriends: function () {
+                            return controller.invitableFBFriends;
+                        },
+                        message: function () {
+                            return 'Come play Twisted Wordsearch with me!';
+                        }
+                    }
+                });
+            };
+
             controller.createGame = function () {
                 //  TODO - ads
-                //  TODO - multi-player
-                //  TODO - invite friends
                 var featureSet = [];
                 angular.forEach(controller.choices, function (value) {
                     featureSet.push(value);
                 });
-                var playersAndFeatures = {'players': [], 'features': featureSet};
+
+                //  TODO - move to starter base
+                var players = controller.chosenFriends.map(function (player) {
+                    return player.md5;
+                });
+                var playersAndFeatures = {'players': players, 'features': featureSet};
                 jtbBootstrapGameActions.new(playersAndFeatures);
             };
         }

@@ -1,8 +1,8 @@
 <div class="ng-cloak create-game">
     <form class="form-horizontal">
-        <uib-tabset type="pills" justified="true">
-            <uib-tab ng-repeat="(featureGroup, features) in create.features" index="$index" heading="{{featureGroup}}">
-                <div class="form-group" ng-repeat="feature in features">
+        <uib-tabset type="pills" justified="true" active="0">
+            <uib-tab ng-repeat="featureGroup in create.features" index="$index" heading="{{featureGroup.group}}">
+                <div class="form-group" ng-repeat="feature in featureGroup.features">
                     <label uib-tooltip="{{feature.description}}">{{feature.label}}</label>
                     <div class="btn-group btn-group-justified">
                         <label ng-repeat="option in feature.options" uib-btn-radio="option.feature"
@@ -12,6 +12,27 @@
                             {{option.label}}
                         </label>
                     </div>
+                </div>
+            </uib-tab>
+            <!--  TODO - starter base?  -->
+            <uib-tab index="99" heading="{{'Add Friends'}}">
+                <div class="form-group friend-select">
+                    <label uib-tooltip="Select up to 2 friends to help.">Friends who play TWS</label>
+                    <ui-select multple limit="2"
+                               ng-model="create.chosenFriends"
+                               theme="bootstrap"
+                               reset-search-input="true">
+                        <ui-select-match placeholder="Select friends..">
+                            {{$item.displayName}}
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="friend in create.friends | propsFilter: {displayName: $select.search}">
+                            <div ng-bind-html="friend.displayName | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <button class="btn btn-info invite-friends-button" ng-click="create.inviteFriends()">
+                        Invite friends to play Twisted Wordsearch
+                    </button>
                 </div>
             </uib-tab>
         </uib-tabset>
