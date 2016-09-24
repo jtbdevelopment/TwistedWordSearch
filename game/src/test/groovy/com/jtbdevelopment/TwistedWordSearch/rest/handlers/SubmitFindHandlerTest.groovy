@@ -48,6 +48,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
 
         game.grid.setGridCell(8,8, 'A' as char)
         game.grid.setGridCell(8,7, 'T' as char)
+        game.scores = [(PONE.id): 0]
     }
 
 
@@ -165,6 +166,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert ['WORD', 'WRAPPED'] as Set == update.wordsToFind
         assert [(PONE.id): ['AT'] as Set] == update.wordsFoundByPlayer
         assert ['AT': [new GridCoordinate(8, 8), new GridCoordinate(8, 7)] as Set] == update.foundWordLocations
+        assert [(PONE.id): 2] == update.scores
     }
 
     void testAbleToFindWordCoordinatesGivenInBackwardDirection() {
@@ -173,6 +175,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert ['WORD', 'WRAPPED'] as Set == update.wordsToFind
         assert [(PONE.id): ['AT'] as Set] == update.wordsFoundByPlayer
         assert ['AT': [new GridCoordinate(8, 8), new GridCoordinate(8, 7)] as Set] == update.foundWordLocations
+        assert [(PONE.id): 2] == update.scores
     }
 
     void testAbleToFindWordCoordinatesGivenInWrap() {
@@ -181,5 +184,6 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert ['WORD', 'AT'] as Set == update.wordsToFind
         assert [(PONE.id): ['WRAPPED'] as Set] == update.wordsFoundByPlayer
         assert ['WRAPPED': [new GridCoordinate(2, 7), new GridCoordinate(1, 8), new GridCoordinate(1, 8), new GridCoordinate(0, 9), new GridCoordinate(9, 0), new GridCoordinate(8, 1), new GridCoordinate(7, 2), new GridCoordinate(6, 3)] as Set] == update.foundWordLocations
+        assert [(PONE.id): 7] == update.scores
     }
 }

@@ -23,6 +23,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
         TWSGame game = new TWSGame(players: [PONE, PFOUR], initiatingPlayer: PONE.id, gamePhase: GamePhase.Playing)
         game.grid = new Grid(10, 10)
         game.wordsToFind = ['A', 'SET', 'OF', 'WORDS']
+        game.scores = [(PONE.id): 10, (PFOUR.id): 32]
         game.wordsFoundByPlayer = [
                 (PONE.id) : ['I', 'FOUND', 'THESE'] as Set,
                 (PFOUR.id): [] as Set
@@ -33,6 +34,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
         assert masked.grid.is(game.grid.gridCells)
         assert game.wordsToFind == new TreeSet(masked.wordsToFind)
         assert [(PONE.md5): new TreeSet(['I', 'FOUND', 'THESE'] as Set), (PFOUR.md5): [] as Set] == masked.wordsFoundByPlayer
+        assert [(PONE.md5): 10, (PFOUR.md5): 32] == masked.scores
 
         //  Minor proofs that overridden methods called base implementations
         assert [(PONE.md5): PONE.displayName, (PFOUR.md5): PFOUR.displayName] == masked.players

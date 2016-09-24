@@ -16,4 +16,5 @@ class MaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> {
     Set<String> wordsToFind
     Map<String, Set<String>> wordsFoundByPlayer
     Map<String, Set<GridCoordinate>> foundWordLocations
+    Map<String, Integer> scores
 }

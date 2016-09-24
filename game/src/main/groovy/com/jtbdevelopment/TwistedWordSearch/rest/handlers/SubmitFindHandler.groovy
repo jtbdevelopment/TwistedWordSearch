@@ -48,6 +48,7 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
         game.wordsToFind.remove(word)
         game.wordsFoundByPlayer[(ObjectId) player.id].add(word)
         game.foundWordLocations[word] = absoluteCoordinates as Set
+        game.scores[(ObjectId) player.id] += absoluteCoordinates.size()
     }
 
     private static List<GridCoordinate> collectCoordinates(
