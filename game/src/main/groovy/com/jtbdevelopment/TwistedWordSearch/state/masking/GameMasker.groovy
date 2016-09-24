@@ -8,7 +8,6 @@ import com.jtbdevelopment.games.state.MultiPlayerGame
 import com.jtbdevelopment.games.state.masking.AbstractMultiPlayerGameMasker
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
-import groovyx.gpars.csp.plugAndPlay.GPairs
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
