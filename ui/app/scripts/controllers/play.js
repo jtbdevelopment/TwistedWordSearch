@@ -11,6 +11,11 @@ angular.module('twsUI').controller('PlayCtrl',
                   jtbGameCache, jtbPlayerService, jtbBootstrapGameActions) {
             var controller = this;
 
+            var PLAYER_COLORS = [
+                '#C1D37F',
+                '#7C3238',
+                '#F0E2A3'
+            ];
             var SELECT_COLOR = '#9DC4B5';
 
             //  controlled by gridMaster directive
@@ -36,6 +41,8 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.forwardIsWord = false;
             controller.backwardIsWord = false;
 
+            controller.playerColors = {};
+
             var rows;
             var columns;
             var acceptClicks = false;
@@ -58,6 +65,12 @@ angular.module('twsUI').controller('PlayCtrl',
                 controller.game = jtbGameCache.getGameForID($routeParams.gameID);
                 featureDescriber.getShortDescriptionForGame(controller.game).then(function (data) {
                     controller.description = data;
+                });
+                controller.playerColors = {};
+                var colorIndex = 0;
+                angular.forEach(controller.game.players, function (name, md5) {
+                    controller.playerColors[md5] = PLAYER_COLORS[colorIndex];
+                    colorIndex += 1;
                 });
                 rows = controller.game.grid.length;
                 columns = controller.game.grid[0].length;

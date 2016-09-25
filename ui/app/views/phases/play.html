@@ -159,13 +159,12 @@
                         <span class="glyphicon glyphicon-stop"></span>No More Rematches
                     </button>
                 </div>
-                <!--  TODO - show color for player here?  -->
                 <div class="row">
                     <div class="panel panel-default words-found" ng-repeat="(id, name) in play.game.players">
                         <div class="panel-heading">
                             <span>
                                 <h5>{{name}}</h5>
-                                <span class="badge pull-right">{{play.game.scores[id]}}</span>
+                                <span class="badge pull-right" style="background-color: {{play.playerColors[id]}};">{{play.game.scores[id]}}</span>
                             </span>
                         </div>
                         <div class="panel-body">

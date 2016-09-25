@@ -96,6 +96,13 @@
     span {
       padding-right: 8px;
     }
+
+    .words-found {
+      .panel-heading {
+        background-color: $peachOrange;
+        font-weight: bold;
+      }
+    }
   }
 
   .btn-quit-game {

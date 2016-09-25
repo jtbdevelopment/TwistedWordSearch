@@ -16,7 +16,8 @@ describe('Controller: PlayCtrl',
                 ['D', ' ', 'F'],
                 ['G', 'H', 'Z']
             ],
-            wordsToFind: ['DA', 'DEF', 'DEC']
+            wordsToFind: ['DA', 'DEF', 'DEC'],
+            players: {'md51': 'Player1'}
         };
         var expectedGame;
         var $routeParams = {
@@ -86,8 +87,6 @@ describe('Controller: PlayCtrl',
         };
 
         var jtbBootstrapActions = {
-            something: function () {
-            },
             wrapActionOnGame: jasmine.createSpy('waog')
         };
 
@@ -182,6 +181,7 @@ describe('Controller: PlayCtrl',
             expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
             expect(PlayCtrl.game).toEqual(expectedGame);
             expect(PlayCtrl.fontSize).toEqual(originalStyle);
+            expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F'});
             expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
 
             expect(PlayCtrl.description).toEqual([]);
@@ -190,6 +190,18 @@ describe('Controller: PlayCtrl',
             featurePromise.resolve(expectedDescription);
             $scope.$apply();
             expect(PlayCtrl.description).toEqual(expectedDescription);
+        });
+
+        describe('multiplayer settings', function () {
+            beforeEach(function () {
+                expectedGame.players = {'md51': 'P1', 'md52': 'P2', 'md53': 'P2'};
+            });
+            it('initializes colors for multi-player game', function () {
+                foundWordsCanvasManager.updateForGame.calls.reset();
+                $scope.$broadcast('gameUpdated', expectedGame);
+                $scope.$apply();
+                expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F'}, {'md52': '#7C3238'}, {'md53': '#F0E2A3'});
+            });
         });
 
         it('zoom in', function () {
