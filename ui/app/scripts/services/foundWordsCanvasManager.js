@@ -4,16 +4,23 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
     ['gridOffsetTracker', '$rootScope', 'canvasLineDrawer', '$timeout',
         function (gridOffsetTracker, $rootScope, canvasLineDrawer, $timeout) {
 
-            var FOUND_COLOR = '#C1D37F';
+            var colors = {};
             var currentGame;
             var rows, columns;
             var canvas, context;
 
             function calculateLinesToDraw() {
                 var linesToDraw = [];
+                var wordsFoundBy = {};
+                angular.forEach(currentGame.wordsFoundByPlayer, function (words, player) {
+                    angular.forEach(words, function (word) {
+                        wordsFoundBy[word] = player;
+                    });
+                });
                 //noinspection JSUnresolvedVariable
-                angular.forEach(currentGame.foundWordLocations, function (cells) {
-                    var currentLine = {};
+                angular.forEach(currentGame.foundWordLocations, function (cells, word) {
+                    var currentLine = {color: colors[wordsFoundBy[word]]};
+
                     var lastCoordinate = null;
                     angular.forEach(cells, function (cell, index) {
                         var thisCoordinate = {
@@ -27,7 +34,7 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                             if (Math.abs(lastCoordinate.row - thisCoordinate.row) > 1 || Math.abs(lastCoordinate.column - thisCoordinate.column) > 1) {
                                 currentLine.to = lastCoordinate;
                                 linesToDraw.push(currentLine);
-                                currentLine = {};
+                                currentLine = {color: currentLine.color};
                                 currentLine.from = thisCoordinate;
                             }
                             lastCoordinate = thisCoordinate;
@@ -45,7 +52,7 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.beginPath();
                 angular.forEach(linesToDraw, function (lineToDraw) {
-                    canvasLineDrawer.drawLine(context, lineToDraw.from, lineToDraw.to, height, width, FOUND_COLOR);
+                    canvasLineDrawer.drawLine(context, lineToDraw.from, lineToDraw.to, height, width, lineToDraw.color);
                 });
                 context.closePath();
             }
@@ -68,8 +75,9 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
             });
 
             return {
-                updateForGame: function (game, gameRows, gameColumns) {
+                updateForGame: function (game, gameRows, gameColumns, playerColors) {
                     currentGame = game;
+                    colors = playerColors;
                     rows = gameRows;
                     columns = gameColumns;
                     timeout = 1000;

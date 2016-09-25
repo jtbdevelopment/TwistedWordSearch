@@ -182,8 +182,7 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.game).toEqual(expectedGame);
             expect(PlayCtrl.fontSize).toEqual(originalStyle);
             expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F'});
-            expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
-
+            expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             expect(PlayCtrl.description).toEqual([]);
 
             var expectedDescription = {a: 1, b: '32'};
@@ -200,7 +199,8 @@ describe('Controller: PlayCtrl',
                 foundWordsCanvasManager.updateForGame.calls.reset();
                 $scope.$broadcast('gameUpdated', expectedGame);
                 $scope.$apply();
-                expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F'}, {'md52': '#7C3238'}, {'md53': '#F0E2A3'});
+                expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F', 'md52': '#7C3238', 'md53': '#F0E2A3'});
+                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             });
         });
 
@@ -1022,7 +1022,7 @@ describe('Controller: PlayCtrl',
                 expect(PlayCtrl.showRematch).toEqual(true);
                 expect(gridOffsetTracker.reset).toHaveBeenCalled();
                 expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
-                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
+                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             });
 
             it('mouse click does nothing in this case', function () {
@@ -1054,7 +1054,7 @@ describe('Controller: PlayCtrl',
                 expect(PlayCtrl.showRematch).toEqual(false);
                 expect(gridOffsetTracker.reset).toHaveBeenCalled();
                 expect(gridOffsetTracker.gridSize).toHaveBeenCalledWith(4, 3);
-                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3);
+                expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             });
 
             it('mouse click does nothing in this case', function () {

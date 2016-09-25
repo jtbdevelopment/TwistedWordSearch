@@ -78,7 +78,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 var grid = gridTableManager.updateForGame(controller.game);
                 controller.grid = grid.cells;
                 controller.cellStyles = grid.styles;
-                foundWordsCanvasManager.updateForGame(controller.game, rows, columns);
+                foundWordsCanvasManager.updateForGame(controller.game, rows, columns, controller.playerColors);
                 controller.showQuit = (controller.game.gamePhase === 'Playing');
                 controller.showRematch = (controller.game.gamePhase === 'RoundOver');
                 acceptClicks = controller.showQuit;
