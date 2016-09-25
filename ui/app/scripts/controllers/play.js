@@ -1,5 +1,6 @@
 'use strict';
 
+//  TODO - show messages for completed games
 angular.module('twsUI').controller('PlayCtrl',
     ['$scope', '$http', '$routeParams',
         'gridOffsetTracker', 'gridTableManager', 'targetCalculator', 'fontSizeManager',
