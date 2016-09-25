@@ -21,6 +21,13 @@ body {
     padding-right: 5px;
     background-color: $mediumSpringBud;
     border-width: 0;
+    .navbar-brand {
+      img {
+        width: 24px;
+        height: 24px;
+        display: inline;
+      }
+    }
   }
 
   .modal-dialog {

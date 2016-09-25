@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twsUI.services').factory('jtbGameClassifier',
-    [
-        function () {
+    ['jtbPlayerService',
+        function (jtbPlayerService) {
             var YOUR_TURN = 'Your move.';
             var THEIR_TURN = 'Their move.';
             var OLDER = 'Older games.';
@@ -20,6 +20,9 @@ angular.module('twsUI.services').factory('jtbGameClassifier',
                 getClassification: function (game) {
 
                     var action = game.gamePhase === 'Playing' || game.gamePhase === 'RoundOver';
+                    if (game.gamePhase === 'Challenged') {
+                        action = game.playerStates[jtbPlayerService.currentPlayer().md5] === 'Pending';
+                    }
                     if (action) {
                         return YOUR_TURN;
                     }

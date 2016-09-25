@@ -1,54 +1,23 @@
 'use strict';
 
 describe('Service: gameClassifier', function () {
-    // load the controller's module
     beforeEach(module('twsUI.services'));
 
-    /*
-     var playerMD5 = 'anmd5!';
-     var mockPlayerService = {
-     currentPlayer: function () {
-     return {md5: playerMD5};
-     }
-     };
+    var playerMD5 = 'anmd5!';
+    var mockPlayerService = {
+        currentPlayer: function () {
+            return {md5: playerMD5};
+        }
+    };
 
-     var mockCanPlay = false, mockSetupNeeded = false, mockRematchPossible = false, mockResponseNeeded = false;
-     var mockGameDetailsService = {
-     playerCanPlay: function (game, md5) {
-     expect(md5).toEqual(playerMD5);
-     return mockCanPlay;
-     },
-     playerChallengeResponseNeeded: function (game, md5) {
-     expect(md5).toEqual(playerMD5);
-     return mockResponseNeeded;
-     },
-     playerRematchPossible: function (game, md5) {
-     expect(md5).toEqual(playerMD5);
-     return mockRematchPossible;
-     },
-     playerSetupEntryRequired: function (game, md5) {
-     expect(md5).toEqual(playerMD5);
-     return mockSetupNeeded;
-     }
-
-     };
-
-     beforeEach(module(function ($provide) {
-     $provide.factory('jtbPlayerService', [function () {
-     return mockPlayerService;
-     }]);
-     $provide.factory('tbsGameDetails', [function () {
-     return mockGameDetailsService;
-     }])
-     }));
-     */
+    beforeEach(module(function ($provide) {
+        $provide.factory('jtbPlayerService', [function () {
+            return mockPlayerService;
+        }]);
+    }));
 
     var service;
     beforeEach(inject(function ($injector) {
-//        mockCanPlay = false;
-//        mockSetupNeeded = false;
-//        mockRematchPossible = false;
-//        mockResponseNeeded = false;
         service = $injector.get('jtbGameClassifier');
     }));
 
@@ -85,5 +54,17 @@ describe('Service: gameClassifier', function () {
             var game = {gamePhase: phase};
             expect(service.getClassification(game)).toEqual(expectedOlderGameClassification);
         });
+    });
+
+    it('classifies challenged game where current player is pending', function () {
+        var game = {gamePhase: 'Challenged', playerStates: {}};
+        game.playerStates[playerMD5] = 'Pending';
+        expect(service.getClassification(game)).toEqual(expectedYourTurnClassification);
+    });
+
+    it('classifies challenged game where current player is not pending', function () {
+        var game = {gamePhase: 'Challenged', playerStates: {}};
+        game.playerStates[playerMD5] = 'NotPending';
+        expect(service.getClassification(game)).toEqual(expectedTheirTurnClassification);
     });
 });
