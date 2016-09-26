@@ -14,28 +14,23 @@
                     </div>
                 </div>
             </uib-tab>
-            <!--  TODO - starter base?  -->
-            <uib-tab index="99" heading="{{'Add Friends'}}">
-                <div class="form-group friend-select">
-                    <label uib-tooltip="Select up to 2 friends to help.">Friends who play TWS</label>
-                    <ui-select multple limit="2"
-                               ng-model="create.chosenFriends"
-                               theme="bootstrap"
-                               reset-search-input="true">
-                        <ui-select-match placeholder="Select friends..">
-                            {{$item.displayName}}
-                        </ui-select-match>
-                        <ui-select-choices
-                                repeat="friend in create.friends | propsFilter: {displayName: $select.search}">
-                            <div ng-bind-html="friend.displayName | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                    <button class="btn btn-info invite-friends-button" ng-click="create.inviteFriends()">
-                        Invite friends to play Twisted Wordsearch
-                    </button>
-                </div>
-            </uib-tab>
         </uib-tabset>
+        <!--  TODO - starter base?  -->
+        <div class="form-group friend-select">
+            <label uib-tooltip="Select up to 0-2 friends to help.">Add up to 2 friends who play Twisted
+                Wordsearch</label>
+            <ui-select multiple limit="2" ng-model="create.chosenFriends" theme="bootstrap"
+                       reset-search-input="true">
+                <ui-select-match placeholder="Select friends...">{{$item.displayName}}</ui-select-match>
+                <ui-select-choices
+                        repeat="friend in create.friends | propsFilter: {displayName: $select.search}">
+                    <div ng-bind-html="friend.displayName | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
         <button class="btn btn-primary create-game-button" ng-click="create.createGame()">Create Game</button>
+        <button class="btn btn-info invite-friends-button" ng-click="create.inviteFriends()">
+            Invite friends to play Twisted Wordsearch
+        </button>
     </form>
 </div>

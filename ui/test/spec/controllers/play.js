@@ -182,6 +182,7 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.game).toEqual(expectedGame);
             expect(PlayCtrl.fontSize).toEqual(originalStyle);
             expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F'});
+            expect(PlayCtrl.playerFontColors).toEqual({'md51': 'black'});
             expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             expect(PlayCtrl.description).toEqual([]);
 
@@ -200,6 +201,7 @@ describe('Controller: PlayCtrl',
                 $scope.$broadcast('gameUpdated', expectedGame);
                 $scope.$apply();
                 expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F', 'md52': '#7C3238', 'md53': '#F0E2A3'});
+                expect(PlayCtrl.playerFontColors).toEqual({'md51': 'black', 'md52': 'white', 'md53': 'black'});
                 expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             });
         });

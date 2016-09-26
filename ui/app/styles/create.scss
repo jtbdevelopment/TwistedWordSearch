@@ -1,4 +1,5 @@
 @import "colors";
+
 .create-game {
   .form-horizontal .form-group {
     margin-left: 0;
@@ -41,14 +42,16 @@
     width: 100%;
   }
 
-  .friend-select {
-    .invite-friends-button {
-      margin-top: 10px;
-      background-color: $mediumChampagne;
-      border-color: $mediumChampagne;
-      color: black;
-      font-weight: bold;
-      width: 100%;
-    }
+  .ui-select-match-item.btn.btn-default {
+    background-color: $puceRed;
+    color: white;
+  }
+  .invite-friends-button {
+    margin-top: 10px;
+    background-color: $mediumChampagne;
+    border-color: $mediumChampagne;
+    color: black;
+    font-weight: bold;
+    width: 100%;
   }
 }

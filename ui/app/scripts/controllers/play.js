@@ -17,6 +17,11 @@ angular.module('twsUI').controller('PlayCtrl',
                 '#7C3238',
                 '#F0E2A3'
             ];
+            var PLAYER_FONT_COLORS = [
+                'black',
+                'white',
+                'black'
+            ];
             var SELECT_COLOR = '#9DC4B5';
 
             //  controlled by gridMaster directive
@@ -43,6 +48,7 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.backwardIsWord = false;
 
             controller.playerColors = {};
+            controller.playerFontColors = {};
 
             var rows;
             var columns;
@@ -71,6 +77,7 @@ angular.module('twsUI').controller('PlayCtrl',
                 var colorIndex = 0;
                 angular.forEach(controller.game.players, function (name, md5) {
                     controller.playerColors[md5] = PLAYER_COLORS[colorIndex];
+                    controller.playerFontColors[md5] = PLAYER_FONT_COLORS[colorIndex];
                     colorIndex += 1;
                 });
                 rows = controller.game.grid.length;

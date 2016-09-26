@@ -101,3 +101,10 @@ body {
   background-color: $mediumSpringBud;
   color: $cambridgeBlue;
 }
+
+.invite-dialog {
+  .ui-select-match-item.btn.btn-default {
+    background-color: $puceRed;
+    color: white;
+  }
+}
