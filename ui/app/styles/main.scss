@@ -108,3 +108,28 @@ body {
     color: white;
   }
 }
+
+.popover {
+  background-color: $puceRed;
+  color: white;
+}
+
+.popover.right > .arrow:after {
+  border-right-color: $puceRed;
+}
+
+.popover.left > .arrow:after {
+  border-left-color: $puceRed;
+}
+
+.popover.top > .arrow:after {
+  border-top-color: $puceRed;
+}
+
+.popover.bottom > .arrow:after {
+  border-bottom-color: $puceRed;
+}
+
+.arrow {
+  color: $puceRed;
+}
