@@ -51,10 +51,6 @@ angular.module('twsUI').controller('MainCtrl',
                 //  TODO - hide menu?
             };
 
-            controller.refreshGames = function () {
-                $rootScope.$broadcast('refreshGames');
-            };
-
             controller.toggleMenu = function () {
                 controller.stopHoverMenu();
                 controller.hideGames = !controller.hideGames;

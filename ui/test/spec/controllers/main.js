@@ -107,11 +107,6 @@ describe('Controller: MainCtrl', function () {
         expect($location.path).toHaveBeenCalledWith('/somewhere');
     });
 
-    it('broadcasts refresh games on action', function () {
-        MainCtrl.refreshGames();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('refreshGames');
-    });
-
     describe('menu tests', function () {
         beforeEach(function () {
             playerDetails = {adminUser: false, source: 'MANUAL'};
