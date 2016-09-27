@@ -1,3 +1,5 @@
+@import "colors";
+
 .player-list {
   .player-actions {
     margin-top: 20px;
@@ -47,5 +49,75 @@
 
   .list-group-hidden {
     display: none;
+  }
+
+  .btn-decline-game {
+    background-color: $puceRed;
+    color: white;
+  }
+
+  .btn-accept-game {
+    background-color: $mediumSpringBud;
+    color: black;
+  }
+
+  .list-players-group-Pending {
+    .btn-players-group-Pending {
+      background-color: $mediumChampagne;
+      color: black;
+      .badge {
+        background-color: $cambridgeBlue;
+        color: black;
+      }
+    }
+  }
+  .list-group-item-player-Pending {
+    background-color: $mediumChampagne;
+    color: black;
+  }
+
+  .list-players-group-Accepted {
+    .btn-players-group-Accepted {
+      background-color: $mediumSpringBud;
+      color: black;
+      .badge {
+        background-color: $cambridgeBlue;
+        color: black;
+      }
+    }
+  }
+  .list-group-item-player-Accepted {
+    background-color: $mediumSpringBud;
+    color: black;
+  }
+
+  .list-players-group-Rejected {
+    .btn-players-group-Rejected {
+      background-color: $puceRed;
+      color: white;
+      .badge {
+        background-color: $cambridgeBlue;
+        color: black;
+      }
+    }
+  }
+  .list-group-item-player-Rejected {
+    background-color: $puceRed;
+    color: white;
+  }
+
+  .list-players-group-Quit {
+    .btn-players-group-Quit {
+      background-color: $puceRed;
+      color: white;
+      .badge {
+        background-color: $cambridgeBlue;
+        color: black;
+      }
+    }
+  }
+  .list-group-item-player-Quit {
+    background-color: $puceRed;
+    color: white;
   }
 }
