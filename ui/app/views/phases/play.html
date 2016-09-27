@@ -19,12 +19,7 @@
                                 </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="play.offsetTracker.shiftUp(5)"
-                                            uib-popover="If you picked a word wrap game, you may need to shift the puzzle around to highlight a word"
-                                            uib-popover-title="Profile"
-                                            popover-is-open="main.showHelp"
-                                            popover-placement="left"
-                                            popover-trigger="none">
+                                            ng-click="play.offsetTracker.shiftUp(5)">
                                         <span class="glyphicon glyphicon-chevron-up"></span>x5
                                     </button>
                                 </div>
@@ -36,18 +31,18 @@
                                 </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="play.offsetTracker.shiftRight(5)">
+                                            ng-click="play.offsetTracker.shiftRight(5)"
+                                            uib-popover="If you picked a word wrap game, you may need to shift the puzzle around to highlight a word"
+                                            uib-popover-title="Profile"
+                                            popover-is-open="main.showHelp"
+                                            popover-placement="left"
+                                            popover-trigger="none">
                                         <span class="glyphicon glyphicon-chevron-right"></span>x5
                                     </button>
                                 </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="play.offsetTracker.zoomOut(3)"
-                                            uib-popover="You may need to zoom in/out depending on the size of the grid."
-                                            uib-popover-title="Profile"
-                                            popover-is-open="main.showHelp"
-                                            popover-placement="bottom-right"
-                                            popover-trigger="none">
+                                            ng-click="play.offsetTracker.zoomOut(3)">
                                         <span class="glyphicon glyphicon-zoom-out"></span>x3
                                     </button>
                                 </div>
@@ -58,7 +53,12 @@
                         <div class="col-xs-12">
                             <div class="btn-group btn-group-justified btn-group-grid-manipulation">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default" ng-click="play.zoomIn(1)">
+                                    <button type="button" class="btn btn-default" ng-click="play.zoomIn(1)"
+                                            uib-popover="You may need to zoom in/out depending on the size of the grid."
+                                            uib-popover-title="Profile"
+                                            popover-is-open="main.showHelp"
+                                            popover-placement="bottom-left"
+                                            popover-trigger="none">
                                         <span class="glyphicon glyphicon-zoom-in"></span>
                                     </button>
                                 </div>
@@ -96,24 +96,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8 text-left current-word">
+                    <div class="col-xs-4 text-left game-options">
+                        <div ng-repeat="feature in play.description" class="game-option">
+                            <span class="{{feature.icon}}" ng-hide="feature.icon === undefined"></span>
+                            <span ng-hide="feature.text === undefined">{{feature.text}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 text-right current-word">
                         <span ng-class="play.forwardIsWord ? 'found-a-word' : ''"
                               uib-popover="As you highlight letters, they will appear here as well."
                               uib-popover-title="Profile"
                               popover-is-open="main.showHelp"
-                              popover-placement="right"
+                              popover-placement="left-top"
                               popover-trigger="none">
                             {{play.currentWordForward}}
                         </span> /
                         <span ng-class="play.backwardIsWord ? 'found-a-word' : ''">
                             {{play.currentWordBackward}}
                         </span>
-                    </div>
-                    <div class="col-xs-4 text-right game-options">
-                        <div ng-repeat="feature in play.description" class="game-option">
-                            <span class="{{feature.icon}}" ng-hide="feature.icon === undefined"></span>
-                            <span ng-hide="feature.text === undefined">{{feature.text}}</span>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -144,7 +144,6 @@
                         <canvas id="found-canvas" class="found-canvas" ng-style="gridCanvasStyle"
                                 onresize="play.highlightFoundWords()"></canvas>
                     </div>
-
                 </div>
             </div>
             <!--  TODO - link to dictionary?  -->
@@ -153,8 +152,8 @@
                     <div class="panel panel-default words-left">
                         <div class="panel-heading">
                             <span>
-                                <h5>Left To Find</h5>
                                 <span class="pull-right badge">{{play.game.wordsToFind.length}}</span>
+                                <h5>Left To Find</h5>
                             </span>
                         </div>
                         <div class="panel-body">
@@ -183,12 +182,11 @@
                     <div class="panel panel-default words-found" ng-repeat="(id, name) in play.game.players">
                         <div class="panel-heading">
                             <span>
-                                <h5>{{name}}
-                                    <span class="badge pull-right"
-                                          style="background-color: {{play.playerColors[id]}}; color: {{play.playerFontColors[id]}};">
+                                <span class="badge pull-right"
+                                      style="background-color: {{play.playerColors[id]}}; color: {{play.playerFontColors[id]}};">
                                         {{play.game.scores[id]}}
-                                    </span>
-                                </h5>
+                                </span>
+                                <h5>{{name}}</h5>
                             </span>
                         </div>
                         <div class="panel-body">
