@@ -1,4 +1,10 @@
-<div class="game-bar" ng-controller="MenuCtrl as menu">
+<div class="game-bar"
+     ng-controller="MenuCtrl as menu"
+     uib-popover="Here are where your games are/will be.  Click on one to play it."
+     uib-popover-title="Profile"
+     popover-is-open="main.showHelp"
+     popover-placement="bottom"
+     popover-trigger="none">
     <div ng-repeat="phase in menu.phases">
         <div class="list-group list-group-games list-group-{{menu.phaseStyles[phase]}}"
              ng-hide="menu.games[phase].length == 0">

@@ -1,7 +1,13 @@
 <div class="ng-cloak create-game">
     <form class="form-horizontal">
         <uib-tabset type="pills" justified="true" active="0">
-            <uib-tab ng-repeat="featureGroup in create.features" index="$index" heading="{{featureGroup.group}}">
+            <uib-tab ng-repeat="featureGroup in create.features" index="$index"
+                     heading="{{featureGroup.group}}"
+                     uib-popover="Hover over any option to find out more about it."
+                     uib-popover-title="Profile"
+                     popover-is-open="main.showHelp"
+                     popover-placement="bottom"
+                     popover-trigger="none">
                 <div class="form-group" ng-repeat="feature in featureGroup.features">
                     <label uib-tooltip="{{feature.description}}">{{feature.label}}</label>
                     <div class="btn-group btn-group-justified">
@@ -17,10 +23,16 @@
         </uib-tabset>
         <!--  TODO - starter base?  -->
         <div class="form-group friend-select">
-            <label uib-tooltip="Select up to 0-2 friends to help.">Add up to 2 friends who play Twisted
-                Wordsearch</label>
+            <label uib-tooltip="Select up to 0-2 friends to help.">
+                Add up to 2 friends who play Twisted Wordsearch
+            </label>
             <ui-select multiple limit="2" ng-model="create.chosenFriends" theme="bootstrap"
-                       reset-search-input="true">
+                       reset-search-input="true"
+                       uib-popover="Play solo or add friends to work together."
+                       uib-popover-title="Profile"
+                       popover-is-open="main.showHelp"
+                       popover-placement="top"
+                       popover-trigger="none">
                 <ui-select-match placeholder="Select friends...">{{$item.displayName}}</ui-select-match>
                 <ui-select-choices
                         repeat="friend in create.friends | propsFilter: {displayName: $select.search}">
@@ -28,7 +40,13 @@
                 </ui-select-choices>
             </ui-select>
         </div>
-        <button class="btn btn-primary create-game-button" ng-click="create.createGame()">Create Game</button>
+        <button class="btn btn-primary create-game-button" ng-click="create.createGame()"
+                uib-popover="Once you've picked your options, create a game by pressing here."
+                uib-popover-title="Profile"
+                popover-is-open="main.showHelp"
+                popover-placement="bottom"
+                popover-trigger="none">Create Game
+        </button>
         <button class="btn btn-info invite-friends-button" ng-click="create.inviteFriends()">
             Invite friends to play Twisted Wordsearch
         </button>

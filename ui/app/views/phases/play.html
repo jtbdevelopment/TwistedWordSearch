@@ -19,7 +19,12 @@
                                 </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="play.offsetTracker.shiftUp(5)">
+                                            ng-click="play.offsetTracker.shiftUp(5)"
+                                            uib-popover="If you picked a word wrap game, you may need to shift the puzzle around to highlight a word"
+                                            uib-popover-title="Profile"
+                                            popover-is-open="main.showHelp"
+                                            popover-placement="left"
+                                            popover-trigger="none">
                                         <span class="glyphicon glyphicon-chevron-up"></span>x5
                                     </button>
                                 </div>
@@ -37,7 +42,12 @@
                                 </div>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="play.offsetTracker.zoomOut(3)">
+                                            ng-click="play.offsetTracker.zoomOut(3)"
+                                            uib-popover="You may need to zoom in/out depending on the size of the grid."
+                                            uib-popover-title="Profile"
+                                            popover-is-open="main.showHelp"
+                                            popover-placement="bottom-right"
+                                            popover-trigger="none">
                                         <span class="glyphicon glyphicon-zoom-out"></span>x3
                                     </button>
                                 </div>
@@ -87,7 +97,12 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-8 text-left current-word">
-                        <span ng-class="play.forwardIsWord ? 'found-a-word' : ''">
+                        <span ng-class="play.forwardIsWord ? 'found-a-word' : ''"
+                              uib-popover="As you highlight letters, they will appear here as well."
+                              uib-popover-title="Profile"
+                              popover-is-open="main.showHelp"
+                              popover-placement="right"
+                              popover-trigger="none">
                             {{play.currentWordForward}}
                         </span> /
                         <span ng-class="play.backwardIsWord ? 'found-a-word' : ''">
@@ -106,7 +121,12 @@
                         <table class="table table-condensed"
                                id="word-grid"
                                ng-mouseleave="play.onMouseExitsTable($event)"
-                               ng-mouseenter="play.onMouseEntersTable($event)">
+                               ng-mouseenter="play.onMouseEntersTable($event)"
+                               uib-popover="Click on any letter to start and move the mouse to highlight a word.  Click again to submit your word or to clear the starting selection."
+                               uib-popover-title="Profile"
+                               popover-is-open="main.showHelp"
+                               popover-placement="left"
+                               popover-trigger="none">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"
                                 ng-init="gridRow = $index">
                                 <td ng-repeat="cell in row track by $index" data-ws-row="{{gridRow}}"

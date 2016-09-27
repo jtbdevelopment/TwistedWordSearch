@@ -12,6 +12,8 @@ angular.module('twsUI').controller('MainCtrl',
         function ($scope, $rootScope, jtbPlayerService, $location) {
             var controller = this;
 
+            controller.showHelp = false;
+
             function fullSizeBody() {
                 controller.mainBodySize = 'col-xs-12 col-md-12';
             }
@@ -78,6 +80,10 @@ angular.module('twsUI').controller('MainCtrl',
                     controller.forceShowGames = false;
                     fullSizeBody();
                 }
+            };
+
+            controller.toggleHelp = function () {
+                controller.showHelp = !controller.showHelp;
             };
 
             $scope.$on('playerLoaded', function () {
