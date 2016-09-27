@@ -70,11 +70,6 @@ angular
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
             })
-            .when('/help', {
-                templateUrl: 'views/help.html',
-                controller: 'HelpCtrl',
-                controllerAs: 'help'
-            })
             .when('/profile', {
                 templateUrl: 'views/profile.html',
                 controller: 'ProfileCtrl',
