@@ -194,14 +194,26 @@ describe('Controller: PlayCtrl',
 
         describe('multiplayer settings', function () {
             beforeEach(function () {
-                expectedGame.players = {'md51': 'P1', 'md52': 'P2', 'md53': 'P2'};
+                expectedGame.players = {'md51': 'P1', 'md52': 'P2', 'md53': 'P3', 'md54': 'P4', 'md55': 'P5'};
             });
             it('initializes colors for multi-player game', function () {
                 foundWordsCanvasManager.updateForGame.calls.reset();
                 $scope.$broadcast('gameUpdated', expectedGame);
                 $scope.$apply();
-                expect(PlayCtrl.playerColors).toEqual({'md51': '#C1D37F', 'md52': '#7C3238', 'md53': '#F0E2A3'});
-                expect(PlayCtrl.playerFontColors).toEqual({'md51': 'black', 'md52': 'white', 'md53': 'black'});
+                expect(PlayCtrl.playerColors).toEqual({
+                    'md51': '#C1D37F',
+                    'md52': '#7C3238',
+                    'md53': '#F0E2A3',
+                    'md54': '#FFFFFF',
+                    'md55': '#A9A9A9'
+                });
+                expect(PlayCtrl.playerFontColors).toEqual({
+                    'md51': 'black',
+                    'md52': 'white',
+                    'md53': 'black',
+                    'md54': 'black',
+                    'md55': 'white'
+                });
                 expect(foundWordsCanvasManager.updateForGame).toHaveBeenCalledWith(expectedGame, 4, 3, PlayCtrl.playerColors);
             });
         });

@@ -80,15 +80,6 @@ describe('testing app js primary app', function () {
                     controllerAs: 'admin'
                 });
         });
-        it('should register help', function () {
-            expect($routeProvider.when).toHaveBeenCalledWith(
-                '/help',
-                {
-                    templateUrl: 'views/help.html',
-                    controller: 'HelpCtrl',
-                    controllerAs: 'help'
-                });
-        });
         it('should register profile', function () {
             expect($routeProvider.when).toHaveBeenCalledWith(
                 '/profile',

@@ -15,12 +15,16 @@ angular.module('twsUI').controller('PlayCtrl',
             var PLAYER_COLORS = [
                 '#C1D37F',
                 '#7C3238',
-                '#F0E2A3'
+                '#F0E2A3',
+                '#FFFFFF',
+                '#A9A9A9'
             ];
             var PLAYER_FONT_COLORS = [
                 'black',
                 'white',
-                'black'
+                'black',
+                'black',
+                'white'
             ];
             var SELECT_COLOR = '#9DC4B5';
 
