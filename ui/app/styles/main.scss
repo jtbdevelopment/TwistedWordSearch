@@ -62,6 +62,18 @@ body {
       border-color: $cambridgeBlue;
     }
   }
+
+}
+
+.welcome-landing {
+  .jumbotron {
+    background-color: $peachOrange;
+    .create-game-button {
+      background-color: $peachOrange;
+      color: $puceRed;
+      border-color: $puceRed;
+    }
+  }
 }
 
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand {
