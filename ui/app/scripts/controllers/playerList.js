@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twsUI').controller('PlayerListCtrl',
-    ['$scope', '$routeParams', 'jtbGameCache', 'jtbBootstrapGameActions', 'jtbPlayerService',
-        function ($scope, $routeParams, jtbGameCache, jtbBootstrapGameActions, jtbPlayerService) {
+    ['$scope', '$routeParams', 'jtbGameCache', 'jtbBootstrapGameActions', 'jtbPlayerService', 'featureDescriber',
+        function ($scope, $routeParams, jtbGameCache, jtbBootstrapGameActions, jtbPlayerService, featureDescriber) {
             var controller = this;
 
             var currentPlayer = jtbPlayerService.currentPlayer();
@@ -24,6 +24,9 @@ angular.module('twsUI').controller('PlayerListCtrl',
                 controller.game = jtbGameCache.getGameForID($routeParams.gameID);
                 angular.forEach(controller.players, function (value, key) {
                     controller.players[key] = [];
+                });
+                featureDescriber.getShortDescriptionForGame(controller.game).then(function (data) {
+                    controller.description = data;
                 });
                 angular.forEach(controller.game.players, function (name, md5) {
                     var player = {

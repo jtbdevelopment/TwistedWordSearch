@@ -133,3 +133,13 @@ body {
 .arrow {
   color: $puceRed;
 }
+
+.game-features {
+  text-align: center;
+  display: inline-block;
+  .game-feature {
+    width: auto;
+    display: inline-block;
+    padding-right: 5px;
+  }
+}

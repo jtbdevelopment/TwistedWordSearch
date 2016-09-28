@@ -23,10 +23,7 @@
                    class="btn-group btn btn-default btn-group-game btn-group-game-{{menu.phaseStyles[phase]}}">
                     <img ng-src="{{game.playerImages[md5]}}" class="playerImage"
                          ng-repeat="(md5, name) in game.players">
-                    <div ng-repeat="feature in menu.descriptions[game.id]" class="game-feature">
-                        <span class="{{feature.icon}}" ng-hide="angular.isUndefined(feature.icon)"></span>
-                        <span ng-hide="angular.isUndefined(feature.text)">{{feature.text}}</span>
-                    </div>
+                    <describe-game features="menu.descriptions[game.id]"></describe-game>
                 </a>
             </div>
         </div>

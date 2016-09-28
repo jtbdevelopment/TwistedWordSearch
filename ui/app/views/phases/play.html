@@ -96,11 +96,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 text-left game-options">
-                        <div ng-repeat="feature in play.description" class="game-option">
-                            <span class="{{feature.icon}}" ng-hide="feature.icon === undefined"></span>
-                            <span ng-hide="feature.text === undefined">{{feature.text}}</span>
-                        </div>
+                    <div class="col-xs-4 text-left">
+                        <describe-game features="play.description"></describe-game>
                     </div>
                     <div class="col-xs-8 text-right current-word">
                         <span ng-class="play.forwardIsWord ? 'found-a-word' : ''"
