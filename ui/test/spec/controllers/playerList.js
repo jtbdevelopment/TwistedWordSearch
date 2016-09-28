@@ -5,7 +5,6 @@ describe('Controller: PlayerListCtrl', function () {
     // load the controller's module
     beforeEach(module('twsUI'));
 
-//    ['$scope', '$routeParams', 'jtbGameCache', 'jtbBootstrapGameActions', 'jtbPlayerService',
     var expectedGameID;
     var $routeParams = {
         gameID: expectedGameID
@@ -18,7 +17,7 @@ describe('Controller: PlayerListCtrl', function () {
             return game;
         }
     };
-    var $scope, $rootScope, PlayerListCtrl;
+    var $scope, $rootScope, PlayerListCtrl, $q;
     var jtbBootstrapGameActions = {
         aHandler: 'X'
     };
@@ -31,7 +30,17 @@ describe('Controller: PlayerListCtrl', function () {
         }
     };
 
-    beforeEach(inject(function ($controller, _$rootScope_) {
+    var featurePromise;
+    var featureDescriber = {
+        game: undefined,
+        getShortDescriptionForGame: function (game) {
+            featurePromise = $q.defer();
+            this.game = game;
+            return featurePromise.promise;
+        }
+    };
+
+    beforeEach(inject(function ($controller, _$rootScope_, _$q_) {
         game = {
             gameID: expectedGameID,
             players: {
@@ -63,6 +72,7 @@ describe('Controller: PlayerListCtrl', function () {
                 md5: 'Rejected'
             }
         };
+        $q = _$q_;
         $scope = _$rootScope_.$new();
         $rootScope = _$rootScope_;
         PlayerListCtrl = $controller('PlayerListCtrl', {
@@ -70,7 +80,8 @@ describe('Controller: PlayerListCtrl', function () {
             $routeParams: $routeParams,
             jtbGameCache: jtbGameCache,
             jtbBootstrapGameActions: jtbBootstrapGameActions,
-            jtbPlayerService: jtbPlayerService
+            jtbPlayerService: jtbPlayerService,
+            featureDescriber: featureDescriber
         });
     }));
 
@@ -126,6 +137,15 @@ describe('Controller: PlayerListCtrl', function () {
                 playerProfile: '/profile/profile4'
             })]
         });
+    });
+
+    it('gets features from featureDescriber', function () {
+        $rootScope.$broadcast('gameUpdated', game, game);
+        $rootScope.$apply();
+        var expectedDescription = {x: '1', t: 1};
+        featurePromise.resolve(expectedDescription);
+        $scope.$apply();
+        expect(PlayerListCtrl.description).toEqual(expectedDescription);
     });
 
     it('it test show for Challenged/Pending', function () {
