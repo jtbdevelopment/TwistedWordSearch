@@ -157,7 +157,8 @@
                             </span>
                         </div>
                         <div class="panel-body">
-                            <span ng-repeat="word in play.game.wordsToFind">{{word}} </span>
+                            <span ng-repeat="word in play.game.wordsToFind"
+                                  id="word-{{word-toLowerCase()}}">{{word}} </span>
                         </div>
                     </div>
                 </div>
@@ -190,7 +191,7 @@
                             </span>
                         </div>
                         <div class="panel-body">
-                            <span ng-repeat="word in play.game.wordsFoundByPlayer[id]">{{word}} </span>
+                            <span ng-repeat="word in play.game.wordsFoundByPlayer[id]" id="word-{{word.toLowerCase()}}">{{word}} </span>
                         </div>
                     </div>
                 </div>

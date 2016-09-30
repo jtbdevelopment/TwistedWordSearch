@@ -29,8 +29,6 @@ angular.module('twsUIBackground', ['twsUI.services', 'twsUI'])
             $location.path('/signin');
         });
         $rootScope.$on('gameUpdated', function (message, oldGame, newGame) {
-            console.log($location.path());
-            console.log(angular.isDefined($location.path.endsWith));
             if (endsWith($location.path(), oldGame.id) && oldGame.gamePhase !== newGame.gamePhase) {
                 $location.path('/game/' + newGame.gamePhase.toLowerCase() + '/' + newGame.id);
             }

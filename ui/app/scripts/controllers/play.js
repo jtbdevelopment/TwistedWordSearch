@@ -229,8 +229,6 @@ angular.module('twsUI').controller('PlayCtrl',
 
             $scope.$on('gameUpdated', function (message, oldGame, newGame) {
                 //noinspection JSUnresolvedVariable
-                console.log(JSON.stringify(oldGame));
-                console.log(JSON.stringify(newGame));
                 if (oldGame.id === controller.game.id) {
                     updateControllerFromGame();
                     gameAnimations.animateGameUpdate(controller, oldGame, newGame);
