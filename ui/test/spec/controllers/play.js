@@ -97,6 +97,10 @@ describe('Controller: PlayCtrl',
             }
         };
 
+        var gameAnimations = {
+            animateGameUpdate: jasmine.createSpy('agu')
+        };
+
         var targetCalculator = {
             calculateTargetCell: jasmine.createSpy('calcTarget')
         };
@@ -105,6 +109,7 @@ describe('Controller: PlayCtrl',
         var PlayCtrl, $scope, $rootScope, $http, $q, elementSpy;
 
         beforeEach(function () {
+            gameAnimations.animateGameUpdate.calls.reset();
             expectedGame = angular.copy(baseGame);
             foundWordsCanvasManager.updateForGame.calls.reset();
             jtbBootstrapActions.wrapActionOnGame.calls.reset();
@@ -157,6 +162,7 @@ describe('Controller: PlayCtrl',
                 featureDescriber: featureDescriber,
                 jtbGameCache: jtbGameCache,
                 jtbBootstrapGameActions: jtbBootstrapActions,
+                gameAnimations: gameAnimations,
                 jtbPlayerService: jtbPlayerService
             });
         }));
@@ -236,18 +242,20 @@ describe('Controller: PlayCtrl',
             var newGame = angular.copy(expectedGame);
             newGame.id += '32';
             newGame.gamePhase = 'NotPlaying';
-            $scope.$broadcast('gameUpdated', newGame);
+            $scope.$broadcast('gameUpdated', newGame, newGame);
             $scope.$apply();
             expect(PlayCtrl.showQuit).toBeTruthy();
             expect(PlayCtrl.showRematch).not.toBeTruthy();
         });
 
         it('game update on same game updates', function () {
+            var original = angular.copy(expectedGame);
             expectedGame.gamePhase = 'NotPlaying';
-            $scope.$broadcast('gameUpdated', expectedGame);
+            $scope.$broadcast('gameUpdated', original, expectedGame);
             $scope.$apply();
             expect(PlayCtrl.showQuit).not.toBeTruthy();
             expect(PlayCtrl.showRematch).not.toBeTruthy();
+            expect(gameAnimations.animateGameUpdate).toHaveBeenCalledWith(PlayCtrl, original, expectedGame);
         });
 
         function resetExpectations(nextReturnValueFromCalculateSelected) {
@@ -1027,6 +1035,7 @@ describe('Controller: PlayCtrl',
                     featureDescriber: featureDescriber,
                     jtbGameCache: jtbGameCache,
                     jtbBootstrapGameActions: jtbBootstrapActions,
+                    gameAnimations: gameAnimations,
                     jtbPlayerService: jtbPlayerService
                 });
             }));
@@ -1059,6 +1068,7 @@ describe('Controller: PlayCtrl',
                     featureDescriber: featureDescriber,
                     jtbGameCache: jtbGameCache,
                     jtbBootstrapGameActions: jtbBootstrapActions,
+                    gameAnimations: gameAnimations,
                     jtbPlayerService: jtbPlayerService
                 });
             }));

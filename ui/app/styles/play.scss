@@ -115,3 +115,25 @@
     margin-bottom: 10px;
   }
 }
+
+.score-alert {
+  top: 110%;
+  width: auto;
+  overflow: hidden;
+  position: fixed;
+  opacity: 0.8;
+  z-index: 1050;
+  h1 {
+    color: $puceRed;
+  }
+}
+
+.score-alert-centered {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.score-alert.in {
+  top: 40%;
+  transition: top 1.5s ease-in 0s;
+}
