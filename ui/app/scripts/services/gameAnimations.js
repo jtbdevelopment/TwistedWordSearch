@@ -18,7 +18,7 @@ angular.module('twsUI.services').factory('gameAnimations',
                         }
                     }
                 }
-            }
+            };
         }
     ]
 );

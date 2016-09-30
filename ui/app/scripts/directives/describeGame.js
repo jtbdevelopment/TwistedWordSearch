@@ -8,7 +8,7 @@ angular.module('twsUI').directive('describeGame',
                     features: '=features'
                 },
                 templateUrl: 'views/describeGame.html'
-            }
+            };
         }
     ]
 );
