@@ -4,7 +4,7 @@
 
   .play-area {
     //width: 83.3333333333%;
-    width: 86.3333333333%;
+    width: 90%;
     padding-left: 0;
   }
   .select-canvas {
@@ -68,9 +68,15 @@
 
   }
 
+  .glyphicon {
+    margin-right: 5px;
+  }
+
   .words {
     //    width: 16.6666666667%;
-    width: 13.6666666667%;
+    width: 10%;
+    min-width: 120px;
+    max-width: 150px;
 
     .panel {
       margin-bottom: 10px;
@@ -86,13 +92,13 @@
           margin-top: 6px;
           vertical-align: middle;
         }
-        h5 {
-          .playerImage {
-            width: 25px;
-            height: 25px;
-            display: inline-block;
-            margin-right: 5px;
-          }
+        .playerImage {
+          width: 35px;
+          height: 35px;
+          display: inline-block;
+          margin: 5px;
+        }
+        /*
           font-weight: bold;
           display: block;
           white-space: nowrap;
@@ -101,7 +107,7 @@
           width: 75%;
           line-height: 1.0;
           margin-bottom: 10px;
-        }
+          */
       }
       .panel-body {
         background-color: $mediumChampagne;
@@ -161,7 +167,10 @@
   opacity: 0.8;
   z-index: 1050;
   h1 {
+    border-radius: 10px;
     color: $puceRed;
+    background-color: white;
+    padding: 10px;
   }
 }
 

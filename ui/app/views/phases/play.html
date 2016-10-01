@@ -107,14 +107,15 @@
                         <describe-game features="play.description"></describe-game>
                     </div>
                     <div class="col-xs-8 text-right current-word">
-                        <span ng-class="play.forwardIsWord ? 'found-a-word' : ''"
-                              uib-popover="As you highlight letters, they will appear here as well."
+                        <span ng-class="play.forwardIsWord ? 'found-a-word' : ''">
+                            {{play.currentWordForward}}
+                        </span>
+                        <span uib-popover="As you highlight letters, they will appear here as well."
                               uib-popover-title="Profile"
                               popover-is-open="main.showHelp"
                               popover-placement="left-top"
-                              popover-trigger="none">
-                            {{play.currentWordForward}}
-                        </span> /
+                              popover-trigger="none"> /
+                        </span>
                         <span ng-class="play.backwardIsWord ? 'found-a-word' : ''">
                             {{play.currentWordBackward}}
                         </span>
@@ -156,7 +157,7 @@
                     <div class="panel panel-default words-left">
                         <div class="panel-heading">
                             <span class="pull-right badge">{{play.game.wordsToFind.length}}</span>
-                            <h5>Left To Find</h5>
+                            <h5>Left</h5>
                         </div>
                         <div class="panel-body">
                             <div ng-repeat="word in play.game.wordsToFind">
@@ -174,12 +175,12 @@
                     <button class="btn btn-default btn-rematch-game"
                             ng-click="play.actions.rematch(play.game)"
                             ng-show="play.showRematch">
-                        <span class="glyphicon glyphicon-repeat"></span>Rematch!
+                        <span class="glyphicon glyphicon-repeat"></span>Again!
                     </button>
                     <button class="btn btn-default btn-end-rematch-game"
                             ng-click="play.actions.declineRematch(play.game)"
                             ng-show="play.showRematch">
-                        <span class="glyphicon glyphicon-stop"></span>No More Rematches
+                        <span class="glyphicon glyphicon-stop"></span>No More!
                     </button>
                 </div>
                 <div class="row">
@@ -190,7 +191,7 @@
                                   style="background-color: {{play.playerColors[id]}}; color: {{play.playerFontColors[id]}};">
                                         {{play.game.scores[id]}}
                             </span>
-                            <h5><img ng-src="{{play.game.playerImages[id]}}" class="playerImage"/>{{name}}</h5>
+                            <img ng-src="{{play.game.playerImages[id]}}" uib-tooltip="{{name}}" class="playerImage"/>
                         </div>
                         <div class="panel-body">
                             <div ng-repeat="word in play.game.wordsFoundByPlayer[id]" id="word-{{word.toLowerCase()}}">

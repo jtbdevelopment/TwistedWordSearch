@@ -40,15 +40,6 @@ angular.module('twsUI.services').factory('gameAnimations',
             }
 
             return {
-                test: function (controller) {
-                    var alert = angular.element('#' + controller.id);
-                    if (angular.isDefined(alert)) {
-                        console.log('animating it');
-                        $animate.addClass(alert, 'animated ' + controller.animation).then(function () {
-                            $animate.removeClass(alert, 'animated ' + controller.animation);
-                        });
-                    }
-                },
                 animateGameUpdate: function (controller, oldGame, newGame) {
                     animateFoundWord(newGame, oldGame);
                     highlightScoreChange(oldGame, newGame, controller);

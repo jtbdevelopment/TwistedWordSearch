@@ -183,7 +183,6 @@ angular.module('twsUI').controller('PlayCtrl',
                     submitSelectedWord();
                     clearSelectedWord();
                 }
-                //gameAnimations.test(controller);
             };
 
             function drawSelectionHighlight() {
