@@ -1,5 +1,5 @@
 <div class="game-features">
-    <div ng-repeat="feature in features" class="game-feature">
+    <div ng-repeat="feature in features" class="game-feature" uib-tooltip="{{feature.tooltip}}">
         <span class="{{feature.icon}}" ng-hide="angular.isUndefined(feature.icon)"></span>
         <span ng-hide="angular.isUndefined(feature.text)">{{feature.text}}</span>
     </div>

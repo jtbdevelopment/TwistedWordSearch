@@ -219,11 +219,11 @@ describe('Service: featureDescriber', function () {
         featurePromise.resolve(standardFeatures);
         $rootScope.$apply();
         expect(answer).toEqual([
-            {icon: 'icon-circle', text: 'x11'},
-            {icon: 'icon-option1', text: undefined},
-            {icon: undefined, text: 'FD Label 2'},
-            {icon: 'icon-wrap', text: undefined},
-            {icon: 'icon-dict-wdoption1', text: undefined}
+            {icon: 'icon-circle', text: 'x11', tooltip: 'A circle with 11 diameter'},
+            {icon: 'icon-option1', text: undefined, tooltip: undefined},
+            {icon: undefined, text: 'FD Label 2', tooltip: 'Description Option 3/2'},
+            {icon: 'icon-wrap', text: undefined, tooltip: 'Description Option 3/1'},
+            {icon: 'icon-dict-wdoption1', text: undefined, tooltip: undefined}
         ]);
     });
 
@@ -236,8 +236,8 @@ describe('Service: featureDescriber', function () {
         featurePromise.resolve(standardFeatures);
         $rootScope.$apply();
         expect(answer).toEqual([
-            {icon: 'icon-circle', text: 'x11'},
-            {icon: 'icon-option1', text: undefined}
+            {icon: 'icon-circle', text: 'x11', tooltip: 'A circle with 11 diameter'},
+            {icon: 'icon-option1', text: undefined, tooltip: undefined}
         ]);
 
         promise = service.getShortDescriptionForGame({features: ['WWYes', 'FDO2', 'Circlex11', 'WSO1']});
@@ -247,10 +247,10 @@ describe('Service: featureDescriber', function () {
         });
         $rootScope.$apply();
         expect(answer).toEqual([
-            {icon: 'icon-circle', text: 'x11'},
-            {icon: 'icon-option1', text: undefined},
-            {icon: undefined, text: 'FD Label 2'},
-            {icon: 'icon-wrap', text: undefined}
+            {icon: 'icon-circle', text: 'x11', tooltip: 'A circle with 11 diameter'},
+            {icon: 'icon-option1', text: undefined, tooltip: undefined},
+            {icon: undefined, text: 'FD Label 2', tooltip: 'Description Option 3/2'},
+            {icon: 'icon-wrap', text: undefined, tooltip: 'Description Option 3/1'}
         ]);
     });
 });

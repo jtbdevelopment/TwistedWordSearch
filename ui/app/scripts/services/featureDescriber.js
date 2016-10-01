@@ -125,7 +125,8 @@ angular.module('twsUI.services').factory('featureDescriber',
                         angular.forEach(features, function (feature) {
                             describe.push({
                                 icon: service.getIconForFeature(map[feature]),
-                                text: service.getTextForFeature(map[feature])
+                                text: service.getTextForFeature(map[feature]),
+                                tooltip: map[feature].description
                             });
                         });
                         defer.resolve(describe);
