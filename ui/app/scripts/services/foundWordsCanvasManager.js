@@ -50,11 +50,9 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                 var width = canvas.width / columns;
                 var height = canvas.height / rows;
                 context.clearRect(0, 0, canvas.width, canvas.height);
-                context.beginPath();
                 angular.forEach(linesToDraw, function (lineToDraw) {
                     canvasLineDrawer.drawLine(context, lineToDraw.from, lineToDraw.to, height, width, lineToDraw.color);
                 });
-                context.closePath();
             }
 
             //  Timeout exists for slower browsers - sometimes canvas not ready right away

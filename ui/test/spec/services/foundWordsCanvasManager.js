@@ -15,8 +15,6 @@ describe('Service: foundWordsCanvasManager', function () {
 
     var context = {
         clearRect: jasmine.createSpy('clearRect'),
-        beginPath: jasmine.createSpy('beginPath'),
-        closePath: jasmine.createSpy('closePath'),
         aVariable: 'X'
     };
 
@@ -40,8 +38,6 @@ describe('Service: foundWordsCanvasManager', function () {
         //  not mocking, functionality is straight forward enough while dealing with edge cases
         gridOffsetTracker = $injector.get('gridOffsetTracker');
         service = $injector.get('foundWordsCanvasManager');
-        context.beginPath.calls.reset();
-        context.closePath.calls.reset();
         context.clearRect.calls.reset();
         canvasLineDrawer.drawLine.calls.reset();
     }));
@@ -79,7 +75,6 @@ describe('Service: foundWordsCanvasManager', function () {
     it('simple compute lines', function () {
         service.updateForGame(game, 4, 5, assignedColors);
         $timeout.flush();
-        expect(context.beginPath.calls.count()).toEqual(1);
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
             context,
@@ -102,7 +97,6 @@ describe('Service: foundWordsCanvasManager', function () {
             102,
             64.4,
             '#a200f2');
-        expect(context.closePath.calls.count()).toEqual(1);
     });
 
     it('simple lines with offset', function () {
@@ -110,7 +104,6 @@ describe('Service: foundWordsCanvasManager', function () {
         gridOffsetTracker.shiftRight(2);
         service.updateForGame(game, 4, 5, assignedColors);
         $timeout.flush();
-        expect(context.beginPath.calls.count()).toEqual(1);
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
             context,
@@ -133,13 +126,11 @@ describe('Service: foundWordsCanvasManager', function () {
             102,
             64.4,
             '#a200f2');
-        expect(context.closePath.calls.count()).toEqual(1);
     });
 
     it('recomputes canvas on offset changes', function () {
         service.updateForGame(game, 4, 5, assignedColors);
         $timeout.flush();
-        expect(context.beginPath.calls.count()).toEqual(1);
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
             context,
@@ -162,28 +153,20 @@ describe('Service: foundWordsCanvasManager', function () {
             102,
             64.4,
             '#a200f2');
-        expect(context.closePath.calls.count()).toEqual(1);
 
-        context.beginPath.calls.reset();
-        context.closePath.calls.reset();
         context.clearRect.calls.reset();
         canvasLineDrawer.drawLine.calls.reset();
 
         gridOffsetTracker.shiftUp(1);
         $timeout.flush();
-        expect(context.beginPath.calls.count()).toEqual(1);
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
-        expect(context.closePath.calls.count()).toEqual(1);
         // ignoring intermediate result line details
-        context.beginPath.calls.reset();
-        context.closePath.calls.reset();
         context.clearRect.calls.reset();
         canvasLineDrawer.drawLine.calls.reset();
 
         gridOffsetTracker.shiftRight(2);
         $timeout.flush();
 
-        expect(context.beginPath.calls.count()).toEqual(1);
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
             context,
@@ -206,7 +189,6 @@ describe('Service: foundWordsCanvasManager', function () {
             102,
             64.4,
             '#a200f2');
-        expect(context.closePath.calls.count()).toEqual(1);
     });
 });
 

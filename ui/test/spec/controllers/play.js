@@ -124,8 +124,6 @@ describe('Controller: PlayCtrl',
 
         var context = {
             clearRect: jasmine.createSpy('clearRect'),
-            beginPath: jasmine.createSpy('beginPath'),
-            closePath: jasmine.createSpy('closePath'),
             aVariable: 'X'
         };
 
@@ -265,8 +263,6 @@ describe('Controller: PlayCtrl',
             gridTableManager.addSelectedStyleToCoordinates.calls.reset();
             canvasLineDrawer.drawLine.calls.reset();
             context.clearRect.calls.reset();
-            context.beginPath.calls.reset();
-            context.closePath.calls.reset();
             gridTableManager.calculateSelected.calls.reset();
             targetCalculator.calculateTargetCell.calls.reset();
             if (angular.isDefined(nextReturnValueFromCalculateSelected)) {
@@ -282,9 +278,7 @@ describe('Controller: PlayCtrl',
             expect(gridTableManager.removeSelectedStyleFromCoordinates).not.toHaveBeenCalled();
             expect(gridTableManager.addSelectedStyleToCoordinates).not.toHaveBeenCalled();
             expect(context.clearRect).not.toHaveBeenCalled();
-            expect(context.beginPath).not.toHaveBeenCalled();
             expect(canvasLineDrawer.drawLine).not.toHaveBeenCalled();
-            expect(context.closePath).not.toHaveBeenCalled();
             expect(targetCalculator.calculateTargetCell).not.toHaveBeenCalled();
         }
 
@@ -318,7 +312,6 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(false);
             expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
-            expect(context.beginPath).toHaveBeenCalled();
             expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
                 context,
                 selectedCoordinates[0],
@@ -327,7 +320,6 @@ describe('Controller: PlayCtrl',
                 canvas.width / 3,
                 '#9DC4B5'
             );
-            expect(context.closePath).toHaveBeenCalled();
         });
 
         it('clicking on space does not start selection', function () {
@@ -412,7 +404,6 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(true);
             expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
-            expect(context.beginPath).toHaveBeenCalled();
             expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
                 context,
                 moveCoordinates[0],
@@ -421,7 +412,6 @@ describe('Controller: PlayCtrl',
                 canvas.width / 3,
                 '#9DC4B5'
             );
-            expect(context.closePath).toHaveBeenCalled();
         });
 
         it('game update with current word selected being found unsets flags', function () {
@@ -484,7 +474,6 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(false);
             expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
-            expect(context.beginPath).toHaveBeenCalled();
             expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
                 context,
                 moveCoordinates[0],
@@ -493,7 +482,6 @@ describe('Controller: PlayCtrl',
                 canvas.width / 3,
                 '#9DC4B5'
             );
-            expect(context.closePath).toHaveBeenCalled();
         });
 
         it('game update to non playing phase clears selection and flags', function () {
@@ -638,7 +626,6 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(true);
             expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
-            expect(context.beginPath).toHaveBeenCalled();
             expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
                 context,
                 moveCoordinates[0],
@@ -647,7 +634,6 @@ describe('Controller: PlayCtrl',
                 canvas.width / 3,
                 '#9DC4B5'
             );
-            expect(context.closePath).toHaveBeenCalled();
         });
 
         it('grid offset change while word selected clears it', function () {

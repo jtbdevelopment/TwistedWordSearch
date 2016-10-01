@@ -44,6 +44,7 @@ describe('Service: gameAnimations', function () {
         expect(element.hasClass('in')).toEqual(false);
     });
 
+
     it('does not animates score when score for player unchanged', function () {
         var controller = {};
         var oldGame = {

@@ -13,6 +13,8 @@ describe('Service: canvasLineDrawer', function () {
             lineWidth: undefined,
             strokeStyle: undefined,
             lineCap: undefined,
+            beginPath: jasmine.createSpy('beginPath'),
+            closePath: jasmine.createSpy('closePath'),
             moveTo: jasmine.createSpy('moveTo'),
             lineTo: jasmine.createSpy('lineTo'),
             stroke: jasmine.createSpy('stroke')
@@ -20,6 +22,7 @@ describe('Service: canvasLineDrawer', function () {
         var color = '#00ff12';
         service.drawLine(context, {row: 4, column: 6}, {row: 8, column: 7}, 17, 13, color);
 
+        expect(context.beginPath).toHaveBeenCalled();
         expect(context.lineWidth).toEqual((17/2 + 13/2) / 2);
         expect(context.strokeStyle).toEqual(color);
         expect(context.lineCap).toEqual('round');
@@ -28,6 +31,7 @@ describe('Service: canvasLineDrawer', function () {
         expect(context.moveTo).toHaveBeenCalledWith(expectedStartX, expectedStartY);
         expect(context.lineTo).toHaveBeenCalledWith((7-6) * 13 + expectedStartX, (8 - 4) * 17 + expectedStartY);
         expect(context.stroke).toHaveBeenCalled();
+        expect(context.closePath).toHaveBeenCalled();
     });
 
 });

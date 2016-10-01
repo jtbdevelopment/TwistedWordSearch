@@ -11,12 +11,14 @@ angular.module('twsUI.services').factory('canvasLineDrawer',
                     var startY = (startCell.row * cellHeight) + halfHeight;
                     var endX = ((endCell.column - startCell.column) * cellWidth) + startX;
                     var endY = ((endCell.row - startCell.row) * cellHeight) + startY;
+                    context.beginPath();
                     context.lineWidth = (halfHeight + halfWidth) / 2;
                     context.strokeStyle = color;
                     context.lineCap = 'round';
                     context.moveTo(startX, startY);
                     context.lineTo(endX, endY);
                     context.stroke();
+                    context.closePath();
                 }
             };
         }

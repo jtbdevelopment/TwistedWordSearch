@@ -12,6 +12,8 @@ angular.module('twsUI').controller('PlayCtrl',
                   jtbGameCache, jtbPlayerService, jtbBootstrapGameActions, gameAnimations) {
             var controller = this;
 
+            controller.animation = 'shake';
+            controller.id = 'word-shatters';
             var PLAYER_COLORS = [
                 '#C1D37F',
                 '#7C3238',
@@ -181,13 +183,13 @@ angular.module('twsUI').controller('PlayCtrl',
                     submitSelectedWord();
                     clearSelectedWord();
                 }
+                //gameAnimations.test(controller);
             };
 
             function drawSelectionHighlight() {
                 selectCanvas = angular.element('#select-canvas')[0];
                 selectContext = selectCanvas.getContext('2d');
                 selectContext.clearRect(0, 0, selectCanvas.width, selectCanvas.height);
-                selectContext.beginPath();
                 canvasLineDrawer.drawLine(
                     selectContext,
                     selectedCells[0],
@@ -196,7 +198,6 @@ angular.module('twsUI').controller('PlayCtrl',
                     selectCanvas.width / columns,
                     SELECT_COLOR
                 );
-                selectContext.closePath();
             }
 
             controller.updateSelection = function () {

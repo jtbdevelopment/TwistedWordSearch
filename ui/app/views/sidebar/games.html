@@ -22,7 +22,7 @@
                    ng-href="#/game/{{game.gamePhase.toLowerCase()}}/{{game.id}}"
                    class="btn-group btn btn-default btn-group-game btn-group-game-{{menu.phaseStyles[phase]}}">
                     <img ng-src="{{game.playerImages[md5]}}" class="playerImage"
-                         ng-repeat="(md5, name) in game.players">
+                         ng-repeat="(md5, name) in game.players"/>
                     <describe-game features="menu.descriptions[game.id]"></describe-game>
                 </a>
             </div>
