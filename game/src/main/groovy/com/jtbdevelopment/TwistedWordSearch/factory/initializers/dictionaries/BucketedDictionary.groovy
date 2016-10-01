@@ -1,26 +1,21 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers.dictionaries
 
 import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
-
-import javax.annotation.PostConstruct
 
 /**
  * Date: 8/19/16
  * Time: 6:59 AM
  */
-@Component
 @CompileStatic
-class BucketedUSEnglishDictionary {
-    @Autowired
-    FilteredUSEnglishDictionary filteredUSEnglishDictionary
-
+class BucketedDictionary {
     private final Map<Integer, List<String>> wordsByLength = new HashMap<>();
 
-    @PostConstruct
-    public void setup() {
-        filteredUSEnglishDictionary.filteredWords.each {
+    public BucketedDictionary() {
+        this([] as Set)
+    }
+
+    public BucketedDictionary(final Set<String> filteredWords) {
+        filteredWords.each {
             String word ->
                 int size = word.size()
                 if (!wordsByLength.containsKey(size)) {

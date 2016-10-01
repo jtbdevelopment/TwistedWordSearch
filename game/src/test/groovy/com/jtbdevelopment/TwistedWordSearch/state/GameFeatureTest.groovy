@@ -19,11 +19,10 @@ class GameFeatureTest extends GroovyTestCase {
                         GameFeature.Diamond30X30,
                         GameFeature.Diamond40X40,
                         GameFeature.Diamond50X50],
-                (GameFeature.WordDifficulty): [GameFeature.EasiestDifficulty, GameFeature.StandardDifficulty, GameFeature.HarderDifficulty, GameFeature.FiendishDifficulty],
+                (GameFeature.WordDifficulty): [GameFeature.SimpleWords, GameFeature.StandardWords, GameFeature.HardWords],
+                (GameFeature.WordSpotting)  : [GameFeature.EasiestDifficulty, GameFeature.StandardDifficulty, GameFeature.HarderDifficulty, GameFeature.FiendishDifficulty],
                 (GameFeature.WordWrap)      : [GameFeature.WordWrapNo, GameFeature.WordWrapYes],
                 (GameFeature.FillDifficulty): [GameFeature.RandomFill, GameFeature.SomeOverlap, GameFeature.StrongOverlap, GameFeature.WordChunks],
-                //(GameFeature.JumbleOnFind)  : [GameFeature.JumbleOnFindNo, GameFeature.JumbleOnFindYes],
-                //(GameFeature.HideWordLetters): [GameFeature.HideWordLettersNone, GameFeature.HideWordLettersSome, GameFeature.HideWordLettersMany],
         ] == GameFeature.groupedFeatures
     }
 }

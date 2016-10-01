@@ -23,13 +23,18 @@ enum GameFeature {
     Diamond40X40(13, 'Diamond x40', '40x40 diamond.', Grid),  // 840
     Diamond50X50(14, 'Diamond x50', '50x50 diamond.', Grid),  // 1300 squares
 
-    WordDifficulty(2, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'How hard to find?'),
-    EasiestDifficulty(1, 'Easiest', 'Fewer and longer words.', WordDifficulty),
-    StandardDifficulty(2, 'Standard', 'More words that are a little shorter than easy.', WordDifficulty),
-    HarderDifficulty(3, 'Harder', 'Words get shorter while there are more to find.', WordDifficulty),
-    FiendishDifficulty(4, 'Fiendish', 'Many short words.', WordDifficulty),
+    WordDifficulty(2, GameFeatureGroupType.Difficulty, 'Word Difficulty', 'What kind of words?'),
+    SimpleWords(1, 'Simple', 'Simpler words.', WordDifficulty),
+    StandardWords(2, 'Standard', 'Standard words.', WordDifficulty),
+    HardWords(3, 'Hard', 'Time to get the dictionary.', WordDifficulty),
 
-    WordWrap(3, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
+    WordSpotting(3, GameFeatureGroupType.Difficulty, 'Number & Length of Words', 'How hard to find words?'),
+    EasiestDifficulty(1, 'Easiest', 'Fewer, longer words.', WordSpotting),
+    StandardDifficulty(2, 'Standard', 'More words that are a little shorter than easiest.', WordSpotting),
+    HarderDifficulty(3, 'Harder', 'Words get ever shorter while there are more to find.', WordSpotting),
+    FiendishDifficulty(4, 'Fiendish', 'Many, many short words.', WordSpotting),
+
+    WordWrap(4, GameFeatureGroupType.Difficulty, 'Word Wrap', 'Words can wrap around edges.'),
     WordWrapNo(1, 'No', 'Prevents words from wrapping around edges.', WordWrap),
     WordWrapYes(2, 'Yes', 'Allows words to wrap around edges.', WordWrap),
 
@@ -40,7 +45,7 @@ enum GameFeature {
     JumbleOnFindYes(2, 'Yes', 'Puzzle is re-jumbled after each word find.', JumbleOnFind),
     */
 
-            FillDifficulty(4, GameFeatureGroupType.Difficulty, 'Fill Difficulty', 'How random are fill letters vs words?'),
+            FillDifficulty(5, GameFeatureGroupType.Difficulty, 'Fill Difficulty', 'How random are fill letters vs words?'),
     RandomFill(1, 'Random', 'Fill letters are random', FillDifficulty),
     SomeOverlap(2, 'Less random', 'Fill letters will use word letters some what more often than randomly', FillDifficulty),
     StrongOverlap(3, 'Word Letters', 'Fill letters will fill mostly with letters from words', FillDifficulty),

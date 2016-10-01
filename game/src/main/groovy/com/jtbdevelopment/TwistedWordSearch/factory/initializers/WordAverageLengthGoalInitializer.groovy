@@ -21,7 +21,7 @@ class WordAverageLengthGoalInitializer implements GameInitializer<TWSGame> {
     ]
 
     void initializeGame(final TWSGame game) {
-        GameFeature difficulty = game.features.find { it.group == GameFeature.WordDifficulty }
+        GameFeature difficulty = game.features.find { it.group == GameFeature.WordSpotting }
         game.wordAverageLengthGoal = WORD_LENGTHS[difficulty]
     }
 

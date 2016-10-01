@@ -30,10 +30,10 @@ class MaxPlayersValidatorTest extends MongoGameCoreTestCase {
     }
 
     void testValidateGameSixPlayerNotOK() {
-        assert validator.validateGame(new TWSGame(players: [PONE, PTWO, PTHREE, PFIVE, PINACTIVE1, PFOUR]))
+        assertFalse validator.validateGame(new TWSGame(players: [PONE, PTWO, PTHREE, PFIVE, PINACTIVE1, PFOUR]))
     }
 
     void testErrorMessage() {
-        assert "Sorry, there are too many players - maximum is 3." == validator.errorMessage()
+        assert "Sorry, there are too many players - maximum is 5." == validator.errorMessage()
     }
 }

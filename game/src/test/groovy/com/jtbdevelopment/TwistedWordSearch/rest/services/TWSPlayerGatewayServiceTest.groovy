@@ -29,17 +29,16 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.Diamond50X50),
                         ]
                 ),
-                /*
-                new GameFeatureInfo(
-                        GameFeature.JumbleOnFind,
-                        [
-                                new GameFeatureInfo.Detail(GameFeature.JumbleOnFindNo),
-                                new GameFeatureInfo.Detail(GameFeature.JumbleOnFindYes),
-                        ]
-                ),
-                */
                 new GameFeatureInfo(
                         GameFeature.WordDifficulty,
+                        [
+                                new GameFeatureInfo.Detail(GameFeature.SimpleWords),
+                                new GameFeatureInfo.Detail(GameFeature.StandardWords),
+                                new GameFeatureInfo.Detail(GameFeature.HardWords),
+                        ]
+                ),
+                new GameFeatureInfo(
+                        GameFeature.WordSpotting,
                         [
                                 new GameFeatureInfo.Detail(GameFeature.EasiestDifficulty),
                                 new GameFeatureInfo.Detail(GameFeature.StandardDifficulty),
@@ -63,16 +62,6 @@ class TWSPlayerGatewayServiceTest extends GroovyTestCase {
                                 new GameFeatureInfo.Detail(GameFeature.WordChunks)
                         ]
                 ),
-                /*
-                new GameFeatureInfo(
-                        GameFeature.HideWordLetters,
-                        [
-                                new GameFeatureInfo.Detail(GameFeature.HideWordLettersNone),
-                                new GameFeatureInfo.Detail(GameFeature.HideWordLettersSome),
-                                new GameFeatureInfo.Detail(GameFeature.HideWordLettersMany),
-                        ]
-                ),
-                */
         ] == service.featuresAndDescriptions()
     }
 }

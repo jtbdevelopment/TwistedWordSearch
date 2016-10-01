@@ -1,7 +1,10 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers
 
-import com.jtbdevelopment.TwistedWordSearch.factory.initializers.dictionaries.BucketedUSEnglishDictionary
+import com.jtbdevelopment.TwistedWordSearch.factory.initializers.dictionaries.BucketedDictionary
+import com.jtbdevelopment.TwistedWordSearch.factory.initializers.dictionaries.BucketedDictionaryManager
+import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.games.dictionary.DictionaryType
 import com.jtbdevelopment.games.factory.GameInitializer
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,13 +17,19 @@ import org.springframework.stereotype.Component
 @CompileStatic
 @Component
 class WordSelectorInitializer implements GameInitializer<TWSGame> {
-
     @Autowired
-    protected BucketedUSEnglishDictionary dictionary
+    BucketedDictionaryManager dictionaryManager
 
+    private static final Map<GameFeature, DictionaryType> DICTIONARY_MAP = [
+            (GameFeature.SimpleWords)  : DictionaryType.USEnglishSimple,
+            (GameFeature.StandardWords): DictionaryType.USEnglishModerate,
+            (GameFeature.HardWords)    : DictionaryType.USEnglishMaximum
+    ]
     private static final Random random = new Random()
 
     void initializeGame(final TWSGame game) {
+        GameFeature wordDifficulty = game.features.find { it.group == GameFeature.WordDifficulty }
+        BucketedDictionary dictionary = dictionaryManager.getDictionary(DICTIONARY_MAP[wordDifficulty])
         int currentAvg = game.wordAverageLengthGoal
         Set<String> words = new HashSet<>()
         while (words.size() < game.numberOfWords) {

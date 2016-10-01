@@ -21,7 +21,7 @@ class NumberOfWordsInitializer implements GameInitializer<TWSGame> {
     ]
 
     void initializeGame(final TWSGame game) {
-        GameFeature difficulty = game.features.find { it.group == GameFeature.WordDifficulty }
+        GameFeature difficulty = game.features.find { it.group == GameFeature.WordSpotting }
         game.numberOfWords = (int) (
                 (game.usableSquares * FILL_PERCENTAGE[difficulty] / 100) /
                         game.wordAverageLengthGoal
