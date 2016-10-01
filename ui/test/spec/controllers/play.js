@@ -206,7 +206,7 @@ describe('Controller: PlayCtrl',
                 $scope.$apply();
                 expect(PlayCtrl.playerColors).toEqual({
                     'md51': '#C1D37F',
-                    'md52': '#7C3238',
+                    'md52': '#BE5B63',
                     'md53': '#F0E2A3',
                     'md54': '#FFFFFF',
                     'md55': '#A9A9A9'

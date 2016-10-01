@@ -16,7 +16,7 @@ angular.module('twsUI').controller('PlayCtrl',
             controller.id = 'word-shatters';
             var PLAYER_COLORS = [
                 '#C1D37F',
-                '#7C3238',
+                '#BE5B63',
                 '#F0E2A3',
                 '#FFFFFF',
                 '#A9A9A9'
