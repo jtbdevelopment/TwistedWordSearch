@@ -54,20 +54,20 @@ describe('Service: featureDescriber', function () {
         {
             feature: {
                 groupType: '',
-                feature: 'WordDifficulty',
+                feature: 'WordSpotting',
                 label: 'FeatureLabel2',
                 description: 'Description 2'
             },
             options: [
                 {
-                    feature: 'WDO1',
+                    feature: 'WSO1',
                     label: 'Option1',
-                    group: 'WordDifficulty'
+                    group: 'WordSpotting'
                 },
                 {
-                    feature: 'WD02',
+                    feature: 'WSO2',
                     label: 'AnOption',
-                    group: 'WordDifficulty'
+                    group: 'WordSpotting'
                 }
             ]
         },
@@ -112,6 +112,26 @@ describe('Service: featureDescriber', function () {
                     label: 'No',
                     description: 'Description Option 3/2',
                     group: 'WordWrap'
+                }
+            ]
+        },
+        {
+            feature: {
+                groupType: '',
+                feature: 'WordDifficulty',
+                label: 'WDL',
+                description: 'WDL'
+            },
+            options: [
+                {
+                    feature: 'WD1',
+                    label: 'WDOption1',
+                    group: 'WordDifficulty'
+                },
+                {
+                    feature: 'WD2',
+                    label: 'WDAnOption',
+                    group: 'WordDifficulty'
                 }
             ]
         }
@@ -166,20 +186,32 @@ describe('Service: featureDescriber', function () {
         });
     });
 
-    it('get text for word difficulty is undefined', function () {
+    it('get text for word spotting is undefined', function () {
         angular.forEach(standardFeatures[1].options, function (option) {
             expect(service.getTextForFeature(option)).toBeUndefined();
         });
     });
 
-    it('get icon for word difficulty is icon-labellowercase', function () {
+    it('get icon for word spotting is icon-labellowercase', function () {
         angular.forEach(standardFeatures[1].options, function (option) {
             expect(service.getIconForFeature(option)).toEqual('icon-' + option.label.toLowerCase());
         });
     });
 
+    it('get text for word difficulty is undefined', function () {
+        angular.forEach(standardFeatures[4].options, function (option) {
+            expect(service.getTextForFeature(option)).toBeUndefined();
+        });
+    });
+
+    it('get icon for word spotting is icon-dict-labellowercase', function () {
+        angular.forEach(standardFeatures[4].options, function (option) {
+            expect(service.getIconForFeature(option)).toEqual('icon-dict-' + option.label.toLowerCase());
+        });
+    });
+
     it('test describing a game orders the features to come out with consistent description', function () {
-        var promise = service.getShortDescriptionForGame({features: ['WWYes', 'FDO2', 'Circlex11', 'WDO1']});
+        var promise = service.getShortDescriptionForGame({features: ['WWYes', 'WD1', 'FDO2', 'Circlex11', 'WSO1']});
         var answer = [];
         promise.then(function (desc) {
             answer = desc;
@@ -190,12 +222,13 @@ describe('Service: featureDescriber', function () {
             {icon: 'icon-circle', text: 'x11'},
             {icon: 'icon-option1', text: undefined},
             {icon: undefined, text: 'FD Label 2'},
-            {icon: 'icon-wrap', text: undefined}
+            {icon: 'icon-wrap', text: undefined},
+            {icon: 'icon-dict-wdoption1', text: undefined}
         ]);
     });
 
     it('test describing only initializes features once', function () {
-        var promise = service.getShortDescriptionForGame({features: ['Circlex11', 'WDO1']});
+        var promise = service.getShortDescriptionForGame({features: ['Circlex11', 'WSO1']});
         var answer = [];
         promise.then(function (desc) {
             answer = desc;
@@ -207,7 +240,7 @@ describe('Service: featureDescriber', function () {
             {icon: 'icon-option1', text: undefined}
         ]);
 
-        promise = service.getShortDescriptionForGame({features: ['WWYes', 'FDO2', 'Circlex11', 'WDO1']});
+        promise = service.getShortDescriptionForGame({features: ['WWYes', 'FDO2', 'Circlex11', 'WSO1']});
         answer = [];
         promise.then(function (desc) {
             answer = desc;

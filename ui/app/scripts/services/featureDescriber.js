@@ -44,6 +44,10 @@ angular.module('twsUI.services').factory('featureDescriber',
             }
 
             function getIconForWordDifficulty(label) {
+                return 'icon-dict-' + label.toLowerCase();
+            }
+
+            function getIconForWordSpotting(label) {
                 return 'icon-' + label.toLowerCase();
             }
 
@@ -94,6 +98,8 @@ angular.module('twsUI.services').factory('featureDescriber',
                             return getIconForWordWrap(feature.label);
                         case 'WordDifficulty':
                             return getIconForWordDifficulty(feature.label);
+                        case 'WordSpotting':
+                            return getIconForWordSpotting(feature.label);
                         default:
                             return undefined;
                     }
