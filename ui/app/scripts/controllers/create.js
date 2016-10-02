@@ -13,6 +13,8 @@ angular.module('twsUI').controller('CreateGameCtrl',
             controller.chosenFriends = [];
             controller.invitableFBFriends = [];
             controller.friends = [];
+            controller.createGameButtonText = 'Create Game';
+            controller.disableCreate = false;
 
             //  TODO - should this be service?  moved to starter base
             jtbPlayerService.currentPlayerFriends().then(function (data) {
@@ -99,6 +101,8 @@ angular.module('twsUI').controller('CreateGameCtrl',
             };
 
             controller.createGame = function () {
+                controller.createGameButtonText = 'Creating game...';
+                controller.disableCreate = true;
                 //  TODO - ads
                 var featureSet = [];
                 angular.forEach(controller.choices, function (value) {

@@ -163,6 +163,8 @@ describe('Controller: CreateGameCtrl', function () {
         expect(CreateGameCtrl.friends).toEqual([]);
         expect(CreateGameCtrl.chosenFriends).toEqual([]);
         expect(CreateGameCtrl.invitableFBFriends).toEqual([]);
+        expect(CreateGameCtrl.disableCreate).toEqual(false);
+        expect(CreateGameCtrl.createGameButtonText).toEqual('Create Game');
     });
 
     it('initializes friends for fb player', function () {
@@ -338,6 +340,8 @@ describe('Controller: CreateGameCtrl', function () {
         });
 
         CreateGameCtrl.createGame();
+        expect(CreateGameCtrl.disableCreate).toEqual(true);
+        expect(CreateGameCtrl.createGameButtonText).toEqual('Creating game...');
         expect(jtbGameActions.new).toHaveBeenCalledWith({
             'players': [],
             'features': ['Feature1Option2', 'Feature2Option3', 'Feature3Option1']

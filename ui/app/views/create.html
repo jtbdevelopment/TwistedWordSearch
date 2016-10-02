@@ -45,7 +45,9 @@
                 uib-popover-title="Profile"
                 popover-is-open="main.showHelp"
                 popover-placement="bottom"
-                popover-trigger="none">Create Game
+                popover-trigger="none"
+                ng-disabled="create.disableCreate">
+            {{create.createGameButtonText}}
         </button>
         <button class="btn btn-info invite-friends-button" ng-click="create.inviteFriends()">
             Invite friends to play Twisted Wordsearch
