@@ -4,7 +4,7 @@
 
   .play-area {
     //width: 83.3333333333%;
-    width: 90%;
+    //width: 90%;
     padding-left: 0;
   }
   .select-canvas {
@@ -35,6 +35,7 @@
   .game-features {
     margin-top: 20px;
     padding-left: 30px;
+    display: inline-block;
   }
 
   .found-a-word {
@@ -74,9 +75,9 @@
 
   .words {
     //    width: 16.6666666667%;
-    width: 10%;
-    min-width: 120px;
-    max-width: 150px;
+    //width: 10%;
+    //min-width: 120px;
+    //max-width: 150px;
 
     .panel {
       margin-bottom: 10px;
