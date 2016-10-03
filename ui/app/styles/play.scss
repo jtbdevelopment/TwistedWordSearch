@@ -3,9 +3,7 @@
 .play-game {
 
   .play-area {
-    //width: 83.3333333333%;
-    //width: 90%;
-    padding-left: 0;
+    padding-left: 5px;
   }
   .select-canvas {
     z-index: -1;
@@ -23,6 +21,9 @@
       border: 1px $cambridgeBlue;
       border-radius: 8px;
       color: dimgray;
+      @media (max-width: $screen-sm-max) {
+        font-size: 12px;
+      }
     }
     margin-bottom: 2px;
   }
@@ -74,11 +75,6 @@
   }
 
   .words {
-    //    width: 16.6666666667%;
-    //width: 10%;
-    //min-width: 120px;
-    //max-width: 150px;
-
     .panel {
       margin-bottom: 10px;
       .panel-heading {
@@ -93,22 +89,6 @@
           margin-top: 6px;
           vertical-align: middle;
         }
-        .playerImage {
-          width: 35px;
-          height: 35px;
-          display: inline-block;
-          margin: 5px;
-        }
-        /*
-          font-weight: bold;
-          display: block;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          width: 75%;
-          line-height: 1.0;
-          margin-bottom: 10px;
-          */
       }
       .panel-body {
         background-color: $mediumChampagne;
@@ -117,6 +97,9 @@
           text-align: right;
           .word {
             text-align: right;
+            @media (max-width: $screen-sm-max) {
+              font-size: 10px;
+            }
           }
         }
       }
@@ -129,6 +112,21 @@
         .badge {
           margin-top: 8px;
           padding: 8px 10px;
+          @media (max-width: $screen-sm-max) {
+            font-size: 12px;
+            padding: 3px 6px;
+          }
+        }
+        .playerImage {
+          width: 35px;
+          height: 35px;
+          display: inline-block;
+          margin: 5px;
+
+          @media (max-width: $screen-sm-max) {
+            width: 20px;
+            height: 20px;
+          }
         }
       }
       .panel-body {

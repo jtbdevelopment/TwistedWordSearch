@@ -1,4 +1,5 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$grid-float-breakpoint: 0 !default;
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
@@ -26,6 +27,14 @@ body {
         width: 24px;
         height: 24px;
         display: inline;
+      }
+      small {
+        @media(max-width: $screen-sm-max) {
+          display: none;
+        }
+      }
+      @media (max-width: $screen-xs-max) {
+        display: none;
       }
     }
   }

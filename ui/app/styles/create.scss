@@ -25,7 +25,13 @@
       background-color: $mediumChampagne;
       border-color: $mediumChampagne;
       color: black;
-      font-size: 14pt;
+      font-size: 13pt;
+      @media (max-width: $screen-sm-max) {
+        font-size: 10px;
+      }
+      @media (max-width: $screen-xs-max) {
+        font-size: 8px;
+      }
     }
     .active {
       background-color: $mediumSpringBud;
