@@ -168,3 +168,13 @@ body {
 .main-body {
   padding-left: 0;
 }
+
+.jumbotron {
+  .small-screen-warning {
+    color: $puceRed;
+    font-size: 48pt;
+    @media (min-width: $screen-sm-min) {
+      display: none;
+    }
+  }
+}
