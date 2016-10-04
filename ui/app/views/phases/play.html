@@ -129,8 +129,9 @@
                                ng-mouseenter="play.onMouseEntersTable($event)"
                                uib-popover="Click on any letter to start and move the mouse to highlight a word.  Click again to submit your word or to clear the starting selection."
                                uib-popover-title="Profile"
+                               popover-append-to-body="true"
                                popover-is-open="main.showHelp"
-                               popover-placement="left"
+                               popover-placement="right"
                                popover-trigger="none">
                             <tr class="text-center" ng-repeat="row in play.grid track by $index"
                                 ng-init="gridRow = $index">
