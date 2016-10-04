@@ -30,9 +30,5 @@
         "dist/js/bootstrap.js"
       ]
     }
-  },
-  "resolutions": {
-    "angular": "~1.5.0",
-    "jtb-core-games-ui": "~2.4.0"
   }
 }
