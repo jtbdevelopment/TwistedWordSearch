@@ -73,10 +73,28 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-sm-9 col-md-10');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
+        expect(MainCtrl.showAdmin).toEqual(false);
+        expect(MainCtrl.showLogout).toEqual(true);
+        expect(MainCtrl.hideGames).toEqual(false);
+        expect(MainCtrl.player).toEqual(playerDetails);
+    });
+
+    it('once an admin always and admin for session', function () {
+        playerDetails = {adminUser: true, source: 'MANUAL'};
+        $scope.$broadcast('playerLoaded');
+        $scope.$apply();
+        expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
+        expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-sm-9 col-md-10');
+        expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
+        playerDetails = {adminUser: false, source: 'FACEBOOK'};
+        $scope.$broadcast('playerLoaded');
+        $scope.$apply();
+        expect(MainCtrl.showAdmin).toEqual(true);
+        expect(MainCtrl.showLogout).toEqual(false);
     });
 
     it('handles logout for manual players', function () {
@@ -87,7 +105,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-sm-12 col-md-12');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
-        expect(MainCtrl.showAdmin).toEqual(true);
+        expect(MainCtrl.showAdmin).toEqual(false);
         expect(MainCtrl.showLogout).toEqual(true);
         expect(MainCtrl.hideGames).toEqual(true);
 

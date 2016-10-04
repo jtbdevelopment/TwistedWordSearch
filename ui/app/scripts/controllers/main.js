@@ -13,6 +13,7 @@ angular.module('twsUI').controller('MainCtrl',
             var controller = this;
 
             controller.showHelp = false;
+            controller.showAdmin = false;
 
             function fullSizeBody() {
                 controller.mainBodySize = 'col-xs-12 col-sm-12 col-md-12';
@@ -86,7 +87,10 @@ angular.module('twsUI').controller('MainCtrl',
                 setButtonSideBar();
                 angular.copy(jtbPlayerService.currentPlayer(), controller.player);
                 controller.showLogout = controller.player.source === 'MANUAL';
-                controller.showAdmin = controller.player.adminUser || controller.showLogout;
+                //  TODO - fix in starter base
+                controller.showAdmin =
+                    controller.player.adminUser ||
+                    controller.showAdmin;  //  Once an admin always an admin for ui
             });
         }
     ]
