@@ -10,6 +10,7 @@ import org.bson.types.ObjectId
  * Time: 6:41 PM
  */
 class TWSPlayerAttributesTest extends MongoGameCoreTestCase {
+
     void testFreeToPlayPlayer() {
         MongoPlayer player = makeSimplePlayer(new ObjectId().toHexString())
         player.payLevel = PlayerPayLevel.FreeToPlay
@@ -17,6 +18,9 @@ class TWSPlayerAttributesTest extends MongoGameCoreTestCase {
         def attributes = new TWSPlayerAttributes()
         attributes.setPlayer(player)
         assert 50 == attributes.maxDailyFreeGames
+        assert [:] == attributes.gamesPlayedByPlayerCount
+        assert [:] == attributes.maxScoreByPlayerCount
+        assert [:] == attributes.gamesWonByPlayerCount
     }
 
     void testPremiumPlayer() {
@@ -26,5 +30,8 @@ class TWSPlayerAttributesTest extends MongoGameCoreTestCase {
         def attributes = new TWSPlayerAttributes()
         attributes.setPlayer(player)
         assert 100 == attributes.maxDailyFreeGames
+        assert [:] == attributes.gamesPlayedByPlayerCount
+        assert [:] == attributes.maxScoreByPlayerCount
+        assert [:] == attributes.gamesWonByPlayerCount
     }
 }

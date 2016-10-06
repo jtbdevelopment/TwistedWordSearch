@@ -25,4 +25,6 @@ class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Map<String, Set<GridCoordinate>> foundWordLocations;
 
     Map<ObjectId, Integer> scores
+
+    List<ObjectId> winners  // in case there is tie
 }

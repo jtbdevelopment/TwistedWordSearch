@@ -18,6 +18,10 @@ class TWSPlayerAttributes extends AbstractPlayerGameTrackingAttributes {
     @Transient
     int maxDailyFreeGames
 
+    Map<Integer, Integer> gamesWonByPlayerCount = [:]
+    Map<Integer, Integer> gamesPlayedByPlayerCount = [:]
+    Map<Integer, Integer> maxScoreByPlayerCount = [:]
+
     @Transient
     @Override
     void setPlayer(final Player player) {
