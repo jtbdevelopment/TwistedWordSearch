@@ -7,7 +7,16 @@ import com.jtbdevelopment.games.state.GamePhase
  * Time: 4:54 PM
  */
 class GamePhaseTransitionEngineTest extends GroovyTestCase {
-    GamePhaseTransitionEngine engine = new GamePhaseTransitionEngine()
+    TWSGame scored = new TWSGame()
+    TWSGame expectedGame;
+    def scorer = [
+            scoreGame: {
+                TWSGame game ->
+                    assert expectedGame.is(game)
+                    scored
+            }
+    ] as TWSGameScorer
+    GamePhaseTransitionEngine engine = new GamePhaseTransitionEngine(gameScorer: scorer)
 
     void testEvaluateSetupPhase() {
         TWSGame game = new TWSGame(gamePhase: GamePhase.Setup, wordsToFind: ['TESTING'])
@@ -23,10 +32,11 @@ class GamePhaseTransitionEngineTest extends GroovyTestCase {
         assert GamePhase.Playing == g.gamePhase
     }
 
-    void testEvaluatePlayingWhileWordsToFindEmptyEndsGame() {
+    void testEvaluatePlayingWhileWordsToFindEmptyEndsGameAndScoresIt() {
         TWSGame game = new TWSGame(gamePhase: GamePhase.Playing, wordsToFind: [] as Set)
+        expectedGame = game
         def g = engine.evaluateSetupPhase(game)
-        assert g.is(game)
-        assert GamePhase.RoundOver == g.gamePhase
+        assert g.is(scored)
+        assert GamePhase.RoundOver == game.gamePhase
     }
 }
