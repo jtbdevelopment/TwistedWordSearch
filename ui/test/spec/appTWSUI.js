@@ -57,7 +57,7 @@ describe('testing app js primary app', function () {
             expect($routeProvider.when).toHaveBeenCalledWith(
                 '/signin',
                 {
-                    templateUrl: 'views/signin.html',
+                    templateUrl: 'views/core-bs/sign-in/sign-in.html',
                     controller: 'CoreBootstrapSignInCtrl',
                     controllerAs: 'signIn'
                 });
@@ -66,7 +66,7 @@ describe('testing app js primary app', function () {
             expect($routeProvider.when).toHaveBeenCalledWith(
                 '/signedin',
                 {
-                    templateUrl: 'views/signedin.html',
+                    templateUrl: 'views/core-bs/sign-in/signed-in.html',
                     controller: 'CoreBootstrapSignedInCtrl',
                     controllerAs: 'signedIn'
                 });
@@ -75,7 +75,7 @@ describe('testing app js primary app', function () {
             expect($routeProvider.when).toHaveBeenCalledWith(
                 '/admin',
                 {
-                    templateUrl: 'views/admin/admin.html',
+                    templateUrl: 'views/core-bs/admin/admin.html',
                     controller: 'CoreAdminCtrl',
                     controllerAs: 'admin'
                 });
