@@ -172,7 +172,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
 
         def response = P3G.path('find').request(MediaType.APPLICATION_JSON).put(Entity.entity([new GridCoordinate(0, 1), new GridCoordinate(0, -1)], MediaType.APPLICATION_JSON))
         assert response != null
-        assert response.statusInfo.statusCode == 400
+        assert response.statusInfo.statusCode == 409
     }
 
     @Override

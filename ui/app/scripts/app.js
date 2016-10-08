@@ -25,9 +25,6 @@ function endsWith(str, suffix) {
 angular.module('twsUIBackground', ['twsUI.services', 'twsUI'])
 //  Separate module to avoid interfering with tests
     .run(function ($rootScope, $location) {
-        $rootScope.$on('InvalidSession', function () {
-            $location.path('/signin');
-        });
         $rootScope.$on('gameUpdated', function (message, oldGame, newGame) {
             if (endsWith($location.path(), oldGame.id) && oldGame.gamePhase !== newGame.gamePhase) {
                 $location.path('/game/' + newGame.gamePhase.toLowerCase() + '/' + newGame.id);
@@ -54,17 +51,17 @@ angular
                 templateUrl: 'views/main.html'
             })
             .when('/signin', {
-                templateUrl: 'views/signin.html',
+                templateUrl: 'views/core-bs/sign-in/sign-in.html',
                 controller: 'CoreBootstrapSignInCtrl',
                 controllerAs: 'signIn'
             })
             .when('/signedin', {
-                templateUrl: 'views/signedin.html',
+                templateUrl: 'views/core-bs/sign-in/signed-in.html',
                 controller: 'CoreBootstrapSignedInCtrl',
                 controllerAs: 'signedIn'
             })
             .when('/admin', {
-                templateUrl: 'views/admin/admin.html',
+                templateUrl: 'views/core-bs/admin/admin.html',
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
             })

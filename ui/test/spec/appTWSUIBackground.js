@@ -35,13 +35,6 @@ describe('Background Events', function () {
 
         }));
 
-        it('navigates to signin on invalid session', function () {
-            $rootScope.$broadcast('InvalidSession');
-            $rootScope.$apply();
-            expect($location.path).toHaveBeenCalledWith('/signin');
-        });
-
-
         it('changes phases when game phase updated is current game', function () {
             var id = 'agameid';
             $location.path.calls.reset();
