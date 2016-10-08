@@ -3,6 +3,6 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/ui" libraries="{TwistedWordSearch/ui/node_modules}" />
     <file url="file://$PROJECT_DIR$/ui/node/package" libraries="{TwistedWordSearch/ui/node/package/node_modules}" />
-    <file url="PROJECT" libraries="{angular-scenario-DefinitelyTyped, angularjs-DefinitelyTyped, jasmine-DefinitelyTyped, karma-DefinitelyTyped}" />
+    <file url="PROJECT" libraries="{angular-scenario-DefinitelyTyped, angular-ui-bootstrap-DefinitelyTyped, angularjs-DefinitelyTyped, jasmine-DefinitelyTyped, karma-DefinitelyTyped}" />
   </component>
 </project>

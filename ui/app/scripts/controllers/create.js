@@ -76,11 +76,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
                         trackingGroup[group].features.push(newFeature);
                         controller.choices[newFeature.feature] = newFeature.options[0].feature;
                     });
-                },
-                function () {
-                    //  TODO
-                }
-            );
+                });
 
             //  TODO - move to starter base?  create common
             controller.inviteFriends = function () {
