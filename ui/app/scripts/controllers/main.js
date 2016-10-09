@@ -87,7 +87,6 @@ angular.module('twsUI').controller('MainCtrl',
                 setButtonSideBar();
                 angular.copy(jtbPlayerService.currentPlayer(), controller.player);
                 controller.showLogout = controller.player.source === 'MANUAL';
-                //  TODO - fix in starter base
                 controller.showAdmin =
                     controller.player.adminUser ||
                     controller.showAdmin;  //  Once an admin always an admin for ui

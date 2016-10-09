@@ -1,6 +1,5 @@
 'use strict';
 
-//  TODO - add to starter base
 describe('testing app js primary app', function () {
 
     describe('module definition tests', function () {

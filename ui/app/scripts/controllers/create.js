@@ -1,10 +1,9 @@
 'use strict';
 
-//  TODO - check start base for change to features
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        '$location', '$http', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
-        function ($location, $http, jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber, jtbBootstrapGameActions, $uibModal) {
+        'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
+        function (jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber, jtbBootstrapGameActions, $uibModal) {
             var controller = this;
 
             controller.features = [];
@@ -16,7 +15,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
             controller.createGameButtonText = 'Create Game';
             controller.disableCreate = false;
 
-            //  TODO - should this be service?  moved to starter base
+            //  TODO - should this be service?
             jtbPlayerService.currentPlayerFriends().then(function (data) {
                 angular.forEach(data.maskedFriends, function (displayName, hash) {
                     var friend = {
@@ -78,7 +77,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
                     });
                 });
 
-            //  TODO - move to starter base?  create common
+            //  TODO - create common service?
             controller.inviteFriends = function () {
                 $uibModal.open({
                     templateUrl: 'views/inviteDialog.html',
@@ -105,7 +104,6 @@ angular.module('twsUI').controller('CreateGameCtrl',
                     featureSet.push(value);
                 });
 
-                //  TODO - move to starter base
                 var players = controller.chosenFriends.map(function (player) {
                     return player.md5;
                 });

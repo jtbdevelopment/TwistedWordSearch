@@ -1,6 +1,5 @@
 'use strict';
 
-//  TODO - add to starter base?
 describe('Background Events', function () {
     describe('module definition tests', function () {
 

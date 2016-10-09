@@ -401,7 +401,6 @@ module.exports = function (grunt) {
         ngtemplates: {
             dist: {
                 options: {
-                    //  TODO - fix in starter-base
                     module: 'twsUI',
                     htmlmin: '<%= htmlmin.dist.options %>',
                     usemin: 'scripts/scripts.js'

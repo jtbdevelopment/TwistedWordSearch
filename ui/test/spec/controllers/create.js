@@ -5,15 +5,11 @@ describe('Controller: CreateGameCtrl', function () {
     beforeEach(module('twsUI'));
 
     var CreateGameCtrl;
-    var $http, $q, $rootScope, $location;
-    var expectedBaseURL = 'http://myserver.com/something/x';
+    var $q, $rootScope;
     var friendPromise, playerSource;
     var jtbPlayerService = {
         currentPlayer: function () {
             return {source: playerSource};
-        },
-        currentPlayerBaseURL: function () {
-            return expectedBaseURL;
         },
         currentPlayerFriends: function () {
             friendPromise = $q.defer();
@@ -136,18 +132,13 @@ describe('Controller: CreateGameCtrl', function () {
 
     };
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $httpBackend, _$q_, _$rootScope_) {
-        $http = $httpBackend;
+    beforeEach(inject(function ($controller, _$q_, _$rootScope_) {
         $q = _$q_;
-        $location = {
-            path: jasmine.createSpy()
-        };
         modalOpened = false;
         expectedFriends = [];
         playerSource = 'facebook';
         $rootScope = _$rootScope_;
         CreateGameCtrl = $controller('CreateGameCtrl', {
-            $location: $location,
             jtbPlayerService: jtbPlayerService,
             jtbGameCache: jtbGameCache,
             jtbGameFeatureService: jtbGameFeatures,

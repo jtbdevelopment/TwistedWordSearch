@@ -95,7 +95,7 @@ describe('Controller: MenuCtrl', function () {
                 var gamesToCreate = Math.floor(Math.random() * 10);
                 games[key] = [];
                 for (var i = 0; i < gamesToCreate; ++i) {
-                    games[key].push({id: Math.floor(Math.random() * 10000)});
+                    games[key].push({id: Math.floor(Math.random() * 100000)});
                 }
             });
             featureDescriberPromises = {};
