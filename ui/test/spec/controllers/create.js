@@ -18,10 +18,6 @@ describe('Controller: CreateGameCtrl', function () {
         }
     };
 
-    var jtbGameCache = {
-        putUpdatedGame: jasmine.createSpy('')
-    };
-
     var featurePromise;
     var standardFeatures = [
         {
@@ -142,7 +138,6 @@ describe('Controller: CreateGameCtrl', function () {
         CreateGameCtrl = $controller('CreateGameCtrl', {
             jtbAppLongName: longName,
             jtbPlayerService: jtbPlayerService,
-            jtbGameCache: jtbGameCache,
             jtbGameFeatureService: jtbGameFeatures,
             featureDescriber: featureDescriber,
             $uibModal: uibModal,

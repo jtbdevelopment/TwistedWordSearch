@@ -2,9 +2,9 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        'jtbAppLongName', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService',
+        'jtbAppLongName', 'jtbGameFeatureService', 'jtbPlayerService',
         'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
-        function (jtbAppLongName, jtbGameFeatureService, jtbGameCache, jtbPlayerService,
+        function (jtbAppLongName, jtbGameFeatureService, jtbPlayerService,
                   featureDescriber, jtbBootstrapGameActions, $uibModal) {
             var controller = this;
 
