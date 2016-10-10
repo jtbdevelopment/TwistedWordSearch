@@ -94,7 +94,7 @@ describe('Controller: CreateGameCtrl', function () {
     var uibModal = {
         open: function (params) {
             expect(params.controller).toEqual('CoreBootstrapInviteCtrl');
-            expect(params.templateUrl).toEqual('views/inviteDialog.html');
+            expect(params.templateUrl).toEqual('views/core-bs/friends/invite-friends.html');
             expect(params.controllerAs).toEqual('invite');
             expect(params.size).toEqual('lg');
             expect(params.resolve.invitableFriends()).toEqual(expectedFriends);
