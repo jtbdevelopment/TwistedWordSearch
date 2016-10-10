@@ -2,8 +2,10 @@
 
 angular.module('twsUI').controller('CreateGameCtrl',
     [
-        'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService', 'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
-        function (jtbGameFeatureService, jtbGameCache, jtbPlayerService, featureDescriber, jtbBootstrapGameActions, $uibModal) {
+        'jtbAppLongName', 'jtbGameFeatureService', 'jtbGameCache', 'jtbPlayerService',
+        'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
+        function (jtbAppLongName, jtbGameFeatureService, jtbGameCache, jtbPlayerService,
+                  featureDescriber, jtbBootstrapGameActions, $uibModal) {
             var controller = this;
 
             controller.features = [];
@@ -77,7 +79,6 @@ angular.module('twsUI').controller('CreateGameCtrl',
                     });
                 });
 
-            //  TODO - create common service?
             controller.inviteFriends = function () {
                 $uibModal.open({
                     templateUrl: 'views/core-bs/friends/invite-friends.html',
@@ -89,7 +90,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
                             return controller.invitableFBFriends;
                         },
                         message: function () {
-                            return 'Come play Twisted Wordsearch with me!';
+                            return 'Come play ' + jtbAppLongName + ' with me!';
                         }
                     }
                 });

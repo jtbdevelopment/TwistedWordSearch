@@ -8,12 +8,13 @@
  * Controller of the twsUI
  */
 angular.module('twsUI').controller('MainCtrl',
-    ['$scope', '$rootScope', 'jtbPlayerService', '$location',
-        function ($scope, $rootScope, jtbPlayerService, $location) {
+    ['jtbAppLongName', '$rootScope', 'jtbPlayerService',
+        function (jtbAppLongName, $rootScope, jtbPlayerService) {
             var controller = this;
 
             controller.showHelp = false;
             controller.showAdmin = false;
+            controller.appName = jtbAppLongName;
 
             function fullSizeBody() {
                 controller.mainBodySize = 'col-xs-12 col-sm-12 col-md-12';
@@ -47,11 +48,6 @@ angular.module('twsUI').controller('MainCtrl',
                 jtbPlayerService.signOutAndRedirect();
             };
 
-            controller.go = function (where) {
-                $location.path(where);
-                //  TODO - hide menu?
-            };
-
             controller.toggleMenu = function () {
                 controller.stopHoverMenu();
                 controller.hideGames = !controller.hideGames;
@@ -83,7 +79,7 @@ angular.module('twsUI').controller('MainCtrl',
                 controller.showHelp = !controller.showHelp;
             };
 
-            $scope.$on('playerLoaded', function () {
+            $rootScope.$on('playerLoaded', function () {
                 setButtonSideBar();
                 angular.copy(jtbPlayerService.currentPlayer(), controller.player);
                 controller.showLogout = controller.player.source === 'MANUAL';

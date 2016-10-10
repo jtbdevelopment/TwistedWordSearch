@@ -5,8 +5,9 @@ describe('Controller: MainCtrl', function () {
     // load the controller's module
     beforeEach(module('twsUI'));
 
-    var MainCtrl, $scope, $location, $rootScope;
+    var MainCtrl, $rootScope;
 
+    var longName = 'some longer name';
     var playerDetails = {};
     var jtbPlayerService = {
         currentPlayer: function () {
@@ -16,16 +17,13 @@ describe('Controller: MainCtrl', function () {
     };
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, _$rootScope_, _$location_) {
+    beforeEach(inject(function ($controller, _$rootScope_) {
         $rootScope = _$rootScope_;
-        $location = _$location_;
         spyOn($rootScope, '$broadcast').and.callThrough();
-        spyOn($location, 'path');
 
-        $scope = $rootScope.$new();
         playerDetails = {};
         MainCtrl = $controller('MainCtrl', {
-            $scope: $scope,
+            jtbAppLongName: longName,
             jtbPlayerService: jtbPlayerService
         });
     }));
@@ -38,12 +36,13 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual({});
+        expect(MainCtrl.appName).toEqual(longName);
     });
 
     it('converts to sidebar setup after normal fb player loaded message', function () {
         playerDetails = {adminUser: false, source: 'facebook'};
-        $scope.$broadcast('playerLoaded');
-        $scope.$apply();
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-sm-9 col-md-10');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
@@ -55,8 +54,8 @@ describe('Controller: MainCtrl', function () {
 
     it('converts to sidebar setup after admin fb player loaded message', function () {
         playerDetails = {adminUser: true, source: 'facebook'};
-        $scope.$broadcast('playerLoaded');
-        $scope.$apply();
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-sm-9 col-md-10');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
@@ -68,8 +67,8 @@ describe('Controller: MainCtrl', function () {
 
     it('converts to sidebar setup after normal manual player loaded message', function () {
         playerDetails = {adminUser: false, source: 'MANUAL'};
-        $scope.$broadcast('playerLoaded');
-        $scope.$apply();
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-sm-9 col-md-10');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
@@ -81,8 +80,8 @@ describe('Controller: MainCtrl', function () {
 
     it('once an admin always and admin for session', function () {
         playerDetails = {adminUser: true, source: 'MANUAL'};
-        $scope.$broadcast('playerLoaded');
-        $scope.$apply();
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-8 col-sm-9 col-md-10');
         expect(MainCtrl.sideBarSize).toEqual('col-xs-4 col-sm-3 col-md-2');
@@ -91,16 +90,16 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
         playerDetails = {adminUser: false, source: 'FACEBOOK'};
-        $scope.$broadcast('playerLoaded');
-        $scope.$apply();
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(false);
     });
 
     it('handles logout for manual players', function () {
         playerDetails = {adminUser: false, source: 'MANUAL'};
-        $scope.$broadcast('playerLoaded');
-        $scope.$apply();
+        $rootScope.$broadcast('playerLoaded');
+        $rootScope.$apply();
         MainCtrl.toggleMenu();
         expect(MainCtrl.sideBarTemplate).toEqual('views/sidebar/games.html');
         expect(MainCtrl.mainBodySize).toEqual('col-xs-12 col-sm-12 col-md-12');
@@ -120,16 +119,11 @@ describe('Controller: MainCtrl', function () {
         expect(jtbPlayerService.signOutAndRedirect).toHaveBeenCalled();
     });
 
-    it('goes to location game on go action', function () {
-        MainCtrl.go('/somewhere');
-        expect($location.path).toHaveBeenCalledWith('/somewhere');
-    });
-
     describe('menu tests', function () {
         beforeEach(function () {
             playerDetails = {adminUser: false, source: 'MANUAL'};
-            $scope.$broadcast('playerLoaded');
-            $scope.$apply();
+            $rootScope.$broadcast('playerLoaded');
+            $rootScope.$apply();
         });
 
         it('toggling menu, no hover involved', function () {

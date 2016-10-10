@@ -45,6 +45,7 @@ angular
         'coreGamesUi',
         'coreGamesBootstrapUi'
     ])
+    .constant('jtbAppLongName', 'Twisted Word Search')
     .config(function ($routeProvider) {
         $routeProvider
             .when('/main', {
