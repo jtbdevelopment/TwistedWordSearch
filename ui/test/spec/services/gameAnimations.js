@@ -140,7 +140,6 @@ describe('Service: gameAnimations', function () {
             expect(scoreElement.hasClass('score-alert')).toEqual(true);
         });
 
-
         it('does not animates score when score for player unchanged', function () {
             var controller = {};
             var oldGame = {

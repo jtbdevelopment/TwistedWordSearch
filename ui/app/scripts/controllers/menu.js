@@ -6,15 +6,13 @@ angular.module('twsUI').controller('MenuCtrl',
             var controller = this;
 
             controller.phases = [];
+            controller.phaseGlyphicons = jtbGameClassifier.getIcons();
             controller.phaseStyles = {};
             controller.phaseLabels = {};
             controller.phaseDescriptions = {};
             controller.phaseCollapsed = {};
             controller.games = {};
             controller.descriptions = {};
-
-            controller.phaseGlyphicons = jtbGameClassifier.getIcons();
-            controller.phases = [];
             angular.forEach(jtbGameClassifier.getClassifications(), function (value) {
                 controller.phases.push(value);
                 controller.phaseLabels[value] = value;
