@@ -3,7 +3,6 @@
 describe('Controller: PlayCtrl',
     function () {
 
-        // load the controller's module
         beforeEach(module('twsUI'));
 
         var gameID = 'X123';
@@ -105,7 +104,6 @@ describe('Controller: PlayCtrl',
             calculateTargetCell: jasmine.createSpy('calcTarget')
         };
 
-        // Initialize the controller and a mock scope
         var PlayCtrl, $scope, $rootScope, $http, $q, elementSpy;
 
         beforeEach(function () {

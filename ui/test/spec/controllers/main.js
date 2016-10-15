@@ -2,7 +2,6 @@
 
 describe('Controller: MainCtrl', function () {
 
-    // load the controller's module
     beforeEach(module('twsUI'));
 
     var MainCtrl, $rootScope;
@@ -16,7 +15,6 @@ describe('Controller: MainCtrl', function () {
         signOutAndRedirect: jasmine.createSpy()
     };
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, _$rootScope_) {
         $rootScope = _$rootScope_;
         spyOn($rootScope, '$broadcast').and.callThrough();

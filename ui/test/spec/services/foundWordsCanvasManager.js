@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: foundWordsCanvasManager', function () {
-    // load the controller's module
     beforeEach(module('twsUI.services'));
 
     var canvasLineDrawer = {

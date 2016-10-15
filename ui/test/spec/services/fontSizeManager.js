@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: fontSizeManager', function () {
-    // load the controller's module
     beforeEach(module('twsUI.services'));
     var service;
     beforeEach(inject(function ($injector) {

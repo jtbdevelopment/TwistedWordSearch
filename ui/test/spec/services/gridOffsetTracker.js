@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: gridOffsetTracker', function () {
-    // load the controller's module
     beforeEach(module('twsUI.services'));
 
     var service, $rootScope;

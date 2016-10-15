@@ -2,7 +2,6 @@
 
 describe('Controller: MenuCtrl', function () {
 
-    // load the controller's module
     beforeEach(module('twsUI'));
 
     var MenuCtrl, $q, $scope, $rootScope;
@@ -40,7 +39,6 @@ describe('Controller: MenuCtrl', function () {
         }
     };
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, _$rootScope_, _$q_) {
         $scope = _$rootScope_.$new();
         $q = _$q_;

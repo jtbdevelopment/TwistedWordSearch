@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Controller: CreateGameCtrl', function () {
-    // load the controller's module
     beforeEach(module('twsUI'));
 
     var CreateGameCtrl;
@@ -126,7 +125,7 @@ describe('Controller: CreateGameCtrl', function () {
         }
 
     };
-    // Initialize the controller and a mock scope
+
     beforeEach(inject(function ($controller, _$q_, _$rootScope_) {
         $q = _$q_;
         modalOpened = false;

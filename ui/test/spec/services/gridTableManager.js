@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: gridTableManager', function () {
-    // load the controller's module
     beforeEach(module('twsUI.services'));
 
     var service, gridOffsetTracker;

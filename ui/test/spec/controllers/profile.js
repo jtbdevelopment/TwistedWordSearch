@@ -2,7 +2,6 @@
 
 describe('Controller: ProfileCtrl', function () {
 
-    // load the controller's module
     beforeEach(module('twsUI'));
 
     var ProfileCtrl;
