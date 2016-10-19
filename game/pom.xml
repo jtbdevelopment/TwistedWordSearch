@@ -52,19 +52,12 @@
             <artifactId>games-std-tracker</artifactId>
             <version>${core.games.version}</version>
         </dependency>
-        <!--
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
-            <artifactId>games-events</artifactId>
-            <version>${core.games.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jtbdevelopment.core-games</groupId>
-            <artifactId>games-push-notifications</artifactId>
+            <artifactId>games-std-maintenance</artifactId>
             <version>${core.games.version}</version>
         </dependency>
 
-        -->
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-web</artifactId>
