@@ -21,7 +21,7 @@
     "angular-mocks": "^1.5.0"
   },
   "appPath": "app",
-  "moduleName": "uiApp",
+  "moduleName": "twsUIBackground",
   "overrides": {
     "bootstrap": {
       "main": [

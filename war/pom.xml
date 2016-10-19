@@ -23,6 +23,7 @@
                             <directory>../ui/dist</directory>
                         </resource>
                     </webResources>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
