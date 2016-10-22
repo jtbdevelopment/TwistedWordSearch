@@ -77,13 +77,14 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!--  TODO - horizontal not working  -->
         <div class="{{main.sideBarSize}}"
              ng-include="main.sideBarTemplate"
-             uib-collapse="main.hideGames" horizontal></div>
+             uib-collapse="main.hideGames">
+        </div>
         <div class="{{main.mainBodySize}} main-body">
             <div ng-view=""></div>
         </div>
+        <div ng-include="adTemplate"></div>
     </div>
 </div>
 

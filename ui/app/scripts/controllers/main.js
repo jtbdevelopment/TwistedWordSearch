@@ -30,12 +30,14 @@ angular.module('twsUI').controller('MainCtrl',
                 controller.showAdmin = false;
                 controller.showLogout = false;
                 controller.player = {};
+                controller.adTemplate = 'views/ads/empty.html';
                 controller.sideBarTemplate = 'views/sidebar/empty.html';
                 controller.sideBarSize = 'hidden';
                 fullSizeBody();
             }
 
             function setButtonSideBar() {
+                controller.adTemplate = 'views/ads/ad-holder.html';
                 controller.sideBarTemplate = 'views/sidebar/games.html';
                 controller.sideBarSize = 'col-xs-4 col-sm-3 col-md-2';
                 partialSizeBody();
