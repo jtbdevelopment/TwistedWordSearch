@@ -19,8 +19,7 @@ angular.module('twsUI').controller('MenuCtrl',
                 controller.phaseDescriptions[value] = value;
                 controller.games[value] = [];
                 controller.phaseCollapsed[value] = false;
-                //  TODO - why multiple replace
-                controller.phaseStyles[value] = value.toLowerCase().replace(' ', '-').replace(' ', '-').replace('.', '');
+                controller.phaseStyles[value] = value.toLowerCase().split(' ').join('-').split('.').join('');
             });
 
             function updateGames() {
