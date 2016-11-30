@@ -47,13 +47,13 @@
         <url>https://github.com/jtbdevelopment/TwistedWordSearch.git</url>
         <tag>HEAD</tag>
     </scm>
-    <distributionManagement>
+    <!--distributionManagement>
         <repository>
             <id>bintray-jtbdevelopment-maven-TwistedWordSearch</id>
             <name>jtbdevelopment-maven-TwistedWordSearch</name>
             <url>https://api.bintray.com/maven/jtbdevelopment/maven/TwistedWordSearch</url>
         </repository>
-    </distributionManagement>
+    </distributionManagement-->
 
     <repositories>
         <repository>
