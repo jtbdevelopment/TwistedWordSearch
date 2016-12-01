@@ -3,7 +3,7 @@
     <parent>
         <artifactId>TwistedWordSearch</artifactId>
         <groupId>com.jtbdevelopment.TwistedWordSearch</groupId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.jtbdevelopment.TwistedWordSearch</groupId>
             <artifactId>game</artifactId>
-            <version>1.0</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
