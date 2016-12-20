@@ -24,11 +24,13 @@ class GameMaskerTest extends MongoGameCoreTestCase {
             TWSGame game = new TWSGame(players: [PONE, PFOUR], initiatingPlayer: PONE.id, gamePhase: it)
             game.grid = new Grid(10, 10)
             game.wordsToFind = ['A', 'SET', 'OF', 'WORDS']
+            game.hintsGiven = ['A': new GridCoordinate(0, 3), 'OF': new GridCoordinate(5, 6)]
             game.scores = [(PONE.id): 10, (PFOUR.id): 32]
             game.wordsFoundByPlayer = [
                     (PONE.id) : ['I', 'FOUND', 'THESE'] as Set,
                     (PFOUR.id): [] as Set
             ]
+            game.hintsRemaining = 4
             game.foundWordLocations = ['I': [new GridCoordinate(1, 1), new GridCoordinate(1, 2), new Grid(1, 3)] as Set]
 
             MaskedGame masked = masker.maskGameForPlayer(game, PONE)
@@ -41,6 +43,8 @@ class GameMaskerTest extends MongoGameCoreTestCase {
             //  Minor proofs that overridden methods called base implementations
             assert [(PONE.md5): PONE.displayName, (PFOUR.md5): PFOUR.displayName] == masked.players
             assert it == masked.gamePhase
+            assert game.hintsGiven.values() as Set == masked.hints
+            assert game.hintsRemaining == masked.hintsRemaining
         }
     }
 
@@ -54,6 +58,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
                     (PONE.id) : ['I', 'FOUND', 'THESE'] as Set,
                     (PFOUR.id): [] as Set
             ]
+            game.hintsRemaining = 3
             game.foundWordLocations = ['I': [new GridCoordinate(1, 1), new GridCoordinate(1, 2), new Grid(1, 3)] as Set]
 
             MaskedGame masked = masker.maskGameForPlayer(game, PONE)
@@ -66,6 +71,8 @@ class GameMaskerTest extends MongoGameCoreTestCase {
             //  Minor proofs that overridden methods called base implementations
             assert [(PONE.md5): PONE.displayName, (PFOUR.md5): PFOUR.displayName] == masked.players
             assert it == masked.gamePhase
+            assert game.hintsGiven.values() as Set == masked.hints
+            assert game.hintsRemaining == masked.hintsRemaining
         }
     }
 

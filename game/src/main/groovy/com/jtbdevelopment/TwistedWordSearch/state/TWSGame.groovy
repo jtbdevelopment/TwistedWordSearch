@@ -17,12 +17,14 @@ class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Grid grid
     int numberOfWords
     int wordAverageLengthGoal
+    int hintsRemaining
     int usableSquares // computation saver - should equal grid.getUsableSquaresCount when done initializing
 
     Set<String> words
     Set<String> wordsToFind
+    Map<String, GridCoordinate> hintsGiven = [:]
     Map<ObjectId, Set<String>> wordsFoundByPlayer
-    Map<String, Set<GridCoordinate>> foundWordLocations;
+    Map<String, Set<GridCoordinate>> foundWordLocations
 
     Map<ObjectId, Integer> scores
 

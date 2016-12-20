@@ -41,6 +41,8 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
             twsMaskedGame.wordsToFind = new TreeSet<>(twsGame.wordsToFind)
             twsMaskedGame.foundWordLocations = twsGame.foundWordLocations
         }
+        twsMaskedGame.hints = twsGame.hintsGiven.values() as Set
+        twsMaskedGame.hintsRemaining = twsGame.hintsRemaining
     }
 
     @Override
