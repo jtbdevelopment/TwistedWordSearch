@@ -141,7 +141,7 @@ angular.module('twsUI').controller('PlayCtrl',
                     });
                     jtbBootstrapGameActions.wrapActionOnGame(
                         $http.put(
-                            jtbPlayerService.currentPlayerBaseURL() + '/game/' + controller.game.id + '/find',
+                            jtbBootstrapGameActions.getGameURL(controller.game) + 'find',
                             cells
                         )
                     );
