@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.services
 
+import com.jtbdevelopment.TwistedWordSearch.rest.handlers.GiveHintHandler
 import com.jtbdevelopment.TwistedWordSearch.rest.handlers.SubmitFindHandler
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.rest.AbstractMultiPlayerGameServices
@@ -24,11 +25,22 @@ class TWSGameServices extends AbstractMultiPlayerGameServices<ObjectId> {
     @Autowired
     SubmitFindHandler submitFindHandler
 
+    @Autowired
+    GiveHintHandler giveHintHandler
+
     @PUT
     @Path("find")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     Object findWord(final List<GridCoordinate> relativeCoordinates) {
         submitFindHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), relativeCoordinates)
+    }
+
+    @PUT
+    @Path("hint")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    Object giveHint() {
+        giveHintHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), null)
     }
 }

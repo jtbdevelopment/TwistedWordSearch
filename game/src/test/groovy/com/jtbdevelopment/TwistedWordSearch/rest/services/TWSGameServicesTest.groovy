@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.services
 
+import com.jtbdevelopment.TwistedWordSearch.rest.handlers.GiveHintHandler
 import com.jtbdevelopment.TwistedWordSearch.rest.handlers.SubmitFindHandler
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
@@ -7,11 +8,7 @@ import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 
-import javax.ws.rs.Consumes
-import javax.ws.rs.PUT
-import javax.ws.rs.Path
-import javax.ws.rs.PathParam
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
 /**
@@ -24,7 +21,8 @@ class TWSGameServicesTest extends MongoGameCoreTestCase {
     void testActionAnnotations() {
         Map<String, List<Object>> stuff = [
                 //  method: [name, params, path, path param values, consumes
-                "findWord"   : ["find", [List.class], [], [MediaType.APPLICATION_JSON]],
+                "findWord": ["find", [List.class], [], [MediaType.APPLICATION_JSON]],
+                "giveHint": ["hint", [], [], [MediaType.APPLICATION_JSON]],
         ]
         stuff.each {
             String method, List<Object> details ->
@@ -51,6 +49,22 @@ class TWSGameServicesTest extends MongoGameCoreTestCase {
                     }
                 }
         }
+    }
+
+    void testGivHintHandler() {
+        MaskedGame maskedGame = new MaskedGame()
+        ObjectId gameId = new ObjectId()
+        services.playerID.set(PONE.id)
+        services.gameID.set(gameId)
+        services.giveHintHandler = [
+                handleAction: {
+                    Serializable p, Serializable g, List<GridCoordinate> t ->
+                        assert PONE.id.is(p)
+                        assert gameId.is(g)
+                        maskedGame
+                }
+        ] as GiveHintHandler
+        assert maskedGame.is(services.giveHint())
     }
 
     void testFindWordUsesHandler() {
