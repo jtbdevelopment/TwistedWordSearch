@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedWordSearch.factory.initializers
 
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.factory.GameInitializer
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -32,6 +33,12 @@ class WordChunkFillInitializer extends AbstractWordPlacementInitializer implemen
             }
         }
         return chunks
+    }
+
+    protected void wordPlacedAt(
+            final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end) {
+        game.wordEnds[word] = end
+        game.wordStarts[word] = start
     }
 
     int getOrder() {

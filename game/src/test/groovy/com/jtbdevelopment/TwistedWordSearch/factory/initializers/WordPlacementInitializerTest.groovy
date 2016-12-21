@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers
 
+import com.jtbdevelopment.TwistedWordSearch.factory.initializers.layouts.RandomLayoutPicker
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
@@ -18,6 +19,12 @@ class WordPlacementInitializerTest extends GroovyTestCase {
         game.words = ['YOU', 'OF', 'TON']
 
         assert game.words == initializer.getWordsToPlace(game)
+        initializer.randomLayoutPicker = new RandomLayoutPicker()
+        initializer.initializeGame(game)
+        game.words.each {
+            assert it.toCharArray()[0] == game.grid.getGridCell(game.wordStarts[it])
+            assert it.toCharArray()[-1] == game.grid.getGridCell(game.wordEnds[it])
+        }
     }
 
     void testGetOrder() {

@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers
 
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -18,5 +19,11 @@ class WordPlacementInitializer extends AbstractWordPlacementInitializer {
 
     protected Collection<String> getWordsToPlace(final TWSGame game) {
         return game.words
+    }
+
+    protected void wordPlacedAt(
+            final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end) {
+        game.wordStarts[word] = start
+        game.wordEnds[word] = end
     }
 }

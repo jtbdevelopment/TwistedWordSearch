@@ -4,15 +4,25 @@ import com.jtbdevelopment.TwistedWordSearch.factory.initializers.layouts.RandomL
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
+import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 
 /**
  * Date: 8/24/16
  * Time: 6:46 PM
  */
 class AbstractWordPlacementInitializerTest extends GroovyTestCase {
-    AbstractWordPlacementInitializer initializer = new AbstractWordPlacementInitializer() {
+    def initializer = new AbstractWordPlacementInitializer() {
+        Map<String, GridCoordinate> starts = [:]
+        Map<String, GridCoordinate> ends = [:]
+
         protected Collection<String> getWordsToPlace(final TWSGame game) {
             return ['YOU', 'OF', 'TON']
+        }
+
+        protected void wordPlacedAt(
+                final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end) {
+            starts[word] = start
+            ends[word] = end
         }
 
         int getOrder() {
@@ -48,6 +58,13 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
         }
         assert used.size() > 30
         assert used.size() < 500
+        def wordsToPlace = initializer.getWordsToPlace(null)
+        assert initializer.starts.keySet() == wordsToPlace as Set
+        assert initializer.ends.keySet() == wordsToPlace as Set
+        wordsToPlace.each {
+            assert it.toCharArray()[0] == game.grid.getGridCell(initializer.starts[it])
+            assert it.toCharArray()[-1] == game.grid.getGridCell(initializer.ends[it])
+        }
     }
 
     void testInitializeGameWordWrap() {
@@ -81,6 +98,13 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
         assert wrapCount > 0 // at least some should be word wrapped examples
         assert used.size() > 50
         assert used.size() < 500
+        def wordsToPlace = initializer.getWordsToPlace(null)
+        assert initializer.starts.keySet() == wordsToPlace as Set
+        assert initializer.ends.keySet() == wordsToPlace as Set
+        wordsToPlace.each {
+            assert it.toCharArray()[0] == game.grid.getGridCell(initializer.starts[it])
+            assert it.toCharArray()[-1] == game.grid.getGridCell(initializer.ends[it])
+        }
     }
 
     private static List<String> getGridAsStrings(TWSGame game) {

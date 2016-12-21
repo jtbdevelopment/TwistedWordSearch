@@ -29,6 +29,9 @@ abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGa
 
     protected abstract Collection<String> getWordsToPlace(final TWSGame game)
 
+    protected abstract void wordPlacedAt(
+            final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end)
+
     void initializeGame(final TWSGame game) {
         boolean allowWordWrap = game.features.contains(GameFeature.WordWrapYes)
 
@@ -61,10 +64,17 @@ abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGa
                 }
                 Set<GridCoordinate> use = possibilities[random.nextInt(possibilities.size())]
                 char[] lettersOfWord = word.toCharArray()
+                GridCoordinate first
+                GridCoordinate last
                 use.eachWithIndex {
                     GridCoordinate coordinate, int i ->
                         game.grid.setGridCell(coordinate, lettersOfWord[i])
+                        last = coordinate
+                        if (first == null) {
+                            first = coordinate
+                        }
                 }
+                wordPlacedAt(game, word, first, last)
         }
     }
 
@@ -75,7 +85,7 @@ abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGa
             final String word) {
 
         char[] lettersOfWord = word.toCharArray()
-        int wordSize = word.size();
+        int wordSize = word.size()
         int perLetterRowAdjustment = layout.perLetterRowMovement
         int perLetterColAdjustment = layout.perLetterColumnMovement
         List<Set<GridCoordinate>> possibilities = (0..game.grid.rowUpperBound).collectMany {
