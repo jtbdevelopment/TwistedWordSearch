@@ -6,8 +6,10 @@ import com.jtbdevelopment.TwistedWordSearch.exceptions.NoWordToFindAtCoordinates
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
+import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.rest.handlers.AbstractGameActionHandler
+import com.jtbdevelopment.games.state.GamePhase
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -23,6 +25,10 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
             final Player player,
             final TWSGame game,
             final List<GridCoordinate> relativeCoordinates) {
+        if (game.gamePhase != GamePhase.Playing) {
+            throw new GameIsNotInPlayModeException()
+        }
+
         validateCoordinates(game, relativeCoordinates)
 
         List<GridCoordinate> absoluteCoordinates = collectCoordinates(game, relativeCoordinates)

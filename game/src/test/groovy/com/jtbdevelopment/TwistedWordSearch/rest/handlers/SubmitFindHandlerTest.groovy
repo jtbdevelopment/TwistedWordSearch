@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
+import com.jtbdevelopment.games.state.GamePhase
 
 /**
  * Date: 9/3/2016
@@ -24,6 +25,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
                 players: [PONE],
                 wordsFoundByPlayer: [(PONE.id): [] as Set],
                 wordsToFind: ['WORD', 'WRAPPED', 'AT'] as Set,
+                gamePhase: GamePhase.Playing,
                 foundWordLocations: [:])
         (0..game.grid.rowUpperBound).each {
             int row ->
@@ -46,8 +48,8 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         game.grid.setGridCell(7, 2, 'E' as char)
         game.grid.setGridCell(6, 3, 'D' as char)
 
-        game.grid.setGridCell(8,8, 'A' as char)
-        game.grid.setGridCell(8,7, 'T' as char)
+        game.grid.setGridCell(8, 8, 'A' as char)
+        game.grid.setGridCell(8, 7, 'T' as char)
         game.scores = [(PONE.id): 0]
     }
 
@@ -91,18 +93,18 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         }
     }
 
-    void testnvalidWordFindCoordinatesIfListLongerThanBiggestBoundary() {
+    void testInvalidWordFindCoordinatesIfListLongerThanBiggestBoundary() {
         shouldFail(InvalidWordFindCoordinatesException.class) {
             handler.handleActionInternal(
                     PONE,
-                    new TWSGame(grid: new Grid(5, 3)),
-                    [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1,1), new GridCoordinate(1,1)])
+                    new TWSGame(grid: new Grid(5, 3), gamePhase: GamePhase.Playing),
+                    [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1)])
         }
         shouldFail(InvalidWordFindCoordinatesException.class) {
             handler.handleActionInternal(
                     PONE,
-                    new TWSGame(grid: new Grid(3, 4)),
-                    [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1,1), new GridCoordinate(1,1)])
+                    new TWSGame(grid: new Grid(3, 4), gamePhase: GamePhase.Playing),
+                    [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1)])
         }
     }
 
@@ -151,6 +153,18 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         }
         shouldFail(InvalidWordFindCoordinatesException.class) {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(-1, -1), new GridCoordinate(-1, -1), new GridCoordinate(-1, 0)])
+        }
+    }
+
+    void testFailsIfGameNotInPlayingMode() {
+        GamePhase.values().findAll { it != GamePhase.Playing }.each {
+            try {
+                game.gamePhase = it
+                handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 8), new GridCoordinate(0, -1)])
+            } catch (GameIsNotInPlayModeException) {
+                return
+            }
+            fail('Should have exceptioned')
         }
     }
 
