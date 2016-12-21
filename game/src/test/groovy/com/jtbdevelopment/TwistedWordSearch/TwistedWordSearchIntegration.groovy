@@ -11,6 +11,7 @@ import com.jtbdevelopment.core.hazelcast.caching.HazelcastCacheManager
 import com.jtbdevelopment.games.dao.AbstractGameRepository
 import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameIntegration
 import org.bson.types.ObjectId
+import org.glassfish.jersey.client.ClientProperties
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -175,6 +176,36 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         assert response.statusInfo.statusCode == 409
     }
 
+    @Test
+    void testGettingAHint() {
+        def P3 = createPlayerAPITarget(TEST_PLAYER3)
+        MaskedGame game = newGame(P3,
+                new FeaturesAndPlayers(
+                        features: [
+                                GameFeature.Grid30X30,
+                                GameFeature.HarderDifficulty,
+                                GameFeature.StrongOverlap,
+                                GameFeature.SimpleWords,
+                                GameFeature.WordWrapYes,
+                        ] as Set,
+                        players: [TEST_PLAYER3.md5],
+                ))
+        assert game.hintsRemaining > 0
+        def originalRemaining = game.hintsRemaining
+        TWSGame rawGame = gameRepository.findOne(new ObjectId(game.id))
+        assert rawGame.hintsRemaining > 0
+        assert [] as Set == game.hints
+
+        def P3G = createGameTarget(createPlayerAPITarget(TEST_PLAYER3), game)
+
+        game = getHint(P3G)
+        assert game != null
+        assert game.scores[TEST_PLAYER3.md5] < 0
+        assert originalRemaining - 1 == game.hintsRemaining
+        assert [] as Set != game.hints
+        assert 1 == game.hints.size()
+    }
+
     @Override
     void testGetMultiplayerGames() {
         //  TODO - base method needs work to be more useful
@@ -194,5 +225,10 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         target.path("find").request(MediaType.APPLICATION_JSON).put(find, returnedGameClass())
     }
 
+    protected MaskedGame getHint(WebTarget target) {
+        def request = target.path("hint").request(MediaType.APPLICATION_JSON)
+        request.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true)
+        request.put(Entity.entity(null, MediaType.APPLICATION_JSON), returnedGameClass())
+    }
 }
 

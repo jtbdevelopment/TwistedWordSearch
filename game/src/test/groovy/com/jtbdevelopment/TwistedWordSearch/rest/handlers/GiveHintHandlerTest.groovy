@@ -64,6 +64,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
 
         assert 8 == game.scores[PONE.id]
         assert 1 == game.hintsGiven.size()
+        assert 1 == game.hintsRemaining
         assert game.hintsGiven.containsKey('FIND')
         def c = game.hintsGiven['FIND']
         assert 2 <= c.column
@@ -88,6 +89,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
 
         assert 7 == game.scores[PONE.id]
         assert 2 == game.hintsGiven.size()
+        assert 0 == game.hintsRemaining
         assert game.hintsGiven.containsKey('FIND')
         assert game.hintsGiven.containsKey('ME')
         def c = game.hintsGiven['FIND']

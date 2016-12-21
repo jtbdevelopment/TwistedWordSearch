@@ -34,6 +34,7 @@ class GiveHintHandler extends AbstractGameActionHandler<Integer, TWSGame> {
         GridCoordinate hintCoordinate = generateCoordinate(game, word)
         game.hintsGiven[word] = hintCoordinate
         game.scores[(ObjectId) player.id] -= (word.size() / 2).intValue()
+        game.hintsRemaining -= 1
         return game
     }
 
