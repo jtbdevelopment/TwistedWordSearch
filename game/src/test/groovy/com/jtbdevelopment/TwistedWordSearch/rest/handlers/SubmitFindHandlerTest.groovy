@@ -13,7 +13,7 @@ import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
  * Time: 3:44 PM
  */
 class SubmitFindHandlerTest extends MongoGameCoreTestCase {
-    SubmitFindHandler handler = new SubmitFindHandler();
+    SubmitFindHandler handler = new SubmitFindHandler()
     TWSGame game
 
     @Override
@@ -186,4 +186,18 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert ['WRAPPED': [new GridCoordinate(2, 7), new GridCoordinate(1, 8), new GridCoordinate(1, 8), new GridCoordinate(0, 9), new GridCoordinate(9, 0), new GridCoordinate(8, 1), new GridCoordinate(7, 2), new GridCoordinate(6, 3)] as Set] == update.foundWordLocations
         assert [(PONE.id): 7] == update.scores
     }
+
+    void testRemovesRelevantHint() {
+        game.hintsGiven = ['AT': new GridCoordinate(1, 1), 'WRAPPED': new GridCoordinate(2, 5)]
+        TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 8), new GridCoordinate(0, -1)])
+        assert update.is(game)
+        assert ['WORD', 'WRAPPED'] as Set == update.wordsToFind
+        assert [(PONE.id): ['AT'] as Set] == update.wordsFoundByPlayer
+        assert ['AT': [new GridCoordinate(8, 8), new GridCoordinate(8, 7)] as Set] == update.foundWordLocations
+        assert [(PONE.id): 2] == update.scores
+        assertFalse game.hintsGiven.containsKey('AT')
+        assert ['WRAPPED': new GridCoordinate(2, 5)] == game.hintsGiven
+    }
+
+
 }

@@ -49,12 +49,13 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
         game.wordsFoundByPlayer[(ObjectId) player.id].add(word)
         game.foundWordLocations[word] = absoluteCoordinates as Set
         game.scores[(ObjectId) player.id] += absoluteCoordinates.size()
+        game.hintsGiven.remove(word)
     }
 
     private static List<GridCoordinate> collectCoordinates(
             final TWSGame game,
             final List<GridCoordinate> relativeCoordinates) {
-        List<GridCoordinate> absolute = [new GridCoordinate(relativeCoordinates[0])];
+        List<GridCoordinate> absolute = [new GridCoordinate(relativeCoordinates[0])]
         GridCoordinate coordinate = new GridCoordinate(relativeCoordinates[0])
         (1..(relativeCoordinates.size() - 1)).each {
             int index ->
@@ -109,7 +110,7 @@ class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, 
 
         GridCoordinate next = relativeCoordinates[1]
         if ((next.column == 0 && next.row == 0) || next.column < -1 || next.column > 1 || next.row < -1 || next.row > 1) {
-            throw new InvalidWordFindCoordinatesException();
+            throw new InvalidWordFindCoordinatesException()
         }
         List<GridCoordinate> remaining = new ArrayList<>(relativeCoordinates)
         remaining.remove(0)
