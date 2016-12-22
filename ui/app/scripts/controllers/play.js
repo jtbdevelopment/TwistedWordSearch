@@ -148,6 +148,15 @@ angular.module('twsUI').controller('PlayCtrl',
                 }
             }
 
+            controller.hint = function () {
+                jtbBootstrapGameActions.wrapConfirmedActionOnGame(
+                    'You sure you want to use up a hint and lose some points?',
+                    function () {
+                        return $http.put(jtbBootstrapGameActions.getGameURL(controller.game) + 'hint', null);
+                    }
+                );
+            };
+
             controller.zoomIn = function (amount) {
                 controller.fontSize = fontSizeManager.increaseFontSize(amount);
             };

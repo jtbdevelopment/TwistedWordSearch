@@ -1,10 +1,12 @@
 'use strict';
 
+//  TODO - more hint testing required for spanning sides
 describe('Service: foundWordsCanvasManager', function () {
     beforeEach(module('twsUI.services'));
 
     var canvasLineDrawer = {
-        drawLine: jasmine.createSpy('drawLine')
+        drawLine: jasmine.createSpy('drawLine'),
+        drawSquare: jasmine.createSpy('drawSquare')
     };
     beforeEach(module(function ($provide) {
         $provide.factory('canvasLineDrawer', [function () {
@@ -59,7 +61,17 @@ describe('Service: foundWordsCanvasManager', function () {
         wordsFoundByPlayer: {
             'md1': ['NO'],
             'md2': ['GAR']
-        }
+        },
+        hints: [
+            {
+                row: 1,
+                column: 2
+            },
+            {
+                row: 3,
+                column: 4
+            }
+        ]
     };
 
     var assignedColors = {
@@ -71,10 +83,24 @@ describe('Service: foundWordsCanvasManager', function () {
         gridOffsetTracker.gridSize(4, 5);
     });
 
-    it('simple compute lines', function () {
+    it('simple compute lines and rects', function () {
         service.updateForGame(game, 4, 5, assignedColors);
         $timeout.flush();
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 2},
+            1,
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 4},
+            1,
+            102,
+            64.4
+        );
         expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
             context,
             {row: 3, column: 0},

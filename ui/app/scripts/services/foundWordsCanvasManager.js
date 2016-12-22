@@ -55,6 +55,19 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                 });
             }
 
+            function highlightHints() {
+                var width = canvas.width / columns;
+                var height = canvas.height / rows;
+                angular.forEach(currentGame.hints, function (hint) {
+                    //  TODO - what if box now spans sides
+                    var thisCoordinate = {
+                        row: gridOffsetTracker.getOffsetRow(hint.row),
+                        column: gridOffsetTracker.getOffsetColumn(hint.column)
+                    };
+                    canvasLineDrawer.drawSquare(context, thisCoordinate, 1, height, width);
+                });
+            }
+
             //  Timeout exists for slower browsers - sometimes canvas not ready right away
             var timeout = 1000;
             function highlightFoundWords() {
@@ -62,6 +75,7 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                     canvas = angular.element('#found-canvas')[0];
                     context = canvas.getContext('2d');
                     drawLines(calculateLinesToDraw());
+                    highlightHints();
                     timeout = 0;
                 }, timeout);
             }

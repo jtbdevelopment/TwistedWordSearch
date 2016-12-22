@@ -86,6 +86,10 @@ describe('Controller: PlayCtrl',
         };
 
         var jtbBootstrapActions = {
+            getGameURL: function (g) {
+                return playerBaseURL + '/game/' + g.id + '/';
+            },
+            wrapConfirmedActionOnGame: jasmine.createSpy('wcag'),
             wrapActionOnGame: jasmine.createSpy('waog')
         };
 
@@ -844,6 +848,19 @@ describe('Controller: PlayCtrl',
             expect(PlayCtrl.backwardIsWord).toEqual(false);
             expect(PlayCtrl.forwardIsWord).toEqual(false);
             expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+        });
+
+        it('clicking hint submit hint request', function () {
+            var updatedGame = angular.copy(expectedGame);
+            updatedGame.hints = [{row: 1, column: 2}];
+
+            PlayCtrl.hint();
+            expect(jtbBootstrapActions.wrapConfirmedActionOnGame).toHaveBeenCalledWith('You sure you want to use up a hint and lose some points?', jasmine.any(Function));
+
+            $http.expectPUT(playerBaseURL + '/game/' + gameID + '/hint', null).respond(updatedGame);
+
+            jtbBootstrapActions.wrapConfirmedActionOnGame.calls.argsFor(0)[1]();
+            $http.flush();
         });
 
         it('clicking after highlighting word submits selection', function () {

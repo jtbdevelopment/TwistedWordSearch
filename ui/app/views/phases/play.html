@@ -168,6 +168,11 @@
                     </div>
                 </div>
                 <div class="row">
+                    <button class="btn btn-default btn-get-hint"
+                            ng-click="play.hint()"
+                            ng-show="play.game.hintsRemaining > 0">
+                        <span class="glyphicon glyphicon-eye-open"></span>Take a Hint ({{play.game.hintsRemaining}})
+                    </button>
                     <button class="btn btn-default btn-quit-game"
                             ng-click="play.actions.quit(play.game)"
                             ng-show="play.showQuit">

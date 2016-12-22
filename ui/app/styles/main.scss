@@ -103,6 +103,15 @@ body {
   color: $cambridgeBlue;
 }
 
+.btn-get-hint {
+  background-color: $cambridgeBlue;
+}
+
+.btn-get-hint:hover {
+  background-color: $cambridgeBlue;
+  color: gray;
+}
+
 .btn-end-rematch-game {
   background-color: $puceRed;
   color: white;
