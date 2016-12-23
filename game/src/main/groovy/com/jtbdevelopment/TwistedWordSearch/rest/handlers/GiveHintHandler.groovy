@@ -39,27 +39,24 @@ class GiveHintHandler extends AbstractGameActionHandler<Integer, TWSGame> {
     }
 
     private GridCoordinate generateCoordinate(TWSGame game, String word) {
-        GridCoordinate hintCoordinate = new GridCoordinate(game.wordStarts[word])
+        GridCoordinate wordStart = game.wordStarts[word]
 
         int adjustColumn = random.nextInt(3) - 1
         int adjustRow = random.nextInt(3) - 1
-        if (hintCoordinate.row == 0) {
+        if (wordStart.row == 0) {
             adjustRow += 1
         }
-        if (hintCoordinate.row == game.grid.rows - 1) {
+        if (wordStart.row == (game.grid.rows - 1)) {
             adjustRow -= 1
         }
-        if (hintCoordinate.column == 0) {
+        if (wordStart.column == 0) {
             adjustColumn += 1
         }
-        if (hintCoordinate.column == game.grid.columns - 1) {
+        if (wordStart.column == (game.grid.columns - 1)) {
             adjustColumn -= 1
         }
 
-        hintCoordinate.column += adjustColumn
-        hintCoordinate.row += adjustRow
-
-        hintCoordinate
+        return new GridCoordinate(wordStart.row + adjustRow, wordStart.column + adjustColumn)
     }
 
     private String pickWord(TWSGame game) {
