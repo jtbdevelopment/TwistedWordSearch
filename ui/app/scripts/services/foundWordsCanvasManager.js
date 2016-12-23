@@ -59,12 +59,15 @@ angular.module('twsUI.services').factory('foundWordsCanvasManager',
                 var width = canvas.width / columns;
                 var height = canvas.height / rows;
                 angular.forEach(currentGame.hints, function (hint) {
-                    //  TODO - what if box now spans sides
-                    var thisCoordinate = {
-                        row: gridOffsetTracker.getOffsetRow(hint.row),
-                        column: gridOffsetTracker.getOffsetColumn(hint.column)
-                    };
-                    canvasLineDrawer.drawSquare(context, thisCoordinate, 1, height, width);
+                    angular.forEach([-1, 0, 1], function (adjustRow) {
+                        angular.forEach([-1, 0, 1], function (adjustColum) {
+                            var thisCoordinate = {
+                                row: gridOffsetTracker.getOffsetRow(hint.row + adjustRow),
+                                column: gridOffsetTracker.getOffsetColumn(hint.column + adjustColum)
+                            };
+                            canvasLineDrawer.drawSquare(context, thisCoordinate, height, width);
+                        });
+                    });
                 });
             }
 

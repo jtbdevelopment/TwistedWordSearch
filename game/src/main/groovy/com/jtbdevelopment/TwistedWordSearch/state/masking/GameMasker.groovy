@@ -59,6 +59,10 @@ class GameMasker extends AbstractMultiPlayerGameMasker<ObjectId, GameFeature, TW
             [(it.md5): twsGame.scores[it.id]]
         }
 
+        twsMaskedGame.hintsTaken = twsGame.players.collectEntries {
+            [(it.md5): twsGame.hintsTaken[it.id]]
+        }
+
         if(twsGame.gamePhase != GamePhase.Challenged && twsGame.gamePhase != GamePhase.Setup) {
             twsMaskedGame.wordsFoundByPlayer = game.players.collectEntries {
                 [(it.md5): new TreeSet(twsGame.wordsFoundByPlayer[it.id])]

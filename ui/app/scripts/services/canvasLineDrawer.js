@@ -20,17 +20,17 @@ angular.module('twsUI.services').factory('canvasLineDrawer',
                     context.stroke();
                     context.closePath();
                 },
-                drawSquare: function (context, centerCell, extent, cellHeight, cellWidth) {
+                drawSquare: function (context, centerCell, cellHeight, cellWidth) {
                     var startX = (centerCell.column * cellWidth);
                     var startY = (centerCell.row * cellHeight);
                     context.beginPath();
                     //  TODO - maybe another color
-                    context.fillStyle = 'white';
+                    context.fillStyle = 'pink';
                     context.fillRect(
-                        startX - Math.floor(cellWidth * extent),
-                        startY - Math.floor(cellHeight * extent),
-                        Math.ceil(cellWidth * (extent * 2 + 1)),
-                        Math.ceil(cellHeight * (extent * 2 + 1)));
+                        startX,
+                        startY,
+                        cellWidth,
+                        cellHeight);
                     context.closePath();
                 }
             };

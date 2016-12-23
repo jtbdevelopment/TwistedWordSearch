@@ -66,10 +66,6 @@ describe('Service: foundWordsCanvasManager', function () {
             {
                 row: 1,
                 column: 2
-            },
-            {
-                row: 3,
-                column: 4
             }
         ]
     };
@@ -89,15 +85,55 @@ describe('Service: foundWordsCanvasManager', function () {
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
             context,
-            {row: 1, column: 2},
-            1,
+            {row: 0, column: 2},
             102,
             64.4
         );
         expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
             context,
-            {row: 3, column: 4},
-            1,
+            {row: 1, column: 2},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 2, column: 2},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 1},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 1},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 2, column: 1},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 2, column: 3},
             102,
             64.4
         );
@@ -130,6 +166,60 @@ describe('Service: foundWordsCanvasManager', function () {
         service.updateForGame(game, 4, 5, assignedColors);
         $timeout.flush();
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 4},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 4},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 4},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 0},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 0},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 0},
+            102,
+            64.4
+        );
         expect(canvasLineDrawer.drawLine).toHaveBeenCalledWith(
             context,
             {row: 2, column: 2},
@@ -178,8 +268,63 @@ describe('Service: foundWordsCanvasManager', function () {
             102,
             64.4,
             '#a200f2');
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 2},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 2},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 2, column: 2},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 1},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 1},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 2, column: 1},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 2, column: 3},
+            102,
+            64.4
+        );
 
         context.clearRect.calls.reset();
+        canvasLineDrawer.drawSquare.calls.reset();
         canvasLineDrawer.drawLine.calls.reset();
 
         gridOffsetTracker.shiftUp(1);
@@ -187,6 +332,7 @@ describe('Service: foundWordsCanvasManager', function () {
         expect(context.clearRect).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height);
         // ignoring intermediate result line details
         context.clearRect.calls.reset();
+        canvasLineDrawer.drawSquare.calls.reset();
         canvasLineDrawer.drawLine.calls.reset();
 
         gridOffsetTracker.shiftRight(2);
@@ -214,6 +360,60 @@ describe('Service: foundWordsCanvasManager', function () {
             102,
             64.4,
             '#a200f2');
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 4},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 4},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 4},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 3},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 3, column: 0},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 0, column: 0},
+            102,
+            64.4
+        );
+        expect(canvasLineDrawer.drawSquare).toHaveBeenCalledWith(
+            context,
+            {row: 1, column: 0},
+            102,
+            64.4
+        );
     });
 });
 

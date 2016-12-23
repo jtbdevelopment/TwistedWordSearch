@@ -25,6 +25,7 @@ class TWSGame extends AbstractMongoMultiPlayerGame<GameFeature> {
     Map<String, GridCoordinate> wordEnds = [:]
     Set<String> wordsToFind
     Map<String, GridCoordinate> hintsGiven = [:]
+    Map<ObjectId, Integer> hintsTaken = [:]
     Map<ObjectId, Set<String>> wordsFoundByPlayer
     Map<String, Set<GridCoordinate>> foundWordLocations
 

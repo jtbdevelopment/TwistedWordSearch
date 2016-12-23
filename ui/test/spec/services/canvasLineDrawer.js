@@ -40,13 +40,13 @@ describe('Service: canvasLineDrawer', function () {
             closePath: jasmine.createSpy('closePath'),
             fillRect: jasmine.createSpy('fillRect')
         };
-        service.drawSquare(context, {row: 4, column: 6}, 2, 17, 13);
+        service.drawSquare(context, {row: 4, column: 6}, 17, 13);
 
         expect(context.beginPath).toHaveBeenCalled();
-        expect(context.fillStyle).toEqual('white');
-        var expectedStartX = 6 * 13 - (13 * 2);
-        var expectedStartY = 4 * 17 - (17 * 2);
-        expect(context.fillRect).toHaveBeenCalledWith(expectedStartX, expectedStartY, (13 * 5), (17 * 5));
+        expect(context.fillStyle).toEqual('pink');
+        var expectedStartX = 6 * 13;
+        var expectedStartY = 4 * 17;
+        expect(context.fillRect).toHaveBeenCalledWith(expectedStartX, expectedStartY, (13), (17));
         expect(context.closePath).toHaveBeenCalled();
     });
 });

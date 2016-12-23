@@ -12,6 +12,7 @@ class MaskedGameTest extends GroovyTestCase {
         assertNull game.wordsToFind
         assertNull game.wordsFoundByPlayer
         assertNull game.hints
+        assertNull game.hintsTaken
         assert 0 == game.hintsRemaining
     }
 }

@@ -16,6 +16,7 @@ class TWSGameTest extends GroovyTestCase {
         assert [:] == game.hintsGiven
         assert [:] == game.wordEnds
         assert [:] == game.wordStarts
+        assert [:] == game.hintsTaken
         assertNull game.words
         assertNull game.wordsToFind
         assertNull game.wordsFoundByPlayer

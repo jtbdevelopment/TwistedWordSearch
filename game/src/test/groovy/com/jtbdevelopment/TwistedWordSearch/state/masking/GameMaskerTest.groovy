@@ -20,7 +20,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
     }
 
     void testMaskingAGameNotInChallengedOrSetupPhases() {
-        GamePhase.values().findAll { it != GamePhase.Setup && it != GamePhase.Challenged}.each {
+        GamePhase.values().findAll { it != GamePhase.Setup && it != GamePhase.Challenged }.each {
             TWSGame game = new TWSGame(players: [PONE, PFOUR], initiatingPlayer: PONE.id, gamePhase: it)
             game.grid = new Grid(10, 10)
             game.wordsToFind = ['A', 'SET', 'OF', 'WORDS']
@@ -31,6 +31,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
                     (PFOUR.id): [] as Set
             ]
             game.hintsRemaining = 4
+            game.hintsTaken = [(PONE.id): 1, (PFOUR.id): 0]
             game.foundWordLocations = ['I': [new GridCoordinate(1, 1), new GridCoordinate(1, 2), new Grid(1, 3)] as Set]
 
             MaskedGame masked = masker.maskGameForPlayer(game, PONE)
@@ -45,11 +46,12 @@ class GameMaskerTest extends MongoGameCoreTestCase {
             assert it == masked.gamePhase
             assert game.hintsGiven.values() as Set == masked.hints
             assert game.hintsRemaining == masked.hintsRemaining
+            assert [(PONE.md5): 1, (PFOUR.md5): 0] == masked.hintsTaken
         }
     }
 
     void testMaskingAGameInChallengedOrSetupPhases() {
-        GamePhase.values().findAll { it == GamePhase.Setup || it == GamePhase.Challenged}.each {
+        GamePhase.values().findAll { it == GamePhase.Setup || it == GamePhase.Challenged }.each {
             TWSGame game = new TWSGame(players: [PONE, PFOUR], initiatingPlayer: PONE.id, gamePhase: it)
             game.grid = new Grid(10, 10)
             game.wordsToFind = ['A', 'SET', 'OF', 'WORDS']
