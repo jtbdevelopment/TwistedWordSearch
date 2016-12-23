@@ -7,9 +7,11 @@
  * # MainCtrl
  * Controller of the twsUI
  */
+var CURRENT_VERSION = 1.3;
+var RELEASE_NOTES = 'Added hints.';
 angular.module('twsUI').controller('MainCtrl',
-    ['jtbAppLongName', '$rootScope', 'jtbPlayerService',
-        function (jtbAppLongName, $rootScope, jtbPlayerService) {
+    ['jtbAppLongName', '$rootScope', 'jtbPlayerService', 'jtbBootstrapVersionNotesService',
+        function (jtbAppLongName, $rootScope, jtbPlayerService, jtbBootstrapVersionNotesService) {
             var controller = this;
 
             controller.showHelp = false;
@@ -88,6 +90,7 @@ angular.module('twsUI').controller('MainCtrl',
                 controller.showAdmin =
                     controller.player.adminUser ||
                     controller.showAdmin;  //  Once an admin always an admin for ui
+                jtbBootstrapVersionNotesService.displayVersionNotesIfAppropriate(CURRENT_VERSION, RELEASE_NOTES);
             });
         }
     ]

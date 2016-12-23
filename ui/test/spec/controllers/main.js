@@ -12,7 +12,10 @@ describe('Controller: MainCtrl', function () {
         currentPlayer: function () {
             return playerDetails;
         },
-        signOutAndRedirect: jasmine.createSpy()
+        signOutAndRedirect: jasmine.createSpy('soar')
+    };
+    var versionService = {
+        displayVersionNotesIfAppropriate: jasmine.createSpy('dvia')
     };
 
     beforeEach(inject(function ($controller, _$rootScope_) {
@@ -22,6 +25,7 @@ describe('Controller: MainCtrl', function () {
         playerDetails = {};
         MainCtrl = $controller('MainCtrl', {
             jtbAppLongName: longName,
+            jtbBootstrapVersionNotesService: versionService,
             jtbPlayerService: jtbPlayerService
         });
     }));
@@ -50,6 +54,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
+        expect(versionService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3, 'Added hints.');
     });
 
     it('converts to sidebar setup after admin fb player loaded message', function () {
@@ -64,6 +69,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
+        expect(versionService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3, 'Added hints.');
     });
 
     it('converts to sidebar setup after normal manual player loaded message', function () {
@@ -78,6 +84,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showLogout).toEqual(true);
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
+        expect(versionService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3, 'Added hints.');
     });
 
     it('once an admin always and admin for session', function () {
@@ -92,11 +99,14 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showLogout).toEqual(true);
         expect(MainCtrl.hideGames).toEqual(false);
         expect(MainCtrl.player).toEqual(playerDetails);
+        expect(versionService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3, 'Added hints.');
+        versionService.displayVersionNotesIfAppropriate.calls.reset();
         playerDetails = {adminUser: false, source: 'FACEBOOK'};
         $rootScope.$broadcast('playerLoaded');
         $rootScope.$apply();
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(false);
+        expect(versionService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3, 'Added hints.');
     });
 
     it('handles logout for manual players', function () {
