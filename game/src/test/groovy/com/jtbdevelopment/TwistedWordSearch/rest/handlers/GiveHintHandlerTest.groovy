@@ -56,6 +56,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
         game.grid = new Grid(10, 10)
         game.gamePhase = GamePhase.Playing
         game.hintsRemaining = 2
+        game.hintsTaken = [(PONE.id): 4]
         game.wordStarts = ['FIND': new GridCoordinate(3, 3)]
         game.scores = [(PONE.id): 10]
 
@@ -71,6 +72,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
         assert 4 >= c.column
         assert 2 <= c.row
         assert 4 >= c.row
+        assert 5 == game.hintsTaken[PONE.id]
     }
 
     void testGivesAHintForTwoWordPuzzleEventuallyReturnsBoth() {
@@ -81,15 +83,18 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
         game.wordStarts = ['FIND': new GridCoordinate(3, 3), 'ME': new GridCoordinate(0, 9)]
         game.scores = [(PONE.id): 10]
         game.hintsRemaining = 2
+        game.hintsTaken = [(PONE.id): 0]
 
         TWSGame r = handler.handleActionInternal(PONE, game, null)
         assert r.is(game)
+        assert 1 == game.hintsTaken[PONE.id]
         r = handler.handleActionInternal(PONE, game, null)
         assert r.is(game)
 
         assert 7 == game.scores[PONE.id]
         assert 2 == game.hintsGiven.size()
         assert 0 == game.hintsRemaining
+        assert 2 == game.hintsTaken[PONE.id]
         assert game.hintsGiven.containsKey('FIND')
         assert game.hintsGiven.containsKey('ME')
         def c = game.hintsGiven['FIND']

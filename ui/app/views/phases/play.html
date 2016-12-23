@@ -169,6 +169,11 @@
                 </div>
                 <div class="row">
                     <button class="btn btn-default btn-get-hint"
+                            uib-popover="Take a hint and a small area will be highlighted where one of the letters is the start of a word."
+                            uib-popover-title="Profile"
+                            popover-is-open="main.showHelp"
+                            popover-placement="left-top"
+                            popover-trigger="none"
                             ng-click="play.hint()"
                             ng-show="play.game.hintsRemaining > 0">
                         <span class="glyphicon glyphicon-eye-open"></span>Take a Hint ({{play.game.hintsRemaining}})
@@ -198,6 +203,7 @@
                                         {{play.game.scores[id]}}
                             </span>
                             <img ng-src="{{play.game.playerImages[id]}}" uib-tooltip="{{name}}" class="player-image"/>
+                            <span ng-show="play.game.hintsTaken[id] > 0">Hints: {{play.game.hintsTaken[id]}}</span>
                         </div>
                         <div class="panel-body">
                             <div ng-repeat="word in play.game.wordsFoundByPlayer[id]" id="word-{{word.toLowerCase()}}">
