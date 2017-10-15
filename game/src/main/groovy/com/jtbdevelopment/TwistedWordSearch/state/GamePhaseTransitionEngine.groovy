@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.state
 
 import com.jtbdevelopment.games.state.GamePhase
-import com.jtbdevelopment.games.state.transition.AbstractGamePhaseTransitionEngine
+import com.jtbdevelopment.games.state.transition.AbstractMPGamePhaseTransitionEngine
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class GamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<TWSGame> {
+class GamePhaseTransitionEngine extends AbstractMPGamePhaseTransitionEngine<TWSGame> {
     @Override
     protected TWSGame evaluateSetupPhase(final TWSGame game) {
         return changeStateAndReevaluate(GamePhase.Playing, game)
