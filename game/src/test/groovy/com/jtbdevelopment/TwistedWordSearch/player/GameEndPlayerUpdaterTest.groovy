@@ -4,22 +4,25 @@ import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
-import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.PlayerPublisher
 import com.jtbdevelopment.games.state.GamePhase
-import org.bson.types.ObjectId
+import org.junit.Before
+import org.junit.Test
+import org.mockito.Mockito
 
 /**
  * Date: 10/5/16
  * Time: 6:54 PM
  */
 class GameEndPlayerUpdaterTest extends MongoGameCoreTestCase {
-    GameEndPlayerUpdater updater = new GameEndPlayerUpdater()
+    private PlayerPublisher playerPublisher = Mockito.mock(PlayerPublisher.class)
+    private AbstractPlayerRepository playerRepository = Mockito.mock(AbstractPlayerRepository.class)
+    private GameEndPlayerUpdater updater = new GameEndPlayerUpdater(playerPublisher, playerRepository)
 
-    MongoPlayer p1, p2, p3, p1loaded, p2loaded, p3loaded, p1saved, p2saved, p3saved;
+    MongoPlayer p1, p2, p3, p1loaded, p2loaded, p3loaded, p1saved, p2saved, p3saved
     TWSPlayerAttributes p1a, p2a, p3a
 
-    @Override
+    @Before
     void setUp() {
         p1 = makeSimplePlayer("100")
         p2 = makeSimplePlayer("101")
@@ -50,7 +53,7 @@ class GameEndPlayerUpdaterTest extends MongoGameCoreTestCase {
         p3loaded.gameSpecificPlayerAttributes = p3a
     }
 
-
+    @Test
     void testUpdatesPlayerForGameEnd() {
         TWSGame game = new TWSGame()
         game.gamePhase = GamePhase.RoundOver
@@ -58,36 +61,13 @@ class GameEndPlayerUpdaterTest extends MongoGameCoreTestCase {
         game.winners = [p1.id, p3.id]
         game.scores = [(p1.id): 30, (p2.id): 10, (p3.id): 30]
 
-        updater.playerRepository = [
-                findOne: {
-                    ObjectId id ->
-                        switch (id) {
-                            case p1.id:
-                                return p1loaded
-                            case p2.id:
-                                return p2loaded
-                            case p3.id:
-                                return p3loaded
-                        }
-                },
-                save   : {
-                    Player p ->
-                        if (p.is(p1loaded))
-                            return p1saved
-                        if (p.is(p2loaded))
-                            return p2saved
-                        if (p.is(p3loaded))
-                            return p3saved
-                }
-        ] as AbstractPlayerRepository
+        Mockito.when(playerRepository.findById(p1.id)).thenReturn(Optional.of(p1loaded))
+        Mockito.when(playerRepository.findById(p2.id)).thenReturn(Optional.of(p2loaded))
+        Mockito.when(playerRepository.findById(p3.id)).thenReturn(Optional.of(p3loaded))
+        Mockito.when(playerRepository.save(p1loaded)).thenReturn(p1saved)
+        Mockito.when(playerRepository.save(p2loaded)).thenReturn(p2saved)
+        Mockito.when(playerRepository.save(p3loaded)).thenReturn(p3saved)
 
-        def published = [] as Set;
-        updater.playerPublisher = [
-                publish: {
-                    Player p ->
-                        published.add(p)
-                }
-        ] as PlayerPublisher
 
         updater.gameChanged(game, null, true)
 
@@ -103,19 +83,18 @@ class GameEndPlayerUpdaterTest extends MongoGameCoreTestCase {
         assert [(3): 101, (2): 40] == p3a.gamesPlayedByPlayerCount
         assert [(3): 30, (2): 130] == p3a.maxScoreByPlayerCount
 
-        assert [p1saved, p2saved, p3saved] as Set == published
+        Mockito.verify(playerPublisher).publish(p1saved)
+        Mockito.verify(playerPublisher).publish(p2saved)
+        Mockito.verify(playerPublisher).publish(p3saved)
     }
 
+    @Test
     void testDoesNothingIfNotInitiatingServer() {
         TWSGame game = new TWSGame()
         game.gamePhase = GamePhase.RoundOver
         game.players = [p1, p2, p3]
         game.winners = [p1.id, p3.id]
         game.scores = [(p1.id): 30, (p2.id): 10, (p3.id): 30]
-
-        updater.playerRepository = null
-
-        updater.playerPublisher = null
 
         updater.gameChanged(game, null, false)
 
@@ -132,6 +111,7 @@ class GameEndPlayerUpdaterTest extends MongoGameCoreTestCase {
         assert [(3): 18, (2): 130] == p3a.maxScoreByPlayerCount
     }
 
+    @Test
     void testDoesNothingIfNotPhaseNotRoundOver() {
         GamePhase.values().findAll { it != GamePhase.RoundOver }.each {
             TWSGame game = new TWSGame()
@@ -139,10 +119,6 @@ class GameEndPlayerUpdaterTest extends MongoGameCoreTestCase {
             game.players = [p1, p2, p3]
             game.winners = [p1.id, p3.id]
             game.scores = [(p1.id): 30, (p2.id): 10, (p3.id): 30]
-
-            updater.playerRepository = null
-
-            updater.playerPublisher = null
 
             updater.gameChanged(game, null, false)
 

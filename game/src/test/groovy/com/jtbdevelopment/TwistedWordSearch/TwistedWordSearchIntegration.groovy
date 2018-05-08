@@ -152,7 +152,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                         ] as Set,
                         players: [TEST_PLAYER3.md5],
                 ))
-        TWSGame rawGame = gameRepository.findOne(new ObjectId(game.id))
+        TWSGame rawGame = gameRepository.findById(new ObjectId(game.id)).get()
         rawGame.grid.setGridCell(0, 0, 'A' as char)
         rawGame.grid.setGridCell(0, 1, 'T' as char)
         rawGame.grid.setGridCell(10, 10, 'F' as char)
@@ -192,7 +192,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
                 ))
         assert game.hintsRemaining > 0
         def originalRemaining = game.hintsRemaining
-        TWSGame rawGame = gameRepository.findOne(new ObjectId(game.id))
+        TWSGame rawGame = gameRepository.findById(new ObjectId(game.id)).get()
         assert rawGame.hintsRemaining > 0
         assert [] as Set == game.hints
 
@@ -211,7 +211,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         //  TODO - base method needs work to be more useful
     }
 
-    protected MaskedGame newGame(WebTarget target, FeaturesAndPlayers featuresAndPlayers) {
+    protected Object newGame(WebTarget target, FeaturesAndPlayers featuresAndPlayers) {
         def entity = Entity.entity(
                 featuresAndPlayers,
                 MediaType.APPLICATION_JSON)

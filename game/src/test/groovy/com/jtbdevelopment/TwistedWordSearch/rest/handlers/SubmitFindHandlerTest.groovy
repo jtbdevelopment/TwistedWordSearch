@@ -6,20 +6,25 @@ import com.jtbdevelopment.TwistedWordSearch.exceptions.NoWordToFindAtCoordinates
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
+import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.state.GamePhase
+import org.junit.Before
+import org.junit.Test
+
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.fail
 
 /**
  * Date: 9/3/2016
  * Time: 3:44 PM
  */
 class SubmitFindHandlerTest extends MongoGameCoreTestCase {
-    SubmitFindHandler handler = new SubmitFindHandler()
+    SubmitFindHandler handler = new SubmitFindHandler(null, null, null, null, null, null)
     TWSGame game
 
-    @Override
+    @Before
     void setUp() throws Exception {
-        super.setUp()
         game = new TWSGame(
                 grid: new Grid(10, 10),
                 players: [PONE],
@@ -53,127 +58,173 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         game.scores = [(PONE.id): 0]
     }
 
-
+    @Test(expected = InvalidWordFindCoordinatesException.class)
     void testInvalidWordFindCoordinatesIfSetEmpty() {
-        shouldFail(InvalidWordFindCoordinatesException.class) {
-            handler.handleActionInternal(PONE, game, [])
-        }
+        handler.handleActionInternal(PONE, game, [])
     }
 
+    @Test(expected = InvalidWordFindCoordinatesException.class)
     void testInvalidWordFindCoordinatesIfSetNull() {
-        shouldFail(InvalidWordFindCoordinatesException.class) {
-            handler.handleActionInternal(PONE, game, null)
-        }
+        handler.handleActionInternal(PONE, game, null)
     }
 
+    @Test
     void testInvalidWordStartExceptionIfOutsideGrid() {
-        shouldFail(InvalidStartCoordinateException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(-1, 5), new GridCoordinate(0, 1)])
+            fail()
+        } catch (InvalidStartCoordinateException ignore) {
+            //
         }
-        shouldFail(InvalidStartCoordinateException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, -3), new GridCoordinate(0, 1)])
+            fail()
+        } catch (InvalidStartCoordinateException ignore) {
+            //
         }
-        shouldFail(InvalidStartCoordinateException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 10), new GridCoordinate(0, 1)])
+            fail()
+        } catch (InvalidStartCoordinateException ignore) {
+            //
         }
-        shouldFail(InvalidStartCoordinateException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(11, 5), new GridCoordinate(0, 1)])
+            fail()
+        } catch (InvalidStartCoordinateException ignore) {
+            //
         }
     }
 
+    @Test(expected = InvalidStartCoordinateException.class)
     void testInvalidWordStartExceptionIfStartingOnSpace() {
-        shouldFail(InvalidStartCoordinateException.class) {
-            handler.handleActionInternal(PONE, game, [new GridCoordinate(0, 0), new GridCoordinate(0, 1)])
-        }
+        handler.handleActionInternal(PONE, game, [new GridCoordinate(0, 0), new GridCoordinate(0, 1)])
     }
 
+    @Test(expected = InvalidWordFindCoordinatesException.class)
     void testInvalidWordFindCoordinatesIfNoSecondCoordinate() {
-        shouldFail(InvalidWordFindCoordinatesException.class) {
-            handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5)])
-        }
+        handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5)])
     }
 
+    @Test
     void testInvalidWordFindCoordinatesIfListLongerThanBiggestBoundary() {
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(
                     PONE,
                     new TWSGame(grid: new Grid(5, 3), gamePhase: GamePhase.Playing),
                     [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1)])
+            fail()
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(
                     PONE,
                     new TWSGame(grid: new Grid(3, 4), gamePhase: GamePhase.Playing),
                     [new GridCoordinate(0, 0), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 1)])
+            fail()
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
     }
 
+    @Test
     void testInvalidWordFindCoordinatesIfSecondCoordinateIsNotAProperMoveOneOrZero() {
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(0, 0)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(-2, 0)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(3, 1)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(1, 2)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(1, -4)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
     }
 
+    @Test
     void testInvalidWordFindCoordinatesIfRemainingCoordinatesNotInALine() {
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(0, 1), new GridCoordinate(0, 0), new GridCoordinate(1, 1)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(0, 1), new GridCoordinate(0, 1), new GridCoordinate(1, 1)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(0, -1), new GridCoordinate(0, -1), new GridCoordinate(1, -1)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(1, 0), new GridCoordinate(1, 0), new GridCoordinate(1, -1)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(-1, 0), new GridCoordinate(-1, 0), new GridCoordinate(-1, -1)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(1, 1), new GridCoordinate(1, 1), new GridCoordinate(1, 0)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(1, -1), new GridCoordinate(1, -1), new GridCoordinate(1, 0)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 0)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
-        shouldFail(InvalidWordFindCoordinatesException.class) {
+        try {
             handler.handleActionInternal(PONE, game, [new GridCoordinate(5, 5), new GridCoordinate(-1, -1), new GridCoordinate(-1, -1), new GridCoordinate(-1, 0)])
+        } catch (InvalidWordFindCoordinatesException ignore) {
+            //
         }
     }
 
+    @Test
     void testFailsIfGameNotInPlayingMode() {
         GamePhase.values().findAll { it != GamePhase.Playing }.each {
             try {
                 game.gamePhase = it
                 handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 8), new GridCoordinate(0, -1)])
-            } catch (GameIsNotInPlayModeException) {
+            } catch (GameIsNotInPlayModeException ignore) {
                 return
             }
             fail('Should have exceptioned')
         }
     }
 
+    @Test(expected = NoWordToFindAtCoordinatesException.class)
     void testNoWordFoundExceptionIfNotActuallyGood() {
-        shouldFail(NoWordToFindAtCoordinatesException.class) {
-            handler.handleActionInternal(PONE, game, [new GridCoordinate(9, 9), new GridCoordinate(0, -1)])
-        }
+        handler.handleActionInternal(PONE, game, [new GridCoordinate(9, 9), new GridCoordinate(0, -1)])
     }
 
+    @Test
     void testAbleToFindWordCoordinatesGivenInForwardDirection() {
         TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 8), new GridCoordinate(0, -1)])
         assert update.is(game)
@@ -183,6 +234,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert [(PONE.id): 2] == update.scores
     }
 
+    @Test
     void testAbleToFindWordCoordinatesGivenInBackwardDirection() {
         TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 7), new GridCoordinate(0, 1)])
         assert update.is(game)
@@ -192,6 +244,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert [(PONE.id): 2] == update.scores
     }
 
+    @Test
     void testAbleToFindWordCoordinatesGivenInWrap() {
         TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(2, 7), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1), new GridCoordinate(-1, 1)])
         assert update.is(game)
@@ -201,6 +254,7 @@ class SubmitFindHandlerTest extends MongoGameCoreTestCase {
         assert [(PONE.id): 7] == update.scores
     }
 
+    @Test
     void testRemovesRelevantHint() {
         game.hintsGiven = ['AT': new GridCoordinate(1, 1), 'WRAPPED': new GridCoordinate(2, 5)]
         TWSGame update = handler.handleActionInternal(PONE, game, [new GridCoordinate(8, 8), new GridCoordinate(0, -1)])

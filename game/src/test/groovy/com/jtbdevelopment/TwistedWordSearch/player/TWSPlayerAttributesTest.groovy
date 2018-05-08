@@ -4,6 +4,7 @@ import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.PlayerPayLevel
 import org.bson.types.ObjectId
+import org.junit.Test
 
 /**
  * Date: 7/27/16
@@ -11,6 +12,7 @@ import org.bson.types.ObjectId
  */
 class TWSPlayerAttributesTest extends MongoGameCoreTestCase {
 
+    @Test
     void testFreeToPlayPlayer() {
         MongoPlayer player = makeSimplePlayer(new ObjectId().toHexString())
         player.payLevel = PlayerPayLevel.FreeToPlay
@@ -23,6 +25,7 @@ class TWSPlayerAttributesTest extends MongoGameCoreTestCase {
         assert [:] == attributes.gamesWonByPlayerCount
     }
 
+    @Test
     void testPremiumPlayer() {
         MongoPlayer player = makeSimplePlayer(new ObjectId().toHexString())
         player.payLevel = PlayerPayLevel.PremiumPlayer

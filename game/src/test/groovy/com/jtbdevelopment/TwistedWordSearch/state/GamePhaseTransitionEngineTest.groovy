@@ -8,7 +8,7 @@ import com.jtbdevelopment.games.state.GamePhase
  */
 class GamePhaseTransitionEngineTest extends GroovyTestCase {
     TWSGame scored = new TWSGame()
-    TWSGame expectedGame;
+    TWSGame expectedGame
     def scorer = [
             scoreGame: {
                 TWSGame game ->
@@ -16,7 +16,7 @@ class GamePhaseTransitionEngineTest extends GroovyTestCase {
                     scored
             }
     ] as TWSGameScorer
-    GamePhaseTransitionEngine engine = new GamePhaseTransitionEngine(gameScorer: scorer)
+    GamePhaseTransitionEngine engine = new GamePhaseTransitionEngine(scorer)
 
     void testEvaluateSetupPhase() {
         TWSGame game = new TWSGame(gamePhase: GamePhase.Setup, wordsToFind: ['TESTING'])

@@ -6,6 +6,10 @@ import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.state.GamePhase
 import org.bson.types.ObjectId
+import org.junit.Test
+
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertNull
 
 /**
  * Date: 7/13/16
@@ -14,11 +18,13 @@ import org.bson.types.ObjectId
 class GameMaskerTest extends MongoGameCoreTestCase {
     GameMasker masker = new GameMasker()
 
+    @Test
     void testNewMaskedGame() {
         MaskedGame game = masker.newMaskedGame()
         assertNotNull game
     }
 
+    @Test
     void testMaskingAGameNotInChallengedOrSetupPhases() {
         GamePhase.values().findAll { it != GamePhase.Setup && it != GamePhase.Challenged }.each {
             TWSGame game = new TWSGame(players: [PONE, PFOUR], initiatingPlayer: PONE.id, gamePhase: it)
@@ -50,6 +56,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
         }
     }
 
+    @Test
     void testMaskingAGameInChallengedOrSetupPhases() {
         GamePhase.values().findAll { it == GamePhase.Setup || it == GamePhase.Challenged }.each {
             TWSGame game = new TWSGame(players: [PONE, PFOUR], initiatingPlayer: PONE.id, gamePhase: it)
@@ -78,6 +85,7 @@ class GameMaskerTest extends MongoGameCoreTestCase {
         }
     }
 
+    @Test
     void testGetIDClass() {
         assert ObjectId.class == masker.IDClass
     }

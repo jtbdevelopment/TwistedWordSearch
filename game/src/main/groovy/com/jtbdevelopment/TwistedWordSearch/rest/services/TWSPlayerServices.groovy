@@ -1,11 +1,19 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.services
 
 import com.jtbdevelopment.TwistedWordSearch.rest.data.FeaturesAndPlayers
+import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
+import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.dao.StringToIDConverter
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.rest.AbstractMultiPlayerServices
 import com.jtbdevelopment.games.rest.handlers.NewGameHandler
+import com.jtbdevelopment.games.rest.handlers.PlayerGamesFinderHandler
+import com.jtbdevelopment.games.rest.services.AbstractAdminServices
+import com.jtbdevelopment.games.rest.services.AbstractGameServices
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 import javax.ws.rs.Consumes
@@ -20,10 +28,19 @@ import javax.ws.rs.core.MediaType
  */
 @Component
 @CompileStatic
-class TWSPlayerServices extends AbstractMultiPlayerServices<ObjectId> {
+class TWSPlayerServices extends AbstractMultiPlayerServices<ObjectId, GameFeature, TWSGame, MaskedGame, MongoPlayer> {
 
-    @Autowired
-    NewGameHandler newGameHandler
+    TWSPlayerServices(
+            final AbstractGameServices<ObjectId, GameFeature, TWSGame, MaskedGame, MongoPlayer> gamePlayServices,
+            final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
+            final AbstractAdminServices<ObjectId, GameFeature, TWSGame, MongoPlayer> adminServices,
+            final StringToIDConverter<ObjectId> stringToIDConverter,
+            final PlayerGamesFinderHandler<ObjectId, GameFeature, TWSGame, MaskedGame, MongoPlayer> playerGamesFinderHandler,
+            final NewGameHandler newGameHandler) {
+        super(gamePlayServices, playerRepository, adminServices, stringToIDConverter, playerGamesFinderHandler)
+        this.newGameHandler = newGameHandler
+    }
+    private final NewGameHandler newGameHandler
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

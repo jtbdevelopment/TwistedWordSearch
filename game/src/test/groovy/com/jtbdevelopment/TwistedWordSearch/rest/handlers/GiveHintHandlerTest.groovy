@@ -1,18 +1,22 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.handlers
 
+import com.jtbdevelopment.TwistedWordSearch.exceptions.NoHintsRemainException
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
+import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
 import com.jtbdevelopment.games.state.GamePhase
+import org.junit.Test
 
 /**
  * Date: 12/20/16
  * Time: 9:21 PM
  */
 class GiveHintHandlerTest extends MongoGameCoreTestCase {
-    GiveHintHandler handler = new GiveHintHandler()
+    GiveHintHandler handler = new GiveHintHandler(null, null, null, null, null, null)
 
+    @Test
     void testIgnoresNonPlayingGames() {
         TWSGame game = new TWSGame()
         game.wordsToFind = ['FIND']
@@ -24,7 +28,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
             game.gamePhase = it
             try {
                 handler.handleActionInternal(PONE, game, null)
-            } catch (GameIsNotInPlayModeException) {
+            } catch (GameIsNotInPlayModeException ignore) {
                 return
             }
 
@@ -32,6 +36,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
         }
     }
 
+    @Test
     void testFailsIfNotHintsRemain() {
         TWSGame game = new TWSGame()
         game.wordsToFind = ['FIND']
@@ -43,13 +48,14 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
 
         try {
             handler.handleActionInternal(PONE, game, null)
-        } catch (NoHintsRemainException) {
+        } catch (NoHintsRemainException ignore) {
             return
         }
 
         fail('should have exceptioned')
     }
 
+    @Test
     void testGivesAHintForSingleWordPuzzle() {
         TWSGame game = new TWSGame()
         game.wordsToFind = ['FIND']
@@ -75,6 +81,7 @@ class GiveHintHandlerTest extends MongoGameCoreTestCase {
         assert 5 == game.hintsTaken[PONE.id]
     }
 
+    @Test
     void testGivesAHintForTwoWordPuzzleEventuallyReturnsBoth() {
         TWSGame game = new TWSGame()
         game.wordsToFind = ['FIND', 'ME']

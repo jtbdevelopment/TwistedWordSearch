@@ -3,13 +3,22 @@ package com.jtbdevelopment.TwistedWordSearch.rest.handlers
 import com.jtbdevelopment.TwistedWordSearch.exceptions.InvalidStartCoordinateException
 import com.jtbdevelopment.TwistedWordSearch.exceptions.InvalidWordFindCoordinatesException
 import com.jtbdevelopment.TwistedWordSearch.exceptions.NoWordToFindAtCoordinatesException
+import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
+import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
+import com.jtbdevelopment.games.dao.AbstractGameRepository
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.events.GamePublisher
 import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.rest.handlers.AbstractGameActionHandler
 import com.jtbdevelopment.games.state.GamePhase
+import com.jtbdevelopment.games.state.masking.GameMasker
+import com.jtbdevelopment.games.state.transition.GameTransitionEngine
+import com.jtbdevelopment.games.tracking.GameEligibilityTracker
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -20,9 +29,26 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class SubmitFindHandler extends AbstractGameActionHandler<List<GridCoordinate>, TWSGame> {
+class SubmitFindHandler extends AbstractGameActionHandler<
+        List<GridCoordinate>,
+        ObjectId,
+        GameFeature,
+        TWSGame,
+        MaskedGame,
+        MongoPlayer> {
+
+    SubmitFindHandler(
+            final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
+            final AbstractGameRepository<ObjectId, GameFeature, TWSGame> gameRepository,
+            final GameTransitionEngine<TWSGame> transitionEngine,
+            final GamePublisher<TWSGame, MongoPlayer> gamePublisher,
+            final GameEligibilityTracker gameTracker,
+            final GameMasker<ObjectId, TWSGame, MaskedGame> gameMasker) {
+        super(playerRepository, gameRepository, transitionEngine, gamePublisher, gameTracker, gameMasker)
+    }
+
     protected TWSGame handleActionInternal(
-            final Player player,
+            final MongoPlayer player,
             final TWSGame game,
             final List<GridCoordinate> relativeCoordinates) {
         if (game.gamePhase != GamePhase.Playing) {

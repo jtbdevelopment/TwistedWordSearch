@@ -2,7 +2,11 @@ package com.jtbdevelopment.TwistedWordSearch.rest.services
 
 import com.jtbdevelopment.TwistedWordSearch.rest.data.GameFeatureInfo
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
+import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
+import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.rest.services.AbstractPlayerGatewayService
+import com.jtbdevelopment.games.rest.services.AbstractPlayerServices
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -19,7 +23,13 @@ import javax.ws.rs.core.MediaType
 @Path("/")
 @Component
 @CompileStatic
-class TWSPlayerGatewayService extends AbstractPlayerGatewayService<ObjectId> {
+class TWSPlayerGatewayService extends AbstractPlayerGatewayService<ObjectId, GameFeature, TWSGame, MaskedGame, MongoPlayer> {
+
+    TWSPlayerGatewayService(
+            final AbstractPlayerServices<ObjectId, GameFeature, TWSGame, MaskedGame, MongoPlayer> playerServices) {
+        super(playerServices)
+    }
+
     @GET
     @Path("features")
     @Produces(MediaType.APPLICATION_JSON)

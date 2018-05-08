@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedWordSearch.state
 
 import groovy.transform.CompileStatic
+import org.springframework.data.annotation.Transient
 
 /**
  * Date: 7/11/16
@@ -66,14 +67,19 @@ HideWordLettersMany(3, 'Many', 'Words to find show less than 75% of their letter
     Cooperative(2, 'Cooperative', 'Work together, friend with most finds wins.', Grid),
     */
 
+    @Transient
     final GameFeatureGroupType groupType
+    @Transient
     final GameFeature group
+    @Transient
     final String label
+    @Transient
     final String description
+    @Transient
     final int order
 
     //  Constructor for groups
-    public GameFeature(
+    GameFeature(
             final int order,
             final GameFeatureGroupType groupType,
             final String label,
@@ -86,7 +92,7 @@ HideWordLettersMany(3, 'Many', 'Words to find show less than 75% of their letter
         this.groupType = groupType
     }
 
-    public GameFeature(
+    GameFeature(
             final int order,
             final String label,
             final String description,

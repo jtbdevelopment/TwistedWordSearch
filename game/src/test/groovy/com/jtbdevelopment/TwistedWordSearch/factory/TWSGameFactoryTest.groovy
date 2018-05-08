@@ -7,7 +7,7 @@ import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
  * Time: 9:32 PM
  */
 class TWSGameFactoryTest extends GroovyTestCase {
-    TWSGameFactory factory = new TWSGameFactory()
+    TWSGameFactory factory = new TWSGameFactory(Collections.emptyList(), Collections.emptyList())
 
     void testCreatesNewGame() {
         TWSGame game1 = factory.newGame()
