@@ -6,13 +6,15 @@ import com.jtbdevelopment.TwistedWordSearch.state.GameFeature
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.games.dictionary.DictionaryType
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.mockito.Mockito
 
 /**
  * Date: 8/19/16
  * Time: 6:31 PM
  */
 class WordSelectorInitializerTest extends GroovyTestCase {
-    WordSelectorInitializer initializer = new WordSelectorInitializer()
+    private BucketedDictionaryManager bucketedDictionaryManager = Mockito.mock(BucketedDictionaryManager.class)
+    private WordSelectorInitializer initializer = new WordSelectorInitializer()
 
     private def EXPECTED_DICTIONARY = [
             (GameFeature.SimpleWords)  : DictionaryType.USEnglishSimple,
@@ -38,14 +40,9 @@ class WordSelectorInitializerTest extends GroovyTestCase {
                             ] as Map<Integer, List<String>>
                         }
                 ] as BucketedDictionary
-                def manager = [
-                        getDictionary: {
-                            DictionaryType type ->
-                                assert EXPECTED_DICTIONARY[wordType] == type
-                                return dictionary
-                        }
-                ] as BucketedDictionaryManager
-                initializer.dictionaryManager = manager
+
+                Mockito.when(bucketedDictionaryManager.getDictionary(EXPECTED_DICTIONARY[wordType])).thenReturn(dictionary)
+                initializer.dictionaryManager = bucketedDictionaryManager
                 TWSGame game = new TWSGame(wordAverageLengthGoal: 5, numberOfWords: 2, features: [wordType] as Set)
                 Set<Set<String>> validCombos = [
                         ['FOUR', 'FORGETS'] as Set,

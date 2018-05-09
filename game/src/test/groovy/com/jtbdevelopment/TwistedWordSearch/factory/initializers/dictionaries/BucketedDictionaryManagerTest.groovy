@@ -47,7 +47,7 @@ class BucketedDictionaryManagerTest extends GroovyTestCase {
             }
     ] as DictionaryFilter
 
-    BucketedDictionaryManager bucketedDictionaryManager = new BucketedDictionaryManager(dictionaryManager: manager, dictionaryFilter: filter)
+    BucketedDictionaryManager bucketedDictionaryManager = new BucketedDictionaryManager(filter, manager)
 
     void testGetsABucketedDictionaryOnce() {
         DictionaryType.values().each {
