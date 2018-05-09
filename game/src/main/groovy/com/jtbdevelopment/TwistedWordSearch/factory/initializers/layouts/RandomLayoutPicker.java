@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers.layouts;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class RandomLayoutPicker {
 
   private Random random = new Random();
-  private List<WordLayout> layouts = DefaultGroovyMethods.toList(WordLayout.values());
+  private List<WordLayout> layouts = Arrays.asList(WordLayout.values());
   private int upperBound = layouts.size();
 
   public WordLayout getRandomLayout() {

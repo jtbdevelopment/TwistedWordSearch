@@ -31,7 +31,9 @@ class GameEndPlayerUpdater implements GameListener<TWSGame, MongoPlayer> {
         this.playerRepository = playerRepository
     }
 
-    void gameChanged(final TWSGame game, final MongoPlayer initiatingPlayer, final boolean initiatingServer) {
+    void gameChanged(
+            final TWSGame game,
+            final MongoPlayer initiatingPlayer, final boolean initiatingServer) {
         if (game.gamePhase == GamePhase.RoundOver && initiatingServer) {
 
             def playerCount = game.players.size()

@@ -4,7 +4,6 @@ import com.jtbdevelopment.TwistedWordSearch.state.GameFeature;
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeatureGroupType;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 
 /**
  * Date: 4/28/15 Time: 6:54 PM
@@ -24,7 +23,7 @@ public class GameFeatureInfo {
   }
 
   public boolean equals(final Object o) {
-    if (DefaultGroovyMethods.is(this, o)) {
+    if (this == o) {
       return true;
     }
     if (!getClass().equals(o.getClass())) {
@@ -69,7 +68,7 @@ public class GameFeatureInfo {
     }
 
     public boolean equals(final Object o) {
-      if (DefaultGroovyMethods.is(this, o)) {
+      if (this == o) {
         return true;
       }
       if (!getClass().equals(o.getClass())) {

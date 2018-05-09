@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.state.grid;
 
 import java.io.Serializable;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 
 /**
  * Date: 7/18/16 Time: 3:40 PM
@@ -26,7 +25,7 @@ public class GridCoordinate implements Serializable {
   }
 
   public boolean equals(final Object o) {
-    if (DefaultGroovyMethods.is(this, o)) {
+    if (this == o) {
       return true;
     }
     if (!getClass().equals(o.getClass())) {
