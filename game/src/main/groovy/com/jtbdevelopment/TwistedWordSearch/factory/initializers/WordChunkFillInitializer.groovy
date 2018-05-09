@@ -36,7 +36,8 @@ class WordChunkFillInitializer extends AbstractWordPlacementInitializer implemen
     }
 
     protected void wordPlacedAt(
-            final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end) {
+            final TWSGame game,
+            final String word, final GridCoordinate start, final GridCoordinate end) {
         game.wordEnds[word] = end
         game.wordStarts[word] = start
     }

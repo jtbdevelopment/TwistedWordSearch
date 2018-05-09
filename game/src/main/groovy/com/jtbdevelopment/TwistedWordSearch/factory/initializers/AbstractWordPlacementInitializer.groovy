@@ -21,7 +21,8 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGame> {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractWordPlacementInitializer.class)
+    private static
+    final Logger logger = LoggerFactory.getLogger(AbstractWordPlacementInitializer.class)
     protected Random random = new Random()
 
     @Autowired
@@ -30,7 +31,8 @@ abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGa
     protected abstract Collection<String> getWordsToPlace(final TWSGame game)
 
     protected abstract void wordPlacedAt(
-            final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end)
+            final TWSGame game,
+            final String word, final GridCoordinate start, final GridCoordinate end)
 
     void initializeGame(final TWSGame game) {
         boolean allowWordWrap = game.features.contains(GameFeature.WordWrapYes)
@@ -126,7 +128,8 @@ abstract class AbstractWordPlacementInitializer implements GameInitializer<TWSGa
     }
 
     private static void performWrap(
-            final TWSGame game, final GridCoordinate wrapAdjustment, final GridCoordinate coordinate) {
+            final TWSGame game,
+            final GridCoordinate wrapAdjustment, final GridCoordinate coordinate) {
         if (coordinate.row > game.grid.rowUpperBound) {
             wrapAdjustment.row = -game.grid.rows
             coordinate.row = 0
