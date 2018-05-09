@@ -5,6 +5,7 @@ package com.jtbdevelopment.TwistedWordSearch.state
  */
 class GameFeatureTest extends GroovyTestCase {
     void testGetGroupedFeatures() {
+        def features = GameFeature.groupedFeatures
         assert [
                 (GameFeature.Grid)          : [
                         GameFeature.Grid20X20,
@@ -23,6 +24,6 @@ class GameFeatureTest extends GroovyTestCase {
                 (GameFeature.WordSpotting)  : [GameFeature.EasiestDifficulty, GameFeature.StandardDifficulty, GameFeature.HarderDifficulty, GameFeature.FiendishDifficulty],
                 (GameFeature.WordWrap)      : [GameFeature.WordWrapNo, GameFeature.WordWrapYes],
                 (GameFeature.FillDifficulty): [GameFeature.RandomFill, GameFeature.SomeOverlap, GameFeature.StrongOverlap, GameFeature.WordChunks],
-        ] == GameFeature.groupedFeatures
+        ] == features
     }
 }
