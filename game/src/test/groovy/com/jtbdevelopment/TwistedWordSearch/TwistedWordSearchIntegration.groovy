@@ -211,7 +211,7 @@ class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGame, Mask
         //  TODO - base method needs work to be more useful
     }
 
-    protected Object newGame(WebTarget target, FeaturesAndPlayers featuresAndPlayers) {
+    protected MaskedGame newGame(WebTarget target, FeaturesAndPlayers featuresAndPlayers) {
         def entity = Entity.entity(
                 featuresAndPlayers,
                 MediaType.APPLICATION_JSON)
