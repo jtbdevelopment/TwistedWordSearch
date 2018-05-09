@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  * Date: 8/15/16 Time: 6:29 PM
  */
 @Component
-public class DiamondGridInitializer implements GameInitializer<TWSGame> {
-//    Diamond 20x20 - 30x30 probably
+public class PyramidGridInitializer implements GameInitializer<TWSGame> {
+//  Pryamid x 20 - too small 40 min
 //    '         XX         '
 //    '        XXXX        '
 //    '       XXXXXX       '
@@ -22,16 +22,6 @@ public class DiamondGridInitializer implements GameInitializer<TWSGame> {
 //    '  XXXXXXXXXXXXXXXX  '
 //    ' XXXXXXXXXXXXXXXXXX '
 //    'XXXXXXXXXXXXXXXXXXXX'
-//    'XXXXXXXXXXXXXXXXXXXX'
-//    ' XXXXXXXXXXXXXXXXXX '
-//    '  XXXXXXXXXXXXXXXX  '
-//    '   XXXXXXXXXXXXXX   '
-//    '    XXXXXXXXXXXX    '
-//    '     XXXXXXXXXX     '
-//    '      XXXXXXXX      '
-//    '       XXXXXX       '
-//    '        XXXX        '
-//    '         XX         '
 
   public void initializeGame(final TWSGame game) {
     //noinspection ConstantConditions
@@ -41,24 +31,20 @@ public class DiamondGridInitializer implements GameInitializer<TWSGame> {
         .findFirst()
         .get();
 
-    if (gridType.toString().startsWith("Diamond")) {
+    if (gridType.toString().startsWith("Pyramid")) {
       final int halfColumns = game.getGrid().getColumns() / 2;
-      int halfRows = game.getGrid().getColumns() / 2;
-      for (int row = 0; row < halfRows; ++row) {
+      for (int row = 0; row < game.getGrid().getRows(); ++row) {
         int splits = halfColumns - row - 1;
-        final int mirrorRow = game.getGrid().getRowUpperBound() - row;
         if (splits > 0) {
           for (int split = 0; split < splits; ++split) {
             Integer mirrorColumn = game.getGrid().getColumnUpperBound() - split;
             game.getGrid().setGridCell(row, mirrorColumn, Grid.SPACE);
             game.getGrid().setGridCell(row, split, Grid.SPACE);
-            game.getGrid().setGridCell(mirrorRow, mirrorColumn, Grid.SPACE);
-            game.getGrid().setGridCell(mirrorRow, split, Grid.SPACE);
+
           }
         }
       }
     }
-
   }
 
   public int getOrder() {

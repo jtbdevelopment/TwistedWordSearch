@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class MaxPlayersValidator implements GameValidator<TWSGame> {
 
-    public boolean validateGame(final TWSGame game) {
-        return game.getPlayers().size() <= MAX_PLAYERS;
-    }
+  private static final int MAX_PLAYERS = 5;
 
-    public String errorMessage() {
-        return "Sorry, there are too many players - maximum is 5.";
-    }
+  public boolean validateGame(final TWSGame game) {
+    return game.getPlayers().size() <= MAX_PLAYERS;
+  }
 
-    private static final int MAX_PLAYERS = 5;
+  public String errorMessage() {
+    return "Sorry, there are too many players - maximum is 5.";
+  }
 }

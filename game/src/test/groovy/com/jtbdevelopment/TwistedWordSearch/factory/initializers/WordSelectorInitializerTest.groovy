@@ -14,7 +14,7 @@ import org.mockito.Mockito
  */
 class WordSelectorInitializerTest extends GroovyTestCase {
     private BucketedDictionaryManager bucketedDictionaryManager = Mockito.mock(BucketedDictionaryManager.class)
-    private WordSelectorInitializer initializer = new WordSelectorInitializer()
+    private WordSelectorInitializer initializer = new WordSelectorInitializer(bucketedDictionaryManager)
 
     private def EXPECTED_DICTIONARY = [
             (GameFeature.SimpleWords)  : DictionaryType.USEnglishSimple,
@@ -42,7 +42,6 @@ class WordSelectorInitializerTest extends GroovyTestCase {
                 ] as BucketedDictionary
 
                 Mockito.when(bucketedDictionaryManager.getDictionary(EXPECTED_DICTIONARY[wordType])).thenReturn(dictionary)
-                initializer.dictionaryManager = bucketedDictionaryManager
                 TWSGame game = new TWSGame(wordAverageLengthGoal: 5, numberOfWords: 2, features: [wordType] as Set)
                 Set<Set<String>> validCombos = [
                         ['FOUR', 'FORGETS'] as Set,

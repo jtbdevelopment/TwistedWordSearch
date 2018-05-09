@@ -9,22 +9,22 @@ import java.util.Set;
  */
 public class FeaturesAndPlayers {
 
-    private List<String> players;
-    private Set<GameFeature> features;
+  private List<String> players;
+  private Set<GameFeature> features;
 
-    public List<String> getPlayers() {
-        return players;
-    }
+  public List<String> getPlayers() {
+    return players;
+  }
 
-    public void setPlayers(List<String> players) {
-        this.players = players;
-    }
+  public void setPlayers(List<String> players) {
+    this.players = players;
+  }
 
-    public Set<GameFeature> getFeatures() {
-        return features;
-    }
+  public Set<GameFeature> getFeatures() {
+    return features;
+  }
 
-    public void setFeatures(Set<GameFeature> features) {
-        this.features = features;
-    }
+  public void setFeatures(Set<GameFeature> features) {
+    this.features = features;
+  }
 }

@@ -5,14 +5,12 @@ import com.jtbdevelopment.TwistedWordSearch.state.TWSGame
 import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
 import com.jtbdevelopment.games.factory.GameInitializer
-import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
 /**
  * Date: 8/26/16
  * Time: 6:57 PM
  */
-@CompileStatic
 @Component
 class RandomFillInitializer implements GameInitializer<TWSGame> {
     private static Map<GameFeature, Double> RANDOM_PERCENT = [
