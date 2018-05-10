@@ -6,7 +6,6 @@ import com.jtbdevelopment.TwistedWordSearch.state.GameFeature;
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame;
 import com.jtbdevelopment.games.dictionary.DictionaryType;
 import com.jtbdevelopment.games.factory.GameInitializer;
-import groovy.transform.CompileStatic;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 /**
  * Date: 8/17/16 Time: 6:41 PM
  */
-@CompileStatic
 @Component
 public class WordSelectorInitializer implements GameInitializer<TWSGame> {
 
