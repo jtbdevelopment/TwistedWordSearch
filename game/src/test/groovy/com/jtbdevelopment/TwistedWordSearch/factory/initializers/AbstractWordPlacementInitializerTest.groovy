@@ -11,7 +11,7 @@ import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate
  * Time: 6:46 PM
  */
 class AbstractWordPlacementInitializerTest extends GroovyTestCase {
-    def initializer = new AbstractWordPlacementInitializer() {
+    def initializer = new AbstractWordPlacementInitializer(new RandomLayoutPicker()) {
         Map<String, GridCoordinate> starts = [:]
         Map<String, GridCoordinate> ends = [:]
 
@@ -20,7 +20,8 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
         }
 
         protected void wordPlacedAt(
-                final TWSGame game, final String word, final GridCoordinate start, final GridCoordinate end) {
+                final TWSGame game,
+                final String word, final GridCoordinate start, final GridCoordinate end) {
             starts[word] = start
             ends[word] = end
         }
@@ -36,7 +37,6 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
 
         game.grid.setGridCell(0, 0, Grid.SPACE)
         game.grid.setGridCell(game.grid.rowUpperBound, game.grid.columnUpperBound, Grid.SPACE)
-        initializer.randomLayoutPicker = new RandomLayoutPicker()
 
         assert [
                 ' ??',
@@ -73,7 +73,6 @@ class AbstractWordPlacementInitializerTest extends GroovyTestCase {
 
         game.grid.setGridCell(0, 0, Grid.SPACE)
         game.grid.setGridCell(game.grid.rowUpperBound, game.grid.columnUpperBound, Grid.SPACE)
-        initializer.randomLayoutPicker = new RandomLayoutPicker()
 
         assert [
                 ' ??',

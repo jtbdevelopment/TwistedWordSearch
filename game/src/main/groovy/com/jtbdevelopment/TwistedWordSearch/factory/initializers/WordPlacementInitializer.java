@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedWordSearch.factory.initializers;
 
+import com.jtbdevelopment.TwistedWordSearch.factory.initializers.layouts.RandomLayoutPicker;
 import com.jtbdevelopment.TwistedWordSearch.state.TWSGame;
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate;
 import java.util.Collection;
@@ -10,6 +11,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class WordPlacementInitializer extends AbstractWordPlacementInitializer {
+
+  public WordPlacementInitializer(
+      final RandomLayoutPicker randomLayoutPicker) {
+    super(randomLayoutPicker);
+  }
 
   public int getOrder() {
     return DEFAULT_ORDER + 10;

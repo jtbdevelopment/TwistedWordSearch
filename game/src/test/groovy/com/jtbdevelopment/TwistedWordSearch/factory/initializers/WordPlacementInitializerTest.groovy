@@ -11,7 +11,7 @@ import com.jtbdevelopment.games.factory.GameInitializer
  * Time: 6:46 PM
  */
 class WordPlacementInitializerTest extends GroovyTestCase {
-    WordPlacementInitializer initializer = new WordPlacementInitializer()
+    WordPlacementInitializer initializer = new WordPlacementInitializer(new RandomLayoutPicker())
 
     void testWordsToPlace() {
         TWSGame game = new TWSGame(features: [GameFeature.WordWrapNo])
@@ -19,7 +19,6 @@ class WordPlacementInitializerTest extends GroovyTestCase {
         game.words = ['YOU', 'OF', 'TON']
 
         assert game.words == initializer.getWordsToPlace(game)
-        initializer.randomLayoutPicker = new RandomLayoutPicker()
         initializer.initializeGame(game)
         game.words.each {
             assert it.toCharArray()[0] == game.grid.getGridCell(game.wordStarts[it])
