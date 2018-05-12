@@ -135,7 +135,7 @@ public abstract class AbstractWordPlacementInitializer implements GameInitialize
       final Grid grid,
       final GridCoordinate wrapAdjustment,
       final GridCoordinate coordinate) {
-    if (coordinate.getRow() > grid.getRowUpperBound()) {
+    if (coordinate.getRow() >= grid.getRows()) {
       wrapAdjustment.setRow(-grid.getRows());
       coordinate.setRow(0);
     }
@@ -145,7 +145,7 @@ public abstract class AbstractWordPlacementInitializer implements GameInitialize
       coordinate.setRow(grid.getRowUpperBound());
     }
 
-    if (coordinate.getColumn() > grid.getColumnUpperBound()) {
+    if (coordinate.getColumn() >= grid.getColumns()) {
       wrapAdjustment.setColumn(-grid.getColumns());
       coordinate.setColumn(0);
     }
@@ -161,8 +161,8 @@ public abstract class AbstractWordPlacementInitializer implements GameInitialize
     return
         nextCell.getRow() >= 0 &&
             nextCell.getColumn() >= 0 &&
-            nextCell.getRow() <= grid.getRowUpperBound() &&
-            nextCell.getColumn() <= grid.getColumnUpperBound();
+            nextCell.getRow() < grid.getRows() &&
+            nextCell.getColumn() < grid.getColumns();
   }
 
 }

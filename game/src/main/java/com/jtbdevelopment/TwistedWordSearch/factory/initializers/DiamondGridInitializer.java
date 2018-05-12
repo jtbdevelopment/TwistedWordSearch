@@ -46,7 +46,7 @@ public class DiamondGridInitializer implements GameInitializer<TWSGame> {
       int halfRows = game.getGrid().getColumns() / 2;
       for (int row = 0; row < halfRows; ++row) {
         int splits = halfColumns - row - 1;
-        final int mirrorRow = game.getGrid().getRowUpperBound() - row;
+        final int mirrorRow = game.getGrid().getRows() - row - 1;
         if (splits > 0) {
           for (int split = 0; split < splits; ++split) {
             Integer mirrorColumn = game.getGrid().getColumnUpperBound() - split;
