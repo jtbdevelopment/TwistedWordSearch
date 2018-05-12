@@ -32,63 +32,63 @@ import org.mockito.Mockito;
  */
 public class TWSGameServicesTest extends MongoGameCoreTestCase {
 
-    private GiveHintHandler giveHintHandler = Mockito.mock(GiveHintHandler.class);
-    private SubmitFindHandler submitFindHandler = Mockito.mock(SubmitFindHandler.class);
-    private TWSGameServices services = new TWSGameServices(null, null, null, null, null,
-            submitFindHandler, giveHintHandler);
+  private GiveHintHandler giveHintHandler = Mockito.mock(GiveHintHandler.class);
+  private SubmitFindHandler submitFindHandler = Mockito.mock(SubmitFindHandler.class);
+  private TWSGameServices services = new TWSGameServices(null, null, null, null, null,
+      submitFindHandler, giveHintHandler);
 
-    @Test
-    public void testActionAnnotations() {
-        Map<String, List<Object>> stuff = new HashMap<>();
-        stuff.put("findWord",
-                Arrays.asList("find", Collections.singletonList(List.class), new ArrayList()));
-        stuff.put("giveHint", Arrays.asList("hint", new ArrayList(), new ArrayList()));
+  @Test
+  public void testActionAnnotations() {
+    Map<String, List<Object>> stuff = new HashMap<>();
+    stuff.put("findWord",
+        Arrays.asList("find", Collections.singletonList(List.class), new ArrayList()));
+    stuff.put("giveHint", Arrays.asList("hint", new ArrayList(), new ArrayList()));
 
-        stuff.forEach((method, details) -> {
-            final Method m;
-            try {
-                m = TWSGameServices.class
-                        .getMethod(method, ((List<Class>) details.get(1)).toArray(new Class[0]));
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
-            int expectedAnnotations = 4;
-            assertEquals(expectedAnnotations, m.getAnnotations().length);
-            assertTrue(m.isAnnotationPresent(PUT.class));
-            assertTrue(m.isAnnotationPresent(Produces.class));
-            assertArrayEquals(Collections.singletonList(MediaType.APPLICATION_JSON).toArray(),
-                    m.getAnnotation(Produces.class).value());
-            assertTrue(m.isAnnotationPresent(Path.class));
-            assertEquals(details.get(0), m.getAnnotation(Path.class).value());
-            assertTrue(m.isAnnotationPresent(Consumes.class));
-            assertArrayEquals(Collections.singletonList(MediaType.APPLICATION_JSON).toArray(),
-                    m.getAnnotation(Consumes.class).value());
+    stuff.forEach((method, details) -> {
+      final Method m;
+      try {
+        m = TWSGameServices.class
+            .getMethod(method, ((List<Class>) details.get(1)).toArray(new Class[0]));
+      } catch (NoSuchMethodException e) {
+        throw new RuntimeException(e);
+      }
+      int expectedAnnotations = 4;
+      assertEquals(expectedAnnotations, m.getAnnotations().length);
+      assertTrue(m.isAnnotationPresent(PUT.class));
+      assertTrue(m.isAnnotationPresent(Produces.class));
+      assertArrayEquals(Collections.singletonList(MediaType.APPLICATION_JSON).toArray(),
+          m.getAnnotation(Produces.class).value());
+      assertTrue(m.isAnnotationPresent(Path.class));
+      assertEquals(details.get(0), m.getAnnotation(Path.class).value());
+      assertTrue(m.isAnnotationPresent(Consumes.class));
+      assertArrayEquals(Collections.singletonList(MediaType.APPLICATION_JSON).toArray(),
+          m.getAnnotation(Consumes.class).value());
 
-        });
-    }
+    });
+  }
 
-    @Test
-    public void testGiveHintHandler() {
-        MaskedGame maskedGame = new MaskedGame();
-        ObjectId gameId = new ObjectId();
-        services.getPlayerID().set(PONE.getId());
-        services.getGameID().set(gameId);
-        when(giveHintHandler.handleAction(PONE.getId(), gameId)).thenReturn(maskedGame);
-        assertSame(maskedGame, services.giveHint());
-    }
+  @Test
+  public void testGiveHintHandler() {
+    MaskedGame maskedGame = new MaskedGame();
+    ObjectId gameId = new ObjectId();
+    services.getPlayerID().set(PONE.getId());
+    services.getGameID().set(gameId);
+    when(giveHintHandler.handleAction(PONE.getId(), gameId)).thenReturn(maskedGame);
+    assertSame(maskedGame, services.giveHint());
+  }
 
-    @Test
-    public void testFindWordUsesHandler() {
-        MaskedGame maskedGame = new MaskedGame();
-        List<GridCoordinate> inputCoordinates = Arrays
-                .asList(new GridCoordinate(0, 0), new GridCoordinate(1, 1),
-                        new GridCoordinate(1, 1));
-        ObjectId gameId = new ObjectId();
-        services.getPlayerID().set(PONE.getId());
-        services.getGameID().set(gameId);
-        when(submitFindHandler.handleAction(PONE.getId(), gameId, inputCoordinates))
-                .thenReturn(maskedGame);
-        assertSame(maskedGame, services.findWord(inputCoordinates));
+  @Test
+  public void testFindWordUsesHandler() {
+    MaskedGame maskedGame = new MaskedGame();
+    List<GridCoordinate> inputCoordinates = Arrays
+        .asList(new GridCoordinate(0, 0), new GridCoordinate(1, 1),
+            new GridCoordinate(1, 1));
+    ObjectId gameId = new ObjectId();
+    services.getPlayerID().set(PONE.getId());
+    services.getGameID().set(gameId);
+    when(submitFindHandler.handleAction(PONE.getId(), gameId, inputCoordinates))
+        .thenReturn(maskedGame);
+    assertSame(maskedGame, services.findWord(inputCoordinates));
 
-    }
+  }
 }
