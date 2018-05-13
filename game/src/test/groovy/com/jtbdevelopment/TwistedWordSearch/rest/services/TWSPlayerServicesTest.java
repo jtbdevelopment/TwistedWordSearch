@@ -1,10 +1,11 @@
 package com.jtbdevelopment.TwistedWordSearch.rest.services;
 
+import static org.junit.Assert.assertEquals;
+
 import com.jtbdevelopment.TwistedWordSearch.rest.data.FeaturesAndPlayers;
 import com.jtbdevelopment.TwistedWordSearch.state.GameFeature;
 import com.jtbdevelopment.TwistedWordSearch.state.masking.MaskedGame;
 import com.jtbdevelopment.games.rest.handlers.NewGameHandler;
-import groovy.transform.TypeChecked.TypeCheckingInfo;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -52,11 +52,9 @@ public class TWSPlayerServicesTest {
   public void testCreateNewGameAnnotations() throws NoSuchMethodException {
     Method gameServices = TWSPlayerServices.class
         .getMethod("createNewGame", FeaturesAndPlayers.class);
-    assert (DefaultGroovyMethods.size(gameServices.getAnnotations()) == 4 || (
-        gameServices.isAnnotationPresent(TypeCheckingInfo.class)
-            && DefaultGroovyMethods.size(gameServices.getAnnotations()) == 5));
+    assertEquals(4, gameServices.getAnnotations().length);
     Assert.assertTrue(gameServices.isAnnotationPresent(Path.class));
-    Assert.assertEquals("new", gameServices.getAnnotation(Path.class).value());
+    assertEquals("new", gameServices.getAnnotation(Path.class).value());
     Assert.assertTrue(gameServices.isAnnotationPresent(Consumes.class));
     Assert.assertArrayEquals(
         Collections.singletonList(MediaType.APPLICATION_JSON).toArray(),
@@ -67,7 +65,7 @@ public class TWSPlayerServicesTest {
         gameServices.getAnnotation(Produces.class).value());
     Assert.assertTrue(gameServices.isAnnotationPresent(POST.class));
     Annotation[][] params = gameServices.getParameterAnnotations();
-    Assert.assertEquals(1, params.length);
-    Assert.assertEquals(0, params[0].length);
+    assertEquals(1, params.length);
+    assertEquals(0, params[0].length);
   }
 }

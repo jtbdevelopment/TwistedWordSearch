@@ -8,7 +8,6 @@ import com.jtbdevelopment.TwistedWordSearch.state.grid.Grid;
 import com.jtbdevelopment.TwistedWordSearch.state.grid.GridCoordinate;
 import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase;
 import com.jtbdevelopment.games.state.GamePhase;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,8 +72,7 @@ public class GameMaskerTest extends MongoGameCoreTestCase {
           assertEquals(game.getWordsToFind(), new TreeSet<>(masked.getWordsToFind()));
           LinkedHashMap<String, Set> map5 = new LinkedHashMap<>(2);
           map5.put(PONE.getMd5(), new TreeSet<>(Arrays.asList("I", "FOUND", "THESE")));
-          map5.put(PFOUR.getMd5(),
-              DefaultGroovyMethods.asType(new ArrayList(), Set.class));
+              map5.put(PFOUR.getMd5(), new HashSet<>());
           assertEquals(map5, masked.getWordsFoundByPlayer());
           LinkedHashMap<String, Integer> map6 = new LinkedHashMap<>(2);
           map6.put(PONE.getMd5(), 10);
@@ -91,7 +88,7 @@ public class GameMaskerTest extends MongoGameCoreTestCase {
           assertEquals(map7, masked.getPlayers());
           assertEquals(gamePhase, masked.getGamePhase());
           assertEquals(
-              DefaultGroovyMethods.asType(game.getHintsGiven().values(), Set.class),
+              new HashSet<>(game.getHintsGiven().values()),
               masked.getHints());
           assertEquals(game.getHintsRemaining(), masked.getHintsRemaining());
           LinkedHashMap<String, Integer> map8 = new LinkedHashMap<>(2);
@@ -144,7 +141,7 @@ public class GameMaskerTest extends MongoGameCoreTestCase {
           assertEquals(map4, masked.getPlayers());
           assertEquals(it, masked.getGamePhase());
           assertEquals(
-              DefaultGroovyMethods.asType(game.getHintsGiven().values(), Set.class),
+              new HashSet<>(game.getHintsGiven().values()),
               masked.getHints());
           assertEquals(game.getHintsRemaining(), masked.getHintsRemaining());
 

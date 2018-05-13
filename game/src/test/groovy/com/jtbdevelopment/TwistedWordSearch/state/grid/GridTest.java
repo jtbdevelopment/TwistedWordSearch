@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedWordSearch.state.grid;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import org.codehaus.groovy.runtime.StringGroovyMethods;
 import org.junit.Test;
 
 /**
@@ -44,8 +43,8 @@ public class GridTest {
     grid.setGridCell(0, 1, Grid.SPACE);
 
     char[][] backup = grid.backupGridLetters();
-    grid.setGridCell(3, 3, StringGroovyMethods.asType("X", Character.class));
-    grid.setGridCell(4, 4, StringGroovyMethods.asType("X", Character.class));
+    grid.setGridCell(3, 3, 'X');
+    grid.setGridCell(4, 4, 'X');
 
     assertEquals(Grid.SPACE, grid.getGridCell(0, 1));
     assertEquals(Grid.SPACE, grid.getGridCell(7, 0));
