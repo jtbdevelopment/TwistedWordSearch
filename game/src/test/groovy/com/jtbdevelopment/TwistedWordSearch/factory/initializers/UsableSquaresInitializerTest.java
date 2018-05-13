@@ -25,10 +25,10 @@ public class UsableSquaresInitializerTest {
 
     initializer.initializeGame(game);
     assertEquals(98, game.getUsableSquares());
-    }
+  }
 
   @Test
   public void testGetOrder() {
     assertEquals(GameInitializer.EARLY_ORDER + 20, initializer.getOrder());
-    }
+  }
 }
