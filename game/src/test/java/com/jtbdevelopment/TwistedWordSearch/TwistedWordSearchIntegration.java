@@ -42,7 +42,7 @@ public class TwistedWordSearchIntegration extends AbstractGameIntegration<TWSGam
 
   @BeforeClass
   public static void setup() {
-    gameRepository = context.getBean(GameRepository.class);
+    gameRepository = applicationContext.getBean(GameRepository.class);
   }
 
   public Class<MaskedGame> returnedGameClass() {

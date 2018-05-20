@@ -27,26 +27,30 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
-    <content url="file://$MODULE_DIR$">
+    <content url="file://$MODULE_DIR$/../example-war/src/main/java">
       <sourceFolder url="file://$MODULE_DIR$/../example-war/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../example-war/src/test/java">
       <sourceFolder url="file://$MODULE_DIR$/../example-war/src/test/java" isTestSource="true" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../example-war/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="game" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-dictionaries:1.8-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-dictionaries:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.3" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-mongo:1.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-jackson:1.10-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-mongo:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-jackson:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games:1.8-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:2.0.5.RELEASE" level="project" />
@@ -54,9 +58,9 @@
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.5.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.5" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-hazelcast:1.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-hazelcast:1.10-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring:1.10-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-hazelcast:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-hazelcast:1.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.hazelcast:hazelcast:3.9.3" level="project" />
     <orderEntry type="library" name="Maven: com.hazelcast:hazelcast-aws:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-core:1.11.311" level="project" />
@@ -67,11 +71,11 @@
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-ec2:1.11.311" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:jmespath-java:1.11.311" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web-hazelcast:1.10-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web-hazelcast:1.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.session:spring-session-core:2.0.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-events:1.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-web:1.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web:1.10-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-events:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-web:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web:1.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:4.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.social:spring-social-core:1.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.0.5.RELEASE" level="project" />
@@ -93,19 +97,19 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.8.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.5" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-web-std-multiplayer:1.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.10-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-mongo:1.10-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-websocket:1.8-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-web-std-multiplayer:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-mongo:1.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-websocket:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.4.9" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-std-tracker:1.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-quartz:1.10-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-std-tracker:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-quartz:1.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.quartz-scheduler:quartz:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP-java6:2.3.13" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-std-maintenance:1.8-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-std-maintenance:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.25.1" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.25.1" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.25.1" level="project" />
