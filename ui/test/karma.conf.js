@@ -38,7 +38,7 @@ module.exports = function (config) {
             // endbower
             'app/scripts/services/services.js',
             //'app/scripts/controllers/*.js',
-            '//app/scripts/services/*.js',
+          'app/scripts/services/*.js',
             'app/scripts/**/*.js',
             'test/mock/**/*.js',
             'test/spec/**/*.js'
@@ -75,12 +75,12 @@ module.exports = function (config) {
         // - PhantomJS
         // - IE (only Windows)
         browsers: [
-            'PhantomJS'
+          'ChromeHeadless'
         ],
 
         // Which plugins to enable
         plugins: [
-            'karma-phantomjs-launcher',
+          'karma-chrome-launcher',
             'karma-coverage',
             'karma-jasmine'
         ],
