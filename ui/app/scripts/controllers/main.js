@@ -39,7 +39,7 @@ angular.module('twsUI').controller('MainCtrl',
             }
 
             function setButtonSideBar() {
-                controller.adTemplate = 'views/ads/ad-holder.html';
+              controller.adTemplate = 'views/ads/empty.html';
                 controller.sideBarTemplate = 'views/sidebar/games.html';
                 controller.sideBarSize = 'col-xs-4 col-sm-3 col-md-2';
                 partialSizeBody();
