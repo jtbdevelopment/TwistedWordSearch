@@ -3,9 +3,9 @@
 angular.module('twsUI').controller('CreateGameCtrl',
     [
         'jtbAppLongName', 'jtbGameFeatureService', 'jtbPlayerService',
-        'featureDescriber', 'jtbBootstrapGameActions', '$uibModal',
+      'featureDescriber', 'jtbBootstrapGameActions',
         function (jtbAppLongName, jtbGameFeatureService, jtbPlayerService,
-                  featureDescriber, jtbBootstrapGameActions, $uibModal) {
+          featureDescriber, jtbBootstrapGameActions) {
             var controller = this;
 
             controller.features = [];
@@ -14,7 +14,7 @@ angular.module('twsUI').controller('CreateGameCtrl',
             controller.createGameButtonText = 'Create Game';
             controller.disableCreate = false;
 
-            //  sets chosenFriends, invitableFBFriends and friends
+          //  sets chosenFriends and friends
             jtbPlayerService.initializeFriendsForController(controller);
 
             jtbGameFeatureService.features().then(
@@ -56,22 +56,22 @@ angular.module('twsUI').controller('CreateGameCtrl',
                     });
                 });
 
-            controller.inviteFriends = function () {
-                $uibModal.open({
-                    templateUrl: 'views/core-bs/friends/invite-friends.html',
-                    controller: 'CoreBootstrapInviteCtrl',
-                    controllerAs: 'invite',
-                    size: 'lg',
-                    resolve: {
-                        invitableFriends: function () {
-                            return controller.invitableFBFriends;
-                        },
-                        message: function () {
-                            return 'Come play ' + jtbAppLongName + ' with me!';
-                        }
-                    }
-                });
-            };
+          // controller.inviteFriends = function () {
+          //     $uibModal.open({
+          //         templateUrl: 'views/core-bs/friends/invite-friends.html',
+          //         controller: 'CoreBootstrapInviteCtrl',
+          //         controllerAs: 'invite',
+          //         size: 'lg',
+          //         resolve: {
+          //             invitableFriends: function () {
+          //                 return controller.invitableFBFriends;
+          //             },
+          //             message: function () {
+          //                 return 'Come play ' + jtbAppLongName + ' with me!';
+          //             }
+          //         }
+          //     });
+          // };
 
             controller.createGame = function () {
                 controller.createGameButtonText = 'Creating game...';

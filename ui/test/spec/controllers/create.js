@@ -84,19 +84,6 @@ describe('Controller: CreateGameCtrl', function () {
         }
     ];
 
-    var modalOpened, expectedFriends;
-    var uibModal = {
-        open: function (params) {
-            expect(params.controller).toEqual('CoreBootstrapInviteCtrl');
-            expect(params.templateUrl).toEqual('views/core-bs/friends/invite-friends.html');
-            expect(params.controllerAs).toEqual('invite');
-            expect(params.size).toEqual('lg');
-            expect(params.resolve.invitableFriends()).toEqual(expectedFriends);
-            expect(params.resolve.message()).toEqual('Come play ' + longName + ' with me!');
-            modalOpened = true;
-        }
-    };
-
     var jtbGameFeatures = {
         features: function () {
             featurePromise = $q.defer();
@@ -128,8 +115,6 @@ describe('Controller: CreateGameCtrl', function () {
 
     beforeEach(inject(function ($controller, _$q_, _$rootScope_) {
         $q = _$q_;
-        modalOpened = false;
-        expectedFriends = [];
         playerSource = 'facebook';
         $rootScope = _$rootScope_;
         jtbPlayerService.initializeFriendsForController.calls.reset();
@@ -138,7 +123,6 @@ describe('Controller: CreateGameCtrl', function () {
             jtbPlayerService: jtbPlayerService,
             jtbGameFeatureService: jtbGameFeatures,
             featureDescriber: featureDescriber,
-            $uibModal: uibModal,
             jtbBootstrapGameActions: jtbGameActions
         });
     }));
@@ -151,12 +135,12 @@ describe('Controller: CreateGameCtrl', function () {
         expect(jtbPlayerService.initializeFriendsForController).toHaveBeenCalledWith(CreateGameCtrl);
     });
 
-    it('invite friends modal', function () {
-        expectedFriends = [{id: 1}, {id: 'x'}];
-        CreateGameCtrl.invitableFBFriends = expectedFriends;
-        CreateGameCtrl.inviteFriends();
-        expect(modalOpened).toEqual(true);
-    });
+  // it('invite friends modal', function () {
+  //     expectedFriends = [{id: 1}, {id: 'x'}];
+  //     CreateGameCtrl.invitableFBFriends = expectedFriends;
+  //     CreateGameCtrl.inviteFriends();
+  //     expect(modalOpened).toEqual(true);
+  // });
 
     it('turns feature data into usable features for ui', function () {
         featurePromise.resolve(standardFeatures);
