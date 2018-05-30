@@ -110,7 +110,7 @@
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-mongo:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-websocket:1.9-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.4.9" level="project" />
+    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.4.24" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-std-tracker:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-quartz:1.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.0.5.RELEASE" level="project" />
@@ -123,29 +123,27 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.jtbdevelopment.core-games:games-mongo:test-jar:tests:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.jtbdevelopment.core-games:games-dev-utilities:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.jtbdevelopment.core-common:core-spring-mongo:test-jar:tests:1.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-servlet:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-security:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-server:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-webapp:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-xml:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-util:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-annotations:9.4.10.v20180503" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-servlet:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-security:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-server:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-webapp:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-xml:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-util:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-annotations:9.3.10.v20160621" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm:6.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm-commons:6.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm-tree:6.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm-analysis:6.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-plus:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-jndi:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-continuation:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-io:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-client:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.4.10.v20180503" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-http:9.4.10.v20180503" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm:5.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm-commons:5.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm-tree:5.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-plus:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-jndi:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-continuation:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-io:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.3.10.v20160621" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-http:9.3.10.v20160621" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-io:commons-io:2.4" level="project" />

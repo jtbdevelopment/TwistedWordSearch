@@ -101,7 +101,7 @@
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-mongo:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-websocket:1.9-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.4.9" level="project" />
+    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.4.24" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-std-tracker:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-quartz:1.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.0.5.RELEASE" level="project" />
